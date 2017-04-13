@@ -56,13 +56,13 @@ exports.acelerometerData = function acelerometerData (token) {
                         }
                     };
 
-                    console.log(args);
+                    //console.log(args);
 
                     client.post(URL_ACCELEROMETER, args, function (data, response) {
                         console.log("acelerometerData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        if (jsonObj.code === "001") {
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
                         else {
@@ -98,13 +98,13 @@ exports.adcData = function adcData (token) {
                         }
                     };
 
-                    console.log(args);
+                    //console.log(args);
 
                     client.post(URL_ADC, args, function (data, response) {
                         console.log("adcData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        if (jsonObj.code === "001") {
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
                         else {
@@ -138,13 +138,13 @@ exports.rtcData = function rtcData(token) {
                             "Authorization":token,}
                     };
 
-                    console.log(args);
+                    //console.log(args);
 
                     client.post(URL_RTC, args, function (data, response) {
                         console.log("rtcData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        if (jsonObj.code === "001") {
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
                         else {
@@ -179,13 +179,13 @@ exports.cpuData = function cpuData (token) {
                             "Authorization":token,}
                     };
 
-                    console.log(args);
+                    //console.log(args);
 
                     client.post(URL_CPU, args, function (data, response) {
                         console.log("cpuData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        if (jsonObj.code === "001") {
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                             //callback(code,token);
                         }
@@ -223,13 +223,13 @@ exports.batteryData = function batteryData (token) {
                             "Authorization":token,}
                     };
 
-                    console.log(args);
+                    //console.log(args);
 
                     client.post(URL_BATTERY, args, function (data, response) {
                         console.log("batteryData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        if (jsonObj.code === "001") {
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
                         else {
@@ -263,13 +263,13 @@ exports.gpsData = function gpsData (token) {
                             "Authorization":token,}
                     };
 
-                    console.log(args);
+                    //console.log(args);
 
                     client.post(URL_GPS, args, function (data, response) {
                         console.log("gpsData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        if (jsonObj.code === "001") {
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
                         else {
@@ -305,13 +305,13 @@ exports.wifiData = function (token) {
                             "Authorization":token,}
                     };
 
-                    console.log(args);
+                    //console.log(args);
 
                     client.post(URL_GPS, args, function (data, response) {
                         console.log("wifiData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        if (jsonObj.code === "001") {
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
                         else {

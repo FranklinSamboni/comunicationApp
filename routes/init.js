@@ -21,33 +21,33 @@ router.get('/', function(req, res, next) {
 
             components.acelerometerData(authToken).then(function (data) {
                 if(data.code === ERROR){
-                    res.status(401).send();
+                    res.status(201).send('002');
                 }else{
                     components.adcData(authToken).then(function (data) {
                         if(data.code === ERROR){
-                            res.status(401).send();
+                            res.status(201).send('002');
                         }else{
                             components.rtcData(authToken).then(function (data) {
                                 if(data.code === ERROR){
-                                    res.status(401).send();
+                                    res.status(201).send('002');
                                 }else{
                                     components.cpuData(authToken).then(function (data) {
                                         if(data.code === ERROR){
-                                            res.status(401).send();
+                                            res.status(201).send('002');
                                         }else {
                                             components.batteryData(authToken).then(function (data) {
                                                 if(data.code === ERROR){
-                                                    res.status(401).send();
+                                                    res.status(201).send('002');
                                                 }else{
                                                     components.gpsData(authToken).then(function (data) {
                                                         if(data.code === ERROR){
-                                                            res.status(401).send();
+                                                            res.status(201).send('002');
                                                         } else{
                                                             components.wifiData(authToken).then(function (data) {
                                                                 if(data.code === ERROR){
-                                                                    res.status(400).send();
+                                                                    res.status(201).send('002');
                                                                 }else{
-                                                                    res.status(200).send();
+                                                                    res.status(200).send('001');
                                                                 }
                                                             })
                                                         }

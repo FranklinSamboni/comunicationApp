@@ -16,7 +16,7 @@ let URL_CPU = URL_BASE + "cpu";
 let URL_BATTERY = URL_BASE + "battery";
 let URL_GPS = URL_BASE + "gps";
 
-const DIR_COMPONENTS = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles";
+const DIR_COMPONENTS = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/";
 const DIR_ACCELETOMETER = DIR_COMPONENTS + "accelerometer.json";
 const DIR_ADC = DIR_COMPONENTS + "adc.json";
 const DIR_RTC = DIR_COMPONENTS + "rtc.json"; 

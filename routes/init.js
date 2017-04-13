@@ -25,7 +25,8 @@ router.get('/', function(req, res, next) {
                     return res.status(201).send({code:'002'});
 
                 }else{
-                    components.adcData(authToken).then(function (data) {
+                    return res.status(200).send({code:'001'});
+                    /*components.adcData(authToken).then(function (data) {
                         if(data.code === ERROR){
                             return res.status(201).send({code:'002'});
                         }else{
@@ -61,7 +62,7 @@ router.get('/', function(req, res, next) {
                                 }
                             });
                         }
-                    });
+                    });*/
                 }
             });
 

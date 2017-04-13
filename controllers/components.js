@@ -25,7 +25,7 @@ let fs = require('fs');
 
 var authToken = "";
 
-exports.authInit = auth.doAuth(function(code, token){
+/*exports.authInit = auth.doAuth(function(code, token){
     if(code == ERROR){
         //exit.preExitFunc();
     }else{
@@ -34,16 +34,16 @@ exports.authInit = auth.doAuth(function(code, token){
 
         //var config = require('./componentsFiles/accelerometer.json');
         //console.log(config);
-        /*acelerometerData(token);
+        acelerometerData(token);
         adcData(token);
         rtcData(token);
         cpuData(token);
         batteryData(token);
-        gpsData(token);*/
+        gpsData(token);
         this.acelerometerData(token);
     }
 
-});
+});*/
 
 exports.acelerometerData = function acelerometerData (token) {
 

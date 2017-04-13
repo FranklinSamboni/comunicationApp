@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/', function(req, res, next) {
 
     auth.doAuth.then(function (data) {
-        if(data.code == ERROR){
+        if(data.code == -1){
             //exit.preExitFunc();
         }else{
             let authToken = data.token;

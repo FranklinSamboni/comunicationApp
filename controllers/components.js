@@ -20,14 +20,14 @@ var Client = require('node-rest-client').Client;
 var client = new Client();
 
 var auth = require('./auth.js');
-var exit = require('./exit.js');
+//var exit = require('./exit.js');
 let fs = require('fs');
 
 var authToken = "";
 
 exports.authInit = auth.doAuth(function(code, token){
     if(code == ERROR){
-        exit.preExitFunc();
+        //exit.preExitFunc();
     }else{
         authToken = token;
         console.log(token);
@@ -75,7 +75,7 @@ exports.acelerometerData = function acelerometerData (token) {
                 }
                 else {
                     code = ERROR ;
-                    exit.preExitFunc();
+                    //exit.preExitFunc();
                     //callback(code,token);
                 }
             });
@@ -112,7 +112,7 @@ exports.adcData = function adcData (token) {
                 }
                 else {
                     code = ERROR ;
-                    exit.preExitFunc();
+                    //exit.preExitFunc();
                     //callback(code,token);
                 }
             });
@@ -150,7 +150,7 @@ exports.rtcData = function rtcData(token) {
                 }
                 else {
                     code = ERROR ;
-                    exit.preExitFunc();
+                    //exit.preExitFunc();
                     //callback(code,token);
                 }
             });
@@ -189,7 +189,7 @@ exports.cpuData = function cpuData (token) {
                 }
                 else {
                     code = ERROR ;
-                    exit.preExitFunc();
+                    //exit.preExitFunc();
                     //callback(code,token);
                 }
             });
@@ -227,7 +227,7 @@ exports.batteryData = function batteryData (token) {
                 }
                 else {
                     code = ERROR ;
-                    exit.preExitFunc();
+                    //exit.preExitFunc();
                     //callback(code,token);
                 }
             });
@@ -265,7 +265,7 @@ exports.gpsData = function gpsData (token) {
                 }
                 else {
                     code = ERROR ;
-                    exit.preExitFunc();
+                    //exit.preExitFunc();
                     //callback(code,token);
                 }
             });

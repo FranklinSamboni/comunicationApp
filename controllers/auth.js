@@ -18,7 +18,7 @@ exports.doAuth = new Promise(
         let code = ERROR;
         let token = "";
 
-        fs.readFile('serial.txt', 'utf-8', (err, serial) => {
+        fs.readFile('/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt', 'utf-8', (err, serial) => {
             if (err) {
 
                 console.log('error: ', err);

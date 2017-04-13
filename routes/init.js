@@ -22,10 +22,10 @@ router.get('/', function(req, res, next) {
             components.acelerometerData(authToken).then(function (data) {
                 if(data.code === ERROR){
 
-                    res.status(201);
+                    res.status(201).send();
 
                 }else{
-                    res.status(200);
+                    res.status(200).send();
                     /*components.adcData(authToken).then(function (data) {
                         if(data.code === ERROR){
                             return res.status(201).send({code:'002'});

@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 
     auth.doAuth.then(function (data) {
         if(data.code === ERROR){
-            return res.status(201).send({code:'002'});
+            return res.status(201);
         }else{
             let authToken = data.token;
             console.log(authToken);
@@ -22,10 +22,10 @@ router.get('/', function(req, res, next) {
             components.acelerometerData(authToken).then(function (data) {
                 if(data.code === ERROR){
 
-                    return res.status(201).send({code:'002'});
+                    return res.status(201);
 
                 }else{
-                    return res.status(200).send({code:'001'});
+                    return res.status(200);
                     /*components.adcData(authToken).then(function (data) {
                         if(data.code === ERROR){
                             return res.status(201).send({code:'002'});

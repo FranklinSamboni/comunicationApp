@@ -7,10 +7,16 @@ let ERROR = -1;
 const express = require('express');
 const components = require('../controllers/components');
 const auth = require('../controllers/auth');
+const  socket = require('../controllers/socketManager');
 const router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    res.status(201).send({code:"002"});
+})
+
+
+/*router.get('/', function(req, res, next) {
 
     auth.doAuth().then(function (data) {
 
@@ -66,6 +72,6 @@ router.get('/', function(req, res, next) {
 
         }
     })
-});
+});*/
 
 module.exports = router;

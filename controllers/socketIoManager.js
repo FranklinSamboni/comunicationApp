@@ -18,5 +18,4 @@ socket.on('connect', function () {
 });
 
 
-
 //socket.emit('private message', { user: 'YOO', msg: 'MENSAJE 1' });

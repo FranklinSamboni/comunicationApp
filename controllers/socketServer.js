@@ -2,6 +2,9 @@
  * Created by Frank on 14/04/2017.
  */
 
+const UART = "UART";
+const PPS = "PPP";
+
 const portSocket = 4001;
 
 let net = require('net');
@@ -17,6 +20,14 @@ let socketServer = net.createServer( function (socket) {
     socket.on('data', function (data) {
         data = data.toString();
         console.log('Client sended:  '+data);
+        let json = JSON.parse(data);
+        if(json.component === UART){
+            console.log(json.msg);
+        }
+        else if(json.component == PPS){
+            console.log(json.msg);
+        }
+
         //connection.write("Response");
         //console.log('Sended responst to client');
         //connection.end();

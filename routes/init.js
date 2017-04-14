@@ -7,7 +7,7 @@ let ERROR = -1;
 const express = require('express');
 const components = require('../controllers/components');
 const auth = require('../controllers/auth');
-const  socket = require('../controllers/socketManager');
+const  socket = require('../controllers/socketIoManager');
 const router = express.Router();
 const socketServer = require('../controllers/socketServer');
 
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 })
 
 
-/*router.get('/', function(req, res, next) {
+router.get('/', function(req, res, next) {
 
     auth.doAuth().then(function (data) {
 
@@ -73,6 +73,6 @@ router.get('/', function(req, res, next) {
 
         }
     })
-});*/
+});
 
 module.exports = router;

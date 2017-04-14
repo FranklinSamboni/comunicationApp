@@ -43,7 +43,7 @@ exports.doAuth = new Promise(
 
                     if (jsonObj.code == "001") {
 
-                        var token = jsonObj.data.token;
+                        token = jsonObj.data.token;
                         //console.log("El token es :" + token);
 
                         fullfil({code: SUCCESS, token: token});

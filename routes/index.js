@@ -11,6 +11,7 @@ router.all('/', function (req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
+    console.log('router.get - index');
   res.render('index', { title: 'Express' });
   res.status(200).send();
 });

@@ -13,8 +13,9 @@ const router = express.Router();
 router.get('/', function(req, res, next) {
 
     auth.doAuth.then(function (data) {
+
         if(data.code === ERROR){
-            return res.status(201);
+            res.status(201).send({code:"002"});
         }else{
             let authToken = data.token;
             console.log(authToken);

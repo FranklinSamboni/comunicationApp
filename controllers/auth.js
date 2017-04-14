@@ -16,20 +16,19 @@ let fs = require('fs');
 exports.doAuth = new Promise(
     function(fullfil) {
         let code = ERROR;
-        let token = "";
 
         fs.readFile('/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt', 'utf-8', (err, serial) => {
             if (err) {
 
                 console.log('error: ', err);
                 code = ERROR;
-                fullfil({code: code, token: token});
+                fullfil({code: code, token: null});
 
             } else {
 
                 //console.log(serial);
 
-                var args = {
+                let args = {
                     data: {"serial": serial},
                     headers: {"Content-Type": "application/json"}
                 };
@@ -39,11 +38,11 @@ exports.doAuth = new Promise(
                 client.post(URL_AUTH, args, function (data, response) {
                     //console.log("client.post");
 
-                    var jsonObj = data;
+                    let jsonObj = data;
+                    console.log(data);
+                    if (jsonObj.code === "001") {
 
-                    if (jsonObj.code == "001") {
-
-                        token = jsonObj.data.token;
+                        let token = jsonObj.data.token;
                         //console.log("El token es :" + token);
 
                         fullfil({code: SUCCESS, token: token});
@@ -52,7 +51,7 @@ exports.doAuth = new Promise(
                     else {
 
                         console.log(data);
-                        fullfil({code: ERROR, token: token});
+                        fullfil({code: ERROR, token: null});
                         //console.log("El codigo es: " + jsonObj.code);
                     }
                 });

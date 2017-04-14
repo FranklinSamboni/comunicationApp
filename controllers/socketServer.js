@@ -18,13 +18,13 @@ let socketServer = net.createServer( function (socket) {
     });
 
     socket.on('data', function (data) {
-        data = data.toString();
-        console.log('Client sended:  '+data);
+        //data = data.toString();
+        //console.log('Client sended:  '+data);
         let json = JSON.parse(data);
         if(json.component === UART){
             console.log(json.msg);
         }
-        else if(json.component == PPS){
+        else if(json.component === PPS){
             console.log(json.msg);
         }
 

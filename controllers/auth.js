@@ -11,8 +11,6 @@ const client = new Client();
 
 let fs = require('fs');
 
-//console.log("Inicio");
-
 exports.doAuth = new Promise(
     function(fullfil) {
         let code = ERROR;

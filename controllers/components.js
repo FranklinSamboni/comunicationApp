@@ -28,7 +28,7 @@ const DIR_GPS = DIR_COMPONENTS + "gps.json";
 let Client = require('node-rest-client').Client;
 let client = new Client();
 
-let auth = require('./auth.js');
+//let auth = require('./auth.js');
 //let exit = require('./exit.js');
 let fs = require('fs');
 

@@ -21,10 +21,10 @@ let socketServer = net.createServer( function (socket) {
         data = data.toString();
         //console.log(data);
         let json = JSON.parse(data);
-        if(data.component === UART){
+        if(json.component === UART){
             console.log(data.msg);
         }
-        else if(data.component === PPS){
+        else if(json.component === PPS){
             console.log(json.msg);
         }
 

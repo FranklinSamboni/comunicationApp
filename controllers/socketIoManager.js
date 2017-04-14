@@ -6,9 +6,9 @@ const URL_SOCKET = "https://socket.plataformamec.com/";
 
 let io = require('socket.io-client');
 
-exports.socket = io.connect(URL_SOCKET);
+let socket = io.connect(URL_SOCKET);
 
-this.socket.on('connect', function () {
+socket.on('connect', function () {
     console.log("socket connected");
 
     socket.emit('register', '{ "serial": "Q2SW4ER5T6" }', function(resp, data) {
@@ -17,5 +17,6 @@ this.socket.on('connect', function () {
     });
 });
 
+module.exports = socket;
 
 //socket.emit('private message', { user: 'YOO', msg: 'MENSAJE 1' });

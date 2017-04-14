@@ -5,12 +5,14 @@
 let express = require('express');
 let socketApp = express();
 
+console.log("express - socketApp");
+
 socketApp.on('connection', function () {
     console.log('client conectado');
 });
 
 socketApp.on('close', function (){
-    console.log('client disconnected'); 
+    console.log('client disconnected');
 });
 
 socketApp.on('data', function (data) {

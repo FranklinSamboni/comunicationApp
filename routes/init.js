@@ -12,7 +12,7 @@ const router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-    auth.doAuth.then(function (data) {
+    auth.doAuth().then(function (data) {
 
         if(data.code === ERROR){
             res.status(201).send({code:"002"});

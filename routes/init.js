@@ -9,6 +9,7 @@ const components = require('../controllers/components');
 const auth = require('../controllers/auth');
 const  socket = require('../controllers/socketManager');
 const router = express.Router();
+const socketServer = require('../controllers/socketServer');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

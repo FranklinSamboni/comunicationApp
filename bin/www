@@ -5,12 +5,9 @@
  */
 
 let app = require('../app');
-let socketApp = require('../socketServer');
 let debug = require('debug')('comunicationapp:server');
 let http = require('http');
 
-const portSocket = 4001;
-let net = require('net');
 /**
  * Get port from environment and store in Express.
  */
@@ -21,16 +18,12 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-let socketServer = net.createServer(socketApp);
+
 let server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-socketServer.listen(portSocket, function () {
-    console.log('server is listening');
-});
 
 server.listen(port);
 server.on('error', onError);

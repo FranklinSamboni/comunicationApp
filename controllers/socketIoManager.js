@@ -8,7 +8,7 @@ let io = require('socket.io-client');
 
 exports.socket = io.connect(URL_SOCKET);
 
-socket.on('connect', function () {
+this.socket.on('connect', function () {
     console.log("socket connected");
 
     socket.emit('register', '{ "serial": "Q2SW4ER5T6" }', function(resp, data) {

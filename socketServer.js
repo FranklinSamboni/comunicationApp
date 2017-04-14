@@ -10,7 +10,7 @@ socketApp.on('connection', function () {
 });
 
 socketApp.on('close', function (){
-    console.log('client disconnected');
+    console.log('client disconnected'); 
 });
 
 socketApp.on('data', function (data) {

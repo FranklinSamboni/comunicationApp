@@ -307,7 +307,7 @@ exports.wifiData = function (token) {
 
                     //console.log(args);
 
-                    client.post(URL_GPS, args, function (data, response) {
+                    client.post(URL_WIFI, args, function (data, response) {
                         console.log("wifiData");
                         let jsonObj = data;
                         console.log(jsonObj);

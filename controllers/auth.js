@@ -11,8 +11,8 @@ const client = new Client();
 
 let fs = require('fs');
 
-exports.doAuth = new Promise(
-    function(fullfil) {
+exports.doAuth = function doAuth () {
+    return new Promise(function(fullfil) {
         let code = ERROR;
 
         fs.readFile('/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt', 'utf-8', (err, serial) => {
@@ -56,6 +56,9 @@ exports.doAuth = new Promise(
             }
         });
     });
+};
+
+
 
 // registering remote methods
 /*    client.registerMethod("postMethod", "https://plataformamec.com/api/auth", "POST");

@@ -13,9 +13,9 @@ socket.on('connect', function () {
 
     //exec(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps ${path_file}`,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
     exec(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps U`,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
-        console.log(err);
-        console.log(stdout);
-        console.log(stderr);
+        console.log("dentro exec err: " + err);
+        console.log("dentro stdout err: " + stdout);
+        console.log("dentro stderr err: " + stderr);
 
         /*if(err) return fullfill({hcode: 202, code: "003", msg: "Error", data: err});
 

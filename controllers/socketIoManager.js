@@ -6,7 +6,7 @@ const URL_SOCKET = "https://socket.plataformamec.com/";
 
 let io = require('socket.io-client');
 
-let socket = io.connect(URL_SOCKET);
+exports.socket = io.connect(URL_SOCKET);
 
 socket.on('connect', function () {
     console.log("socket connected");
@@ -17,5 +17,6 @@ socket.on('connect', function () {
     });
 });
 
+socket.on()
 
 //socket.emit('private message', { user: 'YOO', msg: 'MENSAJE 1' });

@@ -8,6 +8,7 @@ const PPS = "PPP";
 const portSocket = 4001;
 
 let net = require('net');
+let socketClient = require('./socketIoManager');
 
 let socketServer = net.createServer( function (socket) {
 
@@ -23,6 +24,10 @@ let socketServer = net.createServer( function (socket) {
         let json = JSON.parse(data);
         if(json.component === UART){
             console.log(json.msg);
+            socketClient.emit('testResponse',json.msg , function(resp, data) {
+                console.log('respuesta del servidor' + resp);
+                console.log(resp.code);
+            });
         }
         else if(json.component === PPS){
             console.log(json.msg);

@@ -27,6 +27,8 @@ socket.on('connect', function () {
 
 socket.on('requestTest', function (data,fn) {
 
+    console.log("requestTest data" + data);
+    console.log("requestTest fn" + fn);
     switch (data.component){
         case "GPS":
             if(data.type === "GPS"){

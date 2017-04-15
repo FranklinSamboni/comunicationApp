@@ -11,7 +11,7 @@ const io = require('socket.io-client');
 const exec = require('child_process').exec;
 
 let socket = io.connect(URL_SOCKET);
-let tokenAuth = "aaaaaa";
+var tokenAuth = "aaaaaa";
 
 socket.on('connect', function () {
     console.log("socket connected");
@@ -21,8 +21,8 @@ socket.on('connect', function () {
         console.log("data: " + data);
         console.log('respuesta del servidor: ' + resp);
         console.log(resp.code);
-        this.tokenAuth = resp.data.token;
-        console.log("tokenAuth es_: " + this.tokenAuth);
+        tokenAuth = resp.data.token;
+        console.log("tokenAuth es_: " + tokenAuth);
     });
 });
 

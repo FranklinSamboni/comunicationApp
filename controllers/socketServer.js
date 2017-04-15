@@ -28,7 +28,7 @@ let socketServer = net.createServer( function (socket) {
         //console.log(data);
         let json = JSON.parse(data);
 
-        switch(json.component){
+ /*       switch(json.component){
             case UART:
                 break;
             case PPS:
@@ -37,11 +37,11 @@ let socketServer = net.createServer( function (socket) {
                 break;
             case RTC:
                 break;
-            case default:
+             default:
                 break;
 
         }
-
+*/
 
         if(json.component === UART){
 

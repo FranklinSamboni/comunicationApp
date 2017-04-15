@@ -11,12 +11,16 @@ const io = require('socket.io-client');
 const exec = require('child_process').exec;
 let socket = io.connect(URL_SOCKET);
 
+let tokenAuth = "";
+
 socket.on('connect', function () {
     console.log("socket connected");
 
     socket.emit('register', '{ "serial": "Q2SW4ER5T6" }', function(resp, data) {
-        console.log('respuesta del servidor' + resp);
+        console.log("data: " + data);
+        console.log('respuesta del servidor: ' + resp);
         console.log(resp.code);
+        tokenAuth = resp.data.token
     });
 });
 
@@ -25,7 +29,8 @@ socket.on('requestTest', function (data,fn) {
     switch (data.component){
         case "GPS":
             if(data.type === "GPS"){
-
+                fileExecute("");
+                fn(true);
             }
             else if(data.type == "PPS"){
 
@@ -72,6 +77,7 @@ function fileExecute(path) {
 
 }
 
+module.exports = tokenAuth;
 module.exports = socket;
 
 //socket.emit('private message', { user: 'YOO', msg: 'MENSAJE 1' });

@@ -24,10 +24,15 @@ let socketServer = net.createServer( function (socket) {
         let json = JSON.parse(data);
         if(json.component === UART){
             console.log(json.msg);
-            socketClient.emit('testResponse',json.msg , function(resp, data) {
-                console.log('respuesta del servidor' + resp);
-                console.log(resp.code);
-            });
+
+            if (socketClient.tokenAuth !== ""){
+                socketClient.emit('testResponse',`{"token": "${socketClient.tokenAuth}", "msg": "${json.msg}" }`, function(resp, data) {
+                    console.log('respuesta del servidor' + resp);
+                    console.log(resp.code);
+                });
+            }
+
+
         }
         else if(json.component === PPS){
             console.log(json.msg);

@@ -22,7 +22,7 @@ socket.on('connect', function () {
         console.log('respuesta del servidor: ' + resp);
         console.log(resp.code);
         this.tokenAuth = resp.data.token;
-        console.log("tokenAuth es_: " + tokenAuth);
+        console.log("tokenAuth es_: " + this.tokenAuth);
     });
 });
 

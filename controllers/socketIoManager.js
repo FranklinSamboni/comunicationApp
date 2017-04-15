@@ -21,7 +21,8 @@ socket.on('connect', function () {
         console.log("data: " + data);
         console.log('respuesta del servidor: ' + resp);
         console.log(resp.code);
-        tokenAuth = resp.data.token
+        tokenAuth = resp.data.token;
+        console.log("tokenAuth es_: " + tokenAuth);
     });
 });
 
@@ -33,7 +34,7 @@ socket.on('requestTest', function (data) {
         case "GPS":
             if(data.type === "GPS"){
                 fileExecute("").then(function (data) {
-                    console.log(data)
+                    console.log(data);
                 });
             }
             else if(data.type == "PPS"){

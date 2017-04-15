@@ -12,7 +12,6 @@ const config = require('../config');
 const exec = require('child_process').exec;
 
 let socket = io.connect(URL_SOCKET);
-var tokenAuth = "aaaaaa";
 
 socket.on('connect', function () {
     console.log("socket connected");
@@ -23,7 +22,6 @@ socket.on('connect', function () {
         console.log('respuesta del servidor: ' + resp);
         console.log(resp.code);
         config.token = resp.data.token;
-        console.log("tokenAuth es_: " + tokenAuth);
     });
 });
 
@@ -80,7 +78,6 @@ function fileExecute(path) {
 }
 
 module.exports = {
-    token: tokenAuth,
     socket: socket
 };
 //module.exports = socket;

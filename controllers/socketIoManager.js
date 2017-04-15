@@ -79,8 +79,8 @@ function fileExecute(path) {
 }
 
 module.exports = {
-    token: tokenAuth,
-    socket: socket
+    token: this.tokenAuth,
+    socket: this.socket
 };
 //module.exports = socket;
 

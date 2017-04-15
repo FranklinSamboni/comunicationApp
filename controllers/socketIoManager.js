@@ -9,9 +9,9 @@ const URL_SOCKET = "https://socket.plataformamec.com/";
 
 const io = require('socket.io-client');
 const exec = require('child_process').exec;
-let socket = io.connect(URL_SOCKET);
 
-let tokenAuth = "";
+let socket = io.connect(URL_SOCKET);
+let tokenAuth = "aaaaaa";
 
 socket.on('connect', function () {
     console.log("socket connected");
@@ -79,8 +79,8 @@ function fileExecute(path) {
 }
 
 module.exports = {
-    token: this.tokenAuth,
-    socket: this.socket
+    token: tokenAuth,
+    socket: socket
 };
 //module.exports = socket;
 

@@ -26,7 +26,7 @@ socket.on('connect', function () {
 });
 
 socket.on('requestTest', function (data,fn) {
-
+    data = JSON.parse(data);
     console.log("requestTest data" + data);
     console.log("requestTest fn" + fn);
     switch (data.component){

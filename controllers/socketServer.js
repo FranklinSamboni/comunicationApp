@@ -23,11 +23,11 @@ let socketServer = net.createServer( function (socket) {
         //console.log(data);
         let json = JSON.parse(data);
         if(json.component === UART){
-            console.log(json.msg);
+            //console.log(json.msg);
 
-            console.log("antes de emit " + config.token);
+            //console.log("antes de emit " + config.token);
             if (config.token !== ""){
-                console.log("do emit " + config.token);
+                //console.log("do emit " + config.token);
                 let reponse = `{"token": "${config.token}", "msg": "${json.msg}" }`;
                 console.log(response);
                 socketClient.socket.emit('testResponse',response, function(resp, data) {

@@ -25,8 +25,9 @@ let socketServer = net.createServer( function (socket) {
         if(json.component === UART){
             console.log(json.msg);
 
+            console.log("antes de emit " + socketClient.token);
             if (socketClient.token !== ""){
-                console.log("token es: ", socketClient.token);
+                console.log("do emit " + socketClient.token);
                 socketClient.socket.emit('testResponse',`{"token": "${socketClient.tokenAuth}", "msg": "${json.msg}" }`, function(resp, data) {
                     console.log('respuesta del servidor' + resp);
                     console.log(resp.code);

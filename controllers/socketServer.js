@@ -3,7 +3,12 @@
  */
 
 const UART = "UART";
-const PPS = "PPP";
+const PPS = "PPS";
+const ADC = "ADC";
+const RTC = "RTC";
+
+const ALERTS = "ALERTS";
+const REAL_TIME = "REAL_TIME";
 
 const portSocket = 4001;
 
@@ -22,26 +27,38 @@ let socketServer = net.createServer( function (socket) {
         data = data.toString();
         //console.log(data);
         let json = JSON.parse(data);
-        if(json.component === UART){
-            //console.log(json.msg);
 
-            //console.log("antes de emit " + config.token);
+        switch(json.component){
+            case UART:
+                break;
+            case PPS:
+                break;
+            case ADC:
+                break;
+            case RTC:
+                break;
+            case default:
+                break;
+
+        }
+
+
+        if(json.component === UART){
+
             if (config.token !== ""){
-                //console.log("do emit " + config.token);
-                let sendJson = `{"token": "${config.token}", "msg": "${json.msg}", "last" : "${json.last}" }`;
-                //console.log(response);
+                let sendJson = `{"token": "${config.token}", "msg": "${json.msg}", "last" : ${json.last} }`;
                 socketClient.socket.emit('testResponse',sendJson, function(resp, data) {
 
                     console.log('respuesta del servidor' + resp);
                     console.log(resp.code);
                 });
             }
-
-
         }
         else if(json.component === PPS){
             console.log(json.msg);
         }
+
+
 
         //connection.write("Response");
         //console.log('Sended responst to client');

@@ -17,6 +17,7 @@ socket.on('connect', function () {
     console.log("socket connected");
 
     socket.emit('register', '{ "serial": "Q2SW4ER5T6" }', function(resp, data) {
+        resp = JSON.parse(resp);
         console.log("data: " + data);
         console.log('respuesta del servidor: ' + resp);
         console.log(resp.code);

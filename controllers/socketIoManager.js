@@ -32,24 +32,47 @@ socket.on('requestTest', function (data) {
     switch (data.component){
         case "GPS":
             if(data.type === "GPS"){
-                fileExecute("").then(function (data) {
+                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps U`).then(function (data) {
                     console.log(data);
                 });
             }
             else if(data.type == "PPS"){
-
+                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps P`).then(function (data) {
+                    console.log(data);
+                });
             }
 
             break;
         case "RTC":
+            if(data.type === "RTC"){
+                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testRtc I`).then(function (data) {
+                    console.log(data);
+                });
+            }
+            else if(data.type == "SYNC"){
+                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testRtc S`).then(function (data) {
+                    console.log(data);
+                });
+            }
             break;
         case "ADC":
+            fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testAdc`).then(function (data) {
+                console.log(data);
+            });
             break;
         case "ACC":
             break;
         case "BAT":
             break;
         case "WIFI":
+            if (config.token !== ""){
+                let last = true
+                let sendJson = `{"token": "${config.token}", "msg": "Wifi funciona conrrectamente", "last" : ${last} }`;
+                socketClient.socket.emit('testResponse',sendJson, function(resp, data) {
+                    console.log('respuesta del servidor' + resp);
+                    console.log(resp.code);
+                });
+            }
             break;
         default:
             console.log("Error");
@@ -65,7 +88,7 @@ socket.on('requestTest', function (data) {
 function fileExecute(path) {
 
     return new Promise(function (fullfill) {
-        exec(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps U`,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+        exec(path,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
             console.log("dentro exec err: " + err);
             console.log("dentro stdout err: " + stdout);
             console.log("dentro stderr err: " + stderr);

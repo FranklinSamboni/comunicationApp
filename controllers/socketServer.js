@@ -20,45 +20,31 @@ let socketServer = net.createServer( function (socket) {
     console.log("cliente conectado");
 
     socket.on('close', function (){
-        console.log('client disconnected');
+        console.log('cliente desconectado');
     });
 
     socket.on('data', function (data) {
         data = data.toString();
-        //console.log(data);
-        let json = JSON.parse(data);
 
- /*       switch(json.component){
+        let json = JSON.parse(data);
+        console.log(json.msg);
+        switch(json.component){
             case UART:
+                doEmitTestResponse(json.msg, json.last);
                 break;
             case PPS:
+                doEmitTestResponse(json.msg, json.last);
                 break;
             case ADC:
+                doEmitTestResponse(json.msg, json.last);
                 break;
             case RTC:
+                doEmitTestResponse(json.msg, json.last);
                 break;
              default:
                 break;
 
         }
-*/
-
-        if(json.component === UART){
-
-            if (config.token !== ""){
-                let sendJson = `{"token": "${config.token}", "msg": "${json.msg}", "last" : ${json.last} }`;
-                socketClient.socket.emit('testResponse',sendJson, function(resp, data) {
-
-                    console.log('respuesta del servidor' + resp);
-                    console.log(resp.code);
-                });
-            }
-        }
-        else if(json.component === PPS){
-            console.log(json.msg);
-        }
-
-
 
         //connection.write("Response");
         //console.log('Sended responst to client');
@@ -68,8 +54,16 @@ let socketServer = net.createServer( function (socket) {
 
 });
 
-
-
 socketServer.listen(portSocket, function () {
     console.log('Servidor de net-socket escuchando');
 });
+
+function doEmitTestResponse(msg, last) {
+    if (config.token !== ""){
+        let sendJson = `{"token": "${config.token}", "msg": "${msg}", "last" : ${last} }`;
+        socketClient.socket.emit('testResponse',sendJson, function(resp, data) {
+            console.log('respuesta del servidor' + resp);
+            console.log(resp.code);
+        });
+    }
+}

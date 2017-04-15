@@ -26,6 +26,7 @@ let socketServer = net.createServer( function (socket) {
             console.log(json.msg);
 
             if (socketClient.tokenAuth !== ""){
+                console.log("token es: ", socketClient.tokenAuth);
                 socketClient.emit('testResponse',`{"token": "${socketClient.tokenAuth}", "msg": "${json.msg}" }`, function(resp, data) {
                     console.log('respuesta del servidor' + resp);
                     console.log(resp.code);

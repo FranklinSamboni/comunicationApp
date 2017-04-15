@@ -32,7 +32,9 @@ socket.on('requestTest', function (data) {
     switch (data.component){
         case "GPS":
             if(data.type === "GPS"){
-                fileExecute("");
+                fileExecute("").then(function (data) {
+                    console.log(data)
+                });
             }
             else if(data.type == "PPS"){
 
@@ -68,12 +70,8 @@ function fileExecute(path) {
             console.log("dentro stdout err: " + stdout);
             console.log("dentro stderr err: " + stderr);
 
-            if(err){
-                fullfill({code:ERROR, msg: err});
-            }
-            else {
-                fullfill({code:SUCCESS, msg:OK});
-            }
+            if(err) return fullfill({code:ERROR, msg: err});
+
         })
     });
 

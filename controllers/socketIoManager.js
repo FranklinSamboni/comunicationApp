@@ -8,6 +8,7 @@ let ERROR = -1;
 const URL_SOCKET = "https://socket.plataformamec.com/";
 
 const io = require('socket.io-client');
+const config = require('../config');
 const exec = require('child_process').exec;
 
 let socket = io.connect(URL_SOCKET);
@@ -21,7 +22,7 @@ socket.on('connect', function () {
         console.log("data: " + data);
         console.log('respuesta del servidor: ' + resp);
         console.log(resp.code);
-        tokenAuth = resp.data.token;
+        confing.token = resp.data.token;
         console.log("tokenAuth es_: " + tokenAuth);
     });
 });

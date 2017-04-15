@@ -28,7 +28,7 @@ let socketServer = net.createServer( function (socket) {
             //console.log("antes de emit " + config.token);
             if (config.token !== ""){
                 //console.log("do emit " + config.token);
-                let sendJson = `{"token": "${config.token}", "msg": "${json.msg}" }`;
+                let sendJson = `{"token": "${config.token}", "msg": "${json.msg}", "last" : "${json.last}" }`;
                 console.log(response);
                 socketClient.socket.emit('testResponse',sendJson, function(resp, data) {
 

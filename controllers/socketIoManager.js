@@ -25,15 +25,14 @@ socket.on('connect', function () {
     });
 });
 
-socket.on('requestTest', function (data,fn) {
+socket.on('requestTest', function (data) {
     data = JSON.parse(data);
     console.log("requestTest data" + data);
-    console.log("requestTest fn" + fn);
+    //console.log("requestTest fn" + fn);
     switch (data.component){
         case "GPS":
             if(data.type === "GPS"){
                 fileExecute("");
-                fn(true);
             }
             else if(data.type == "PPS"){
 

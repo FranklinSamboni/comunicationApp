@@ -78,7 +78,10 @@ function fileExecute(path) {
 
 }
 
-module.exports = tokenAuth;
-module.exports = socket;
+module.exports = {
+    token: tokenAuth,
+    socket: socket
+};
+//module.exports = socket;
 
 //socket.emit('private message', { user: 'YOO', msg: 'MENSAJE 1' });

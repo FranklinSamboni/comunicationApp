@@ -24,9 +24,9 @@ socket.on('connect', function () {
         config.token = resp.data.token;
     });
 
-    fileExecuteMain();
+    //fileExecuteMain();
 
-    closeProgram();
+    ///closeProgram();
 });
 
 socket.on('requestTest', function (data) {

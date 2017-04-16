@@ -131,7 +131,7 @@ function closeProgram() {
 
         })
     });
-
+    //kill processNumber
 }
 
 

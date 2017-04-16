@@ -27,26 +27,31 @@ let socketServer = net.createServer( function (socket) {
     socket.on('data', function (data) {
         data = data.toString();
 
-        let json = JSON.parse(data);
-        console.log(json.msg);
-        switch(json.component){
-            case UART:
-                doEmitTestResponse(json.msg, json.last);
-                break;
-            case PPS:
-                doEmitTestResponse(json.msg, json.last);
-                break;
-            case ADC:
-                doEmitTestResponse(json.msg, json.last);
-                break;
-            case RTC:
-                doEmitTestResponse(json.msg, json.last);
-            case SYNC:
-                doEmitTestResponse(json.msg, json.last);
-                break;
-             default:
-                break;
+        try {
+            let json = JSON.parse(data);
+            console.log(json.msg);
+            switch (json.component) {
+                case UART:
+                    doEmitTestResponse(json.msg, json.last);
+                    break;
+                case PPS:
+                    doEmitTestResponse(json.msg, json.last);
+                    break;
+                case ADC:
+                    doEmitTestResponse(json.msg, json.last);
+                    break;
+                case RTC:
+                    doEmitTestResponse(json.msg, json.last);
+                case SYNC:
+                    doEmitTestResponse(json.msg, json.last);
+                    break;
+                default:
+                    break;
 
+            }
+        }
+        catch (err){
+            console.log(err)
         }
 
         //connection.write("Response");

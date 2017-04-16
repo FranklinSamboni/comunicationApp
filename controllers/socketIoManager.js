@@ -26,7 +26,7 @@ socket.on('connect', function () {
 
     //fileExecuteMain();
 
-    ///closeProgram();
+    closeProgram();
 });
 
 socket.on('requestTest', function (data) {
@@ -40,7 +40,7 @@ socket.on('requestTest', function (data) {
                     console.log(data);
                 });
             }
-            else if(data.type == "PPS"){
+            else if(data.type === "PPS"){
                 fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps P`).then(function (data) {
                     console.log(data);
                 });
@@ -53,7 +53,7 @@ socket.on('requestTest', function (data) {
                     console.log(data);
                 });
             }
-            else if(data.type == "SYNC"){
+            else if(data.type === "SYNC"){
                 fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testRtc S`).then(function (data) {
                     console.log(data);
                 });
@@ -123,9 +123,9 @@ function closeProgram() {
 
     return new Promise(function (fullfill) {
         exec("ps -xa | grep ./sensor",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
-            console.log("dentro exec err: " + err);
-            console.log("dentro stdout err: " + stdout);
-            console.log("dentro stderr err: " + stderr);
+            console.log("closeProgram exec err: " + err);
+            console.log("closeProgram stdout err: " + stdout);
+            console.log("closeProgram stderr err: " + stderr);
 
             if(err) return fullfill({code:ERROR, msg: err});
 

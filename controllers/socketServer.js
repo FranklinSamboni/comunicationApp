@@ -69,6 +69,7 @@ socketServer.listen(portSocket, function () {
 function doEmitTestResponse(msg, last) {
     if (config.token !== ""){
         let sendJson = `{"token": "${config.token}", "msg": "${msg}", "last" : ${last} }`;
+        console.log("Antes del emit");
         socketClient.socket.emit('testResponse',sendJson, function(resp, data) {
             console.log('respuesta del servidor' + resp);
             console.log(resp.code);

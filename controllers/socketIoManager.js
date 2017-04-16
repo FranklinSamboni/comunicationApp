@@ -23,6 +23,10 @@ socket.on('connect', function () {
         console.log(resp.code);
         config.token = resp.data.token;
     });
+
+    fileExecuteMain();
+
+    closeProgram();
 });
 
 socket.on('requestTest', function (data) {
@@ -99,6 +103,38 @@ function fileExecute(path) {
     });
 
 }
+
+function fileExecuteMain() {
+
+    return new Promise(function (fullfill) {
+        exec("/home/debian/Sensor-IOT/SensorIoT/sensor",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+            console.log("dentro exec err: " + err);
+            console.log("dentro stdout err: " + stdout);
+            console.log("dentro stderr err: " + stderr);
+
+            if(err) return fullfill({code:ERROR, msg: err});
+
+        })
+    });
+
+}
+
+function closeProgram() {
+
+    return new Promise(function (fullfill) {
+        exec("ps -xa | grep ./sensor",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+            console.log("dentro exec err: " + err);
+            console.log("dentro stdout err: " + stdout);
+            console.log("dentro stderr err: " + stderr);
+
+            if(err) return fullfill({code:ERROR, msg: err});
+
+        })
+    });
+
+}
+
+
 
 module.exports = {
     socket: socket

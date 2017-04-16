@@ -6,6 +6,7 @@ const UART = "UART";
 const PPS = "PPS";
 const ADC = "ADC";
 const RTC = "RTC";
+const SYNC = "SYNC";
 
 const ALERTS = "ALERTS";
 const REAL_TIME = "REAL_TIME";
@@ -39,6 +40,8 @@ let socketServer = net.createServer( function (socket) {
                 doEmitTestResponse(json.msg, json.last);
                 break;
             case RTC:
+                doEmitTestResponse(json.msg, json.last);
+            case SYNC:
                 doEmitTestResponse(json.msg, json.last);
                 break;
              default:

@@ -124,8 +124,8 @@ function closeProgram() {
     return new Promise(function (fullfill) {
         exec("ps -xa | grep ./sensor",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
             console.log("closeProgram exec err: " + err);
-            console.log("closeProgram stdout err: " + stdout);
-            console.log("closeProgram stderr err: " + stderr);
+            console.log("closeProgram stdout : " + stdout);
+            console.log("closeProgram stderr : " + stderr);
 
             if(err) return fullfill({code:ERROR, msg: err});
 

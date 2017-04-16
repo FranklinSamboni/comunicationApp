@@ -42,6 +42,7 @@ let socketServer = net.createServer( function (socket) {
                     break;
                 case RTC:
                     doEmitTestResponse(json.msg, json.last);
+                    break;
                 case SYNC:
                     doEmitTestResponse(json.msg, json.last);
                     break;

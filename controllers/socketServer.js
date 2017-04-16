@@ -29,7 +29,7 @@ let socketServer = net.createServer( function (socket) {
 
         try {
             let json = JSON.parse(data);
-            console.log(json.msg);
+            console.log(json);
             switch (json.component) {
                 case UART:
                     doEmitTestResponse(json.msg, json.last);

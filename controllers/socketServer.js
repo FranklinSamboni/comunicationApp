@@ -77,10 +77,6 @@ let socketServer = net.createServer( function (socket) {
             console.log(err)
         }
 
-        //connection.write("Response");
-        //console.log('Sended responst to client');
-        //connection.end();
-        //console.log('Disconnected the client.');
     });
 
 });

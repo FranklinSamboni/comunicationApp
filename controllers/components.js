@@ -157,7 +157,6 @@ exports.rtcData = function rtcData(token) {
         });
 };
 
-
 exports.cpuData = function cpuData (token) {
 
     return new Promise(

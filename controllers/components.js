@@ -36,7 +36,7 @@ let client = new Client();
 //let exit = require('./exit.js');
 let fs = require('fs');
 
-uploadFiles(dir_file);
+uploadFiles("");
 
 function uploadFiles (dir_file) {
 

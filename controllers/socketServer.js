@@ -168,7 +168,7 @@ function realTime(json){
              //console.log()
 
              if(config.Axis === '0'){
-                 let sendJson = `{"token": "${config.token}", "data": { "x":[${json.x}], "y" : [${json.y}], "z" : [${json.z}}] }`;
+                 let sendJson = `{"token": "${config.token}", "data": { "x":[${json.x}], "y" : [${json.y}], "z" : [${json.z}] }}`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }

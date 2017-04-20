@@ -29,6 +29,10 @@ socket.on('connect', function () {
     //closeProgram();
 });
 
+socket.on('disconnect', function () {
+    console.log("socket io disconnect");
+});
+
 socket.on('requestTest', function (data) {
     data = JSON.parse(data);
     console.log("requestTest data" + data);

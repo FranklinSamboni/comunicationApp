@@ -44,17 +44,20 @@ auth.doAuth().then(function (data) {
         //res.status(201).send({code: "002"});
     } else {
         let authToken = data.token;
-        uploadFiles (toekn, "");
         console.log(authToken);
+        this.uploadFiles(authToken, "").then(function (data) {
+            console.log(data);
+        });
     }
 });
 
-function uploadFiles (token, dir_file) {
+exports.uploadFiles = function uploadFiles(token, dir_file) {
 
     return new Promise(
         function(fullfil) {
 
             console.log("uploadFiles");
+            console.log(dir_file);
             //200417_00_BH1.sac
 
             let readStream = fs.createReadStream("/home/debian/Sensor-IOT/SensorIoT/muestras/200417/200417_00_BH1.sac");

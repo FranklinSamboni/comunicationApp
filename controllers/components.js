@@ -30,15 +30,26 @@ const DIR_GPS = DIR_COMPONENTS + "gps.json";
 const DIR_LOCATION = DIR_COMPONENTS + "location.json";
 
 let Client = require('node-rest-client').Client;
+let auth = require("./auth");
 let client = new Client();
 
 //let auth = require('./auth.js');
 //let exit = require('./exit.js');
 let fs = require('fs');
 
-uploadFiles("");
+auth.doAuth().then(function (data) {
 
-function uploadFiles (dir_file) {
+    if (data.code === ERROR) {
+        console.log("Error token");
+        //res.status(201).send({code: "002"});
+    } else {
+        let authToken = data.token;
+        uploadFiles (toekn, "");
+        console.log(authToken);
+    }
+});
+
+function uploadFiles (token, dir_file) {
 
     return new Promise(
         function(fullfil) {
@@ -78,7 +89,7 @@ function uploadFiles (dir_file) {
             };
 
             client.post(URL_UPLOAD, args, function (data, response) {
-                console.log("putSPS");
+                console.log("uploadFiles");
                 let jsonObj = data;
                 console.log(jsonObj);
                 if (jsonObj.code === "001" || jsonObj.code === "003") {

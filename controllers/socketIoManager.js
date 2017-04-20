@@ -26,7 +26,7 @@ socket.on('connect', function () {
 
     //fileExecuteMain();
 
-    closeProgram();
+    //closeProgram();
 });
 
 socket.on('requestTest', function (data) {

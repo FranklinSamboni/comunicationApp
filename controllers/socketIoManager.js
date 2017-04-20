@@ -40,12 +40,12 @@ socket.on('requestTest', function (data) {
     switch (data.component){
         case "GPS":
             if(data.type === "GPS"){
-                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps U`).then(function (data) {
+                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testGps U`).then(function (data) {
                     console.log(data);
                 });
             }
             else if(data.type === "PPS"){
-                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps P`).then(function (data) {
+                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testGps P`).then(function (data) {
                     console.log(data);
                 });
             }
@@ -53,18 +53,18 @@ socket.on('requestTest', function (data) {
             break;
         case "RTC":
             if(data.type === "RTC"){
-                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testRtc I`).then(function (data) {
+                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testRtc I`).then(function (data) {
                     console.log(data);
                 });
             }
             else if(data.type === "SYNC"){
-                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testRtc S`).then(function (data) {
+                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testRtc S`).then(function (data) {
                     console.log(data);
                 });
             }
             break;
         case "ADC":
-            fileExecute(`/home/debian/Sensor-IOT/SensorIoT/tests/testAdc`).then(function (data) {
+            fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testAdc`).then(function (data) {
                 console.log(data);
             });
             break;

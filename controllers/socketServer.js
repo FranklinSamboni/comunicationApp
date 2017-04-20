@@ -169,7 +169,7 @@ function realTime(json){
 
              if(config.Axis === '0'){
                  let sendJson = `{"token": "${config.token}", "data": { "x":[${json.x}], "y" : [${json.y}], "z" : [${json.z}] }}`;
-                 console.log(sendJson);
+                 console.log(sendJson); 
                  emitDataRealTime(sendJson);
              }
              else if(config.Axis === "BH1"){

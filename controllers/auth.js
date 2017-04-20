@@ -2,7 +2,7 @@
  * Created by Frank on 13/04/2017.
  */
 
-const URL_AUTH = "https://api.plataformamec.com/auth";
+const URL_AUTH = "https://api.plataformamec.com/api/auth";
 const SUCCESS = 1;
 const ERROR = -1;
 

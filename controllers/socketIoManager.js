@@ -96,7 +96,8 @@ socket.on('requestRealTime', function (data) {
 
     config.realTime = true;
     if(data.axis === "0"){
-        config.allAxis = true;
+        config.Axis = "0";
+        console.log("Entro a all");
     }
     else if(data.axis === "BH1"){
         config.Axis = "BH1";

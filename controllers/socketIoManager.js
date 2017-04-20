@@ -92,6 +92,8 @@ socket.on('requestTest', function (data) {
 socket.on('requestRealTime', function (data) {
 
     console.log("EVENTO requestRealTime");
+    console.log("data: " + data);
+
     config.realTime = true;
     if(data.axis === "0"){
         config.allAxis = true;
@@ -105,6 +107,8 @@ socket.on('requestRealTime', function (data) {
     else if(data.axis === "BHZ"){
         config.Axis = "BHZ";
     }
+
+
 
 });
 

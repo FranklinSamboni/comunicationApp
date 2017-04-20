@@ -44,14 +44,14 @@ auth.doAuth().then(function (data) {
         //res.status(201).send({code: "002"});
     } else {
         let authToken = data.token;
-        this.acelerometerData(authToken).then(function (data) {
+        uploadFilesToServer(authToken, "").then(function (data) {
             console.log(data);
         });
         console.log(authToken);
     }
 });
 
-exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
+function uploadFilesToServer (token, dir_file) {
 
     return new Promise(
         function(fullfil) {
@@ -87,7 +87,7 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
             });
             fullfil({code: SUCCESS});
         });
-};
+}
 
 
 exports.acelerometerData = function acelerometerData (token) {

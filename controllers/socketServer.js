@@ -167,10 +167,10 @@ function realTime(json){
              if(config.allAxis){
                  sendJson = `{"token": "${config.token}", "data": { "x":${json.x}, "y" : ${json.y}, "z" : ${json.z}} }`;
              }
-             else if(config.axis === "BH0"){
+             else if(config.axis === "BH1"){
                  sendJson = `{"token": "${config.token}", "data": { "x":${json.y} }}`;
              }
-             else if(config.axis === "BH1"){
+             else if(config.axis === "BH2"){
                  sendJson = `{"token": "${config.token}", "data": { "y":${json.y} }}`;
              }
              else if(config.axis === "BHZ"){

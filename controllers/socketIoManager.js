@@ -95,11 +95,11 @@ socket.on('requestRealTime', function (data) {
     if(data.axis === "0"){
         config.allAxis = true;
     }
-    else if(data.axis === "BH0"){
-        config.Axis = "BH0";
-    }
     else if(data.axis === "BH1"){
         config.Axis = "BH1";
+    }
+    else if(data.axis === "BH2"){
+        config.Axis = "BH2";
     }
     else if(data.axis === "BHZ"){
         config.Axis = "BHZ";

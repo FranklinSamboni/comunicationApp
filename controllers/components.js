@@ -16,7 +16,7 @@ let URL_CPU = URL_BASE + "cpu";
 let URL_BATTERY = URL_BASE + "battery";
 let URL_GPS = URL_BASE + "gps";
 let URL_LOCATION = URL_BASE + "location";
-let URL_UPLOAD = URL_BASE + "upload/file";
+let URL_UPLOAD = "/api/upload/file";
 
 
 const DIR_COMPONENTS = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/";
@@ -29,12 +29,14 @@ const DIR_BATTERY = DIR_COMPONENTS  + "battery.json";
 const DIR_GPS = DIR_COMPONENTS + "gps.json";
 const DIR_LOCATION = DIR_COMPONENTS + "location.json";
 
-let Client = require('node-rest-client').Client;
-let FormData = require('form-data');
-let fs = require('fs');
-let auth = require("./auth");
-let client = new Client();
+const Client = require('node-rest-client').Client;
+//const FormData = require('form-data');
+const fs = require('fs');
+const request = require('request');
+const auth = require("./auth");
+const client = new Client();
 const config = require('../config');
+
 //let auth = require('./auth.js');
 //let exit = require('./exit.js');
 
@@ -537,7 +539,6 @@ exports.putSPS = function putSPS() {
 
 };
 
-
 exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 
     return new Promise(
@@ -546,34 +547,45 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
             console.log("uploadFiles");
             console.log(dir_file);
             //200417_00_BH1.sac
+            //let path = '/Users/farleyetc/Documents/FrankDocs/200417_00_BH1.sac';
 
-            let form = new FormData();
-            form.append('type', 'FILE');
-            //form.append('my_buffer', new Buffer(1024));
-            form.append('file_0', fs.createReadStream("/home/frank/200417_00_BH1.sac"));
+            /*let formData = {
+                type: 'FILE',
+                file_0: {
+                    value:  fs.createReadStream('/Users/farleyetc/Documents/FrankDocs/200417_00_BH1.sac'),
+                    options: {
+                        filename: '200417_00_BH1.sac',
 
-
-
-            let args = {
-                data: null,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    "Authorization": token,
+                    }
                 }
-            };
-            console.log("args es : " + args.toString());
-            client.post(URL_UPLOAD, args, function (data, response) {
-                console.log("uploadFiles post");
-                let jsonObj = data;
-                console.log("json es: " + jsonObj);
-                if (jsonObj.code === "001" || jsonObj.code === "003") {
-                    fullfil({code: SUCCESS});
-                }
-                else {
-                    fullfil({code: ERROR});
-                }
+            };*/
+
+            let readableStream = fs.createReadStream('/Users/farleyetc/Documents/FrankDocs/210417_01_BH1.sac');
+            let data = '';
+
+            readableStream.on('data', function(chunk) {
+                data+=chunk;
+                //console.log("chunk: " + chunk);
+
             });
-            //fullfil({code: SUCCESS});
+
+            readableStream.on('end', function() {
+                //console.log("data: " );
+                //console.log(data);
+
+            });
+
+            let r = request.post({url:'https://api.plataformamec.com/api/upload/file', headers:{"Authorization": token}}, function(err, httpResponse, body) {
+                if (err) {
+                    return console.error('upload failed:', err);
+                }
+                console.log('Upload successful!  Server responded with:', body);
+            });
+            let form = r.form();
+            form.append('type', 'FILE');
+            //form.append('my_buffer', new Buffer([1, 2, 3]));
+            form.append('file', readableStream, {filename: '210417_01_BH1.sac', contentType: 'application/octet-stream'});
+
 
         });
 };

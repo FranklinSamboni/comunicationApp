@@ -170,18 +170,22 @@ function realTime(json){
 
              if(config.allAxis){
                  let sendJson = `{"token": "${config.token}", "data": { "x":${json.x}, "y" : ${json.y}, "z" : ${json.z}} }`;
+                 console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.axis === "BH1"){
                  let sendJson = `{"token": "${config.token}", "data": { "x":${json.y} }}`;
+                 console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.axis === "BH2"){
                  let sendJson = `{"token": "${config.token}", "data": { "y":${json.y} }}`;
+                 console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.axis === "BHZ"){
                  let sendJson = `{"token": "${config.token}", "data": { "z":${json.z} }}`;
+                 console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
 
@@ -191,7 +195,6 @@ function realTime(json){
 
 function emitDataRealTime(json) {
     console.log("emit real time");
-    console.log(json);
 
     socketClient.socket.emit('responseRealTime', json, function (resp, data) {
         console.log('respuesta del servidor' + resp);

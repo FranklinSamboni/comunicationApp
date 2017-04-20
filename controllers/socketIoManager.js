@@ -117,7 +117,7 @@ socket.on('stopRealTime', function (data) {
 
     console.log("EVENTO stopRealTime");
     config.realTime = false;
-    config.allAxis = false;
+    config.Axis = '';
 
 });
 

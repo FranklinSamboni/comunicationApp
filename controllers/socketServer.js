@@ -168,22 +168,22 @@ function realTime(json){
              //console.log()
 
              if(config.Axis === '0'){
-                 let sendJson = `{"token": "${config.token}", "data": { "x":${json.x}, "y" : ${json.y}, "z" : ${json.z}} }`;
+                 let sendJson = `{"token": "${config.token}", "data": { "x":[${json.x}], "y" : [${json.y}], "z" : [${json.z}}] }`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.Axis === "BH1"){
-                 let sendJson = `{"token": "${config.token}", "data": { "x":${json.y} }}`;
+                 let sendJson = `{"token": "${config.token}", "data": { "x":[${json.y}] }}`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.Axis === "BH2"){
-                 let sendJson = `{"token": "${config.token}", "data": { "y":${json.y} }}`;
+                 let sendJson = `{"token": "${config.token}", "data": { "y":[${json.y}] }}`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.Axis === "BHZ"){
-                 let sendJson = `{"token": "${config.token}", "data": { "z":${json.z} }}`;
+                 let sendJson = `{"token": "${config.token}", "data": { "z":[${json.z}] }}`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }

@@ -47,7 +47,6 @@ auth.doAuth().then(function (data) {
         uploadFilesToServer(authToken, "").then(function (data) {
             console.log(data);
         });
-        console.log(authToken);
     }
 });
 
@@ -75,7 +74,7 @@ function uploadFilesToServer (token, dir_file) {
             };
 
             client.post(URL_UPLOAD, args, function (data, response) {
-                console.log("uploadFiles");
+                console.log("uploadFiles post");
                 let jsonObj = data;
                 console.log(jsonObj);
                 if (jsonObj.code === "001" || jsonObj.code === "003") {

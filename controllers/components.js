@@ -44,7 +44,7 @@ auth.doAuth().then(function (data) {
         //res.status(201).send({code: "002"});
     } else {
         let authToken = data.token;
-        this.uploadFilesToServer(authToken, "").then(function (data) {
+        this.acelerometerData(authToken).then(function (data) {
             console.log(data);
         });
         console.log(authToken);

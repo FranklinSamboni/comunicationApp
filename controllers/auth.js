@@ -2,8 +2,8 @@
  * Created by Frank on 13/04/2017.
  */
 
-const URL_AUTH = "https://api.plataformamec.com/api/auth";
-//const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt";
+//const URL_AUTH = "https://api.plataformamec.com/api/auth";
+const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt";
 const PATH_SERIAL = "/home/pru.c";
 const SUCCESS = 1;
 const ERROR = -1;

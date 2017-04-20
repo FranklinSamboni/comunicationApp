@@ -6,5 +6,6 @@ module.exports = {
     token: "",
     realTime: false,
     allAxis : false,
-    Axis: ""
+    Axis: "",
+    apiToken: ""
 };

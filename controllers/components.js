@@ -34,7 +34,7 @@ var FormData = require('form-data');
 let fs = require('fs');
 let auth = require("./auth");
 let client = new Client();
-
+const config = require('../config');
 //let auth = require('./auth.js');
 //let exit = require('./exit.js');
 
@@ -113,7 +113,7 @@ exports.acelerometerData = function acelerometerData (token) {
                         data: jsonObj,
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": token,
+                            "Authorization": config.apiToken,
                         }
                     };
 
@@ -485,7 +485,7 @@ exports.putLocation = function putLocation () {
                     let args = {
                         data: jsonObj,
                         headers: {"Content-Type": "application/json",
-                            "Authorization":token,}
+                            "Authorization":config.apiToken,}
                     };
 
                     //console.log(args);
@@ -526,7 +526,7 @@ exports.putRTC = function putRTC() {
                     let args = {
                         data: jsonObj,
                         headers: {"Content-Type": "application/json",
-                            "Authorization":token,}
+                            "Authorization":config.apiToken,}
                     };
 
                     //console.log(args);
@@ -566,7 +566,7 @@ exports.putSPS = function putSPS() {
                         data: jsonObj,
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": token,
+                            "Authorization": config.apiToken,
                         }
                     };
 

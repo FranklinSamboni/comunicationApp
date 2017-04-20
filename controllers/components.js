@@ -65,11 +65,12 @@ exports.uploadFiles = function uploadFiles(token, dir_file) {
             readStream.on('open', function () {
                 // This just pipes the read stream to the response object (which goes to the client)
                 //readStream.pipe(res);
+                console.log("open asd");
             });
 
             // This catches any errors that happen while creating the readable stream (usually invalid names)
             readStream.on('error', function(err) {
-                //res.end(err);
+                //fullfil({code: ERROR});
             });
             /*is.on('end', function() {
              //eliminamos el archivo temporal
@@ -96,13 +97,13 @@ exports.uploadFiles = function uploadFiles(token, dir_file) {
                 let jsonObj = data;
                 console.log(jsonObj);
                 if (jsonObj.code === "001" || jsonObj.code === "003") {
-                    fullfil({code: SUCCESS});
+                    //fullfil({code: SUCCESS});
                 }
                 else {
-                    fullfil({code: ERROR});
+                    //fullfil({code: ERROR});
                 }
             });
-
+            fullfil({code: SUCCESS});
             /*fs.readFile(DIR_SAMPLES_FILES, 'utf-8', (err, json) => {
              if (err) {
              console.log('error: ', err);

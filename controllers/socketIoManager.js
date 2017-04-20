@@ -93,7 +93,7 @@ socket.on('requestRealTime', function (data) {
 
     console.log("EVENTO requestRealTime");
     console.log("data: " + data.axis);
-
+    data = JSON.parse(data);
     config.realTime = true;
     if(data.axis === '0'){
         config.Axis = '0';

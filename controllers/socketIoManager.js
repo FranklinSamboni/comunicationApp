@@ -92,11 +92,11 @@ socket.on('requestTest', function (data) {
 socket.on('requestRealTime', function (data) {
 
     console.log("EVENTO requestRealTime");
-    console.log("data: " + data);
+    console.log("data: " + data.axis);
 
     config.realTime = true;
-    if(data.axis === "0"){
-        config.Axis = "0";
+    if(data.axis === '0'){
+        config.Axis = '0';
         console.log("Entro a all");
     }
     else if(data.axis === "BH1"){

@@ -149,7 +149,7 @@ function putSPS () {
 
 function uploadFiles (dir_file) {
 
-    components.uploadFiles(dir_file).then(function (data) {
+    components.uploadFilesToServer(dir_file).then(function (data) {
         if (data.code === ERROR) {
             console.log("error en uploadFiles");
         }

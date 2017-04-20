@@ -44,14 +44,14 @@ auth.doAuth().then(function (data) {
         //res.status(201).send({code: "002"});
     } else {
         let authToken = data.token;
-        console.log(authToken);
-        this.uploadFiles(authToken, "").then(function (data) {
+        this.uploadFilesToServer(authToken, "").then(function (data) {
             console.log(data);
         });
+        console.log(authToken);
     }
 });
 
-exports.uploadFiles = function uploadFiles(token, dir_file) {
+exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 
     return new Promise(
         function(fullfil) {
@@ -61,24 +61,6 @@ exports.uploadFiles = function uploadFiles(token, dir_file) {
             //200417_00_BH1.sac
 
             let readStream = fs.createReadStream("/home/debian/Sensor-IOT/SensorIoT/muestras/200417/200417_00_BH1.sac");
-            //is.pipe(os)
-            readStream.on('open', function () {
-                // This just pipes the read stream to the response object (which goes to the client)
-                //readStream.pipe(res);
-                console.log("open asd");
-            });
-
-            // This catches any errors that happen while creating the readable stream (usually invalid names)
-            readStream.on('error', function(err) {
-                //fullfil({code: ERROR});
-            });
-            /*is.on('end', function() {
-             //eliminamos el archivo temporal
-             fs.unlinkSync(path)
-             })*/
-            //res.send('¡archivo subido!')
-            //DIR_FILES
-            //console.log(args);
 
             let jsonObj = {
                 "type": "FILE",
@@ -104,25 +86,6 @@ exports.uploadFiles = function uploadFiles(token, dir_file) {
                 }
             });
             fullfil({code: SUCCESS});
-            /*fs.readFile(DIR_SAMPLES_FILES, 'utf-8', (err, json) => {
-             if (err) {
-             console.log('error: ', err);
-             fullfil({code: ERROR});
-             }
-             else {
-
-             let jsonObj = JSON.parse(json);
-             let args = {
-             data: jsonObj,
-             headers: {
-             "Content-Type": "application/json",
-             "Authorization": token,
-             }
-             };
-
-
-             }
-             });*/
         });
 };
 

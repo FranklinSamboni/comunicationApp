@@ -36,6 +36,81 @@ let client = new Client();
 //let exit = require('./exit.js');
 let fs = require('fs');
 
+
+let upload = function uploadFiles (dir_file) {
+
+    return new Promise(
+        function(fullfil) {
+
+            console.log("uploadFiles");
+            //200417_00_BH1.sac
+
+            let readStream = fs.createReadStream("/home/debian/Sensor-IOT/SensorIoT/muestras/200417/200417_00_BH1.sac");
+            //is.pipe(os)
+            readStream.on('open', function () {
+                // This just pipes the read stream to the response object (which goes to the client)
+                //readStream.pipe(res);
+            });
+
+            // This catches any errors that happen while creating the readable stream (usually invalid names)
+            readStream.on('error', function(err) {
+                //res.end(err);
+            });
+            /*is.on('end', function() {
+             //eliminamos el archivo temporal
+             fs.unlinkSync(path)
+             })*/
+            //res.send('¡archivo subido!')
+            //DIR_FILES
+            //console.log(args);
+
+            let jsonObj = {
+                "type": "FILE",
+                "file_0": readStream,
+            };
+            let args = {
+                data: jsonObj,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token,
+                }
+            };
+
+            client.post(URL_UPLOAD, args, function (data, response) {
+                console.log("putSPS");
+                let jsonObj = data;
+                console.log(jsonObj);
+                if (jsonObj.code === "001" || jsonObj.code === "003") {
+                    fullfil({code: SUCCESS});
+                }
+                else {
+                    fullfil({code: ERROR});
+                }
+            });
+
+            /*fs.readFile(DIR_SAMPLES_FILES, 'utf-8', (err, json) => {
+             if (err) {
+             console.log('error: ', err);
+             fullfil({code: ERROR});
+             }
+             else {
+
+             let jsonObj = JSON.parse(json);
+             let args = {
+             data: jsonObj,
+             headers: {
+             "Content-Type": "application/json",
+             "Authorization": token,
+             }
+             };
+
+
+             }
+             });*/
+        });
+};
+
+
 exports.acelerometerData = function acelerometerData (token) {
 
     return new Promise(
@@ -531,80 +606,3 @@ exports.putSPS = function putSPS() {
         });
 
 };
-
-exports.uploadFiles = function uploadFiles (dir_file) {
-
-    return new Promise(
-        function(fullfil) {
-
-            console.log("putSPS");
-            //200417_00_BH1.sac
-
-            let readStream = fs.createReadStream(dir_file);
-            //is.pipe(os)
-            readStream.on('open', function () {
-                // This just pipes the read stream to the response object (which goes to the client)
-                //readStream.pipe(res);
-            });
-
-            // This catches any errors that happen while creating the readable stream (usually invalid names)
-            readStream.on('error', function(err) {
-                //res.end(err);
-            });
-            /*is.on('end', function() {
-                //eliminamos el archivo temporal
-                fs.unlinkSync(path)
-            })*/
-            //res.send('¡archivo subido!')
-            //DIR_FILES
-            //console.log(args);
-
-            let jsonObj = {
-                "type": "FILE",
-                "file_0": readStream,
-            };
-            let args = {
-                data: jsonObj,
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": token,
-                }
-            };
-
-            client.post(URL_UPLOAD, args, function (data, response) {
-                console.log("putSPS");
-                let jsonObj = data;
-                console.log(jsonObj);
-                if (jsonObj.code === "001" || jsonObj.code === "003") {
-                    fullfil({code: SUCCESS});
-                }
-                else {
-                    fullfil({code: ERROR});
-                }
-             });
-
-            /*fs.readFile(DIR_SAMPLES_FILES, 'utf-8', (err, json) => {
-                if (err) {
-                    console.log('error: ', err);
-                    fullfil({code: ERROR});
-                }
-                else {
-
-                    let jsonObj = JSON.parse(json);
-                    let args = {
-                        data: jsonObj,
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": token,
-                        }
-                    };
-
-
-                }
-            });*/
-        });
-};
-
-
-
-

@@ -14,7 +14,7 @@ const socketServer = require('../controllers/socketServer');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.status(201).send({code:"002"});
-})
+});
 
 
 router.get('/', function(req, res, next) {

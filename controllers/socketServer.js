@@ -165,7 +165,7 @@ function realTime(json){
          console.log("REAL_TIME TOKEN");
          if (config.realTime) {
              console.log("REAL_TIME realTime");
-             let sendJson = `{}`;
+             let sendJson;
 
              if(config.allAxis){
                  sendJson = `{"token": "${config.token}", "data": { "x":${json.x}, "y" : ${json.y}, "z" : ${json.z}} }`;

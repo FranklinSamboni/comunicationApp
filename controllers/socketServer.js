@@ -50,7 +50,7 @@ let socketServer = net.createServer( function (socket) {
 
         try {
             let json = JSON.parse(data);
-            console.log(json);
+            //console.log(json);
             switch (json.type) {
                 case TYPE_TEST:
                     doEmitTestResponse(json.msg, json.last);
@@ -74,6 +74,7 @@ let socketServer = net.createServer( function (socket) {
                             doEmitAlertError(json.msg,json.component);
                             break;
                         case REAL_TIME:
+                            console.log("CASE REAL_TIME");
                             realTime(json);
                             break;
                         default:
@@ -159,9 +160,11 @@ function uploadFiles (dir_file) {
 
 
 function realTime(json){
-     if (config.token !== ""){
-         if (config.realTime) {
 
+     if (config.token !== ""){
+         console.log("REAL_TIME TOKEN");
+         if (config.realTime) {
+             console.log("REAL_TIME realTime");
              let sendJson = `{}`;
 
              if(config.allAxis){

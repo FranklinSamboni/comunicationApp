@@ -46,18 +46,20 @@ auth.doAuth().then(function (data) {
         //res.status(201).send({code: "002"});
     } else {
         let authToken = data.token;
-        uploadFilesToServer(authToken, "").then(function (data) {
-            console.log("respuesta uploadFilesToServer : " + data);
-        });
+        uploadFilesToServer(authToken, "")
+
+            ///.then(function (data) {
+           /// console.log("respuesta uploadFilesToServer : " + data);
+        //});
     }
 });
 
 function uploadFilesToServer (token, dir_file) {
 
-    return new Promise(
-        function(fullfil) {
+    /*return new Promise(
+        function(fullfil) {*/
 
-            /*console.log("uploadFiles");
+            console.log("uploadFiles");
             console.log(dir_file);
             //200417_00_BH1.sac
 
@@ -74,22 +76,21 @@ function uploadFilesToServer (token, dir_file) {
                     "Authorization": token,
                 }
             };
-            //console.log("args es : " + args.toString());
+            /*console.log("args es : " + args.toString());
             client.post(URL_UPLOAD, args, function (data, response) {
                 console.log("uploadFiles post");
                 let jsonObj = data;
                 console.log("json es: " + jsonObj);
                 if (jsonObj.code === "001" || jsonObj.code === "003") {
-                    fullfil({code: SUCCESS});
+                   // fullfil({code: SUCCESS});
                 }
                 else {
-                    fullfil({code: ERROR});
+                    //fullfil({code: ERROR});
                 }
-            });
-            //fullfil({code: SUCCESS});*/
-            fullfil({code: SUCCESS});
+            });*/
+            //fullfil({code: SUCCESS});
 
-        });
+        //});
 }
 
 

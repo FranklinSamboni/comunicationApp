@@ -91,6 +91,7 @@ socket.on('requestTest', function (data) {
 
 socket.on('requestRealTime', function (data) {
 
+    console.log("EVENTO requestRealTime");
     config.realTime = true;
     if(data.axis === "0"){
         config.allAxis = true;
@@ -109,6 +110,7 @@ socket.on('requestRealTime', function (data) {
 
 socket.on('stopRealTime', function (data) {
 
+    console.log("EVENTO stopRealTime");
     config.realTime = false;
     config.allAxis = false;
 

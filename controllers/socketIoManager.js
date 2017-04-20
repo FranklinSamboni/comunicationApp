@@ -18,8 +18,8 @@ socket.on('connect', function () {
 
     socket.emit('register', '{ "serial": "Q2SW4ER5T6" }', function(resp, data) {
         resp = JSON.parse(resp);
-        console.log("data: " + data);
-        console.log('respuesta del servidor: ' + resp);
+        //console.log("data: " + data);
+        //console.log('respuesta del register: ' + resp);
         console.log(resp.code);
         config.token = resp.data.token;
     });
@@ -90,8 +90,31 @@ socket.on('requestTest', function (data) {
 });
 
 socket.on('requestRealTime', function (data) {
+
     config.realTime = true;
+    if(data.axis === "0"){
+        config.allAxis = true;
+    }
+    else if(data.axis === "BH0"){
+        config.Axis = "BH0";
+    }
+    else if(data.axis === "BH1"){
+        config.Axis = "BH1";
+    }
+    else if(data.axis === "BHZ"){
+        config.Axis = "BHZ";
+    }
+
 });
+
+socket.on('stopRealTime', function (data) {
+
+    config.realTime = false;
+    config.allAxis = false;
+
+});
+
+
 
 function fileExecute(path) {
 

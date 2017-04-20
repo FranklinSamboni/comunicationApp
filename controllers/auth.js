@@ -3,7 +3,8 @@
  */
 
 const URL_AUTH = "https://api.plataformamec.com/api/auth";
-const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt"
+//const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt";
+const PATH_SERIAL = "/home/pru.c";
 const SUCCESS = 1;
 const ERROR = -1;
 
@@ -28,8 +29,8 @@ exports.doAuth = function doAuth () {
                 //console.log(serial);
 
                 let args = {
-                    //data: {"serial": "Q2SW4ER5T6"},
-                    data: {"serial": serial},
+                    //data: {"serial": serial},
+                    data: {"serial": "Q2SW4ER5T6"},
                     headers: {"Content-Type": "application/json"}
                 };
 

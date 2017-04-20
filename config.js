@@ -4,5 +4,7 @@
 
 module.exports = {
     token: "",
-    realTime: false
+    realTime: false,
+    allAxis : false,
+    Axis: ""
 };

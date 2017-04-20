@@ -30,13 +30,15 @@ const DIR_GPS = DIR_COMPONENTS + "gps.json";
 const DIR_LOCATION = DIR_COMPONENTS + "location.json";
 
 let Client = require('node-rest-client').Client;
+var FormData = require('form-data');
+let fs = require('fs');
 let auth = require("./auth");
 let client = new Client();
 
 //let auth = require('./auth.js');
 //let exit = require('./exit.js');
-let fs = require('fs');
 
+//home/debian/Sensor-IOT/SensorIoT/muestras/200417/200417_00_BH1.sac
 auth.doAuth().then(function (data) {
 
     if (data.code === ERROR) {
@@ -45,7 +47,7 @@ auth.doAuth().then(function (data) {
     } else {
         let authToken = data.token;
         uploadFilesToServer(authToken, "").then(function (data) {
-            console.log(data);
+            console.log("respuesta uploadFilesToServer : " + data);
         });
     }
 });
@@ -55,36 +57,38 @@ function uploadFilesToServer (token, dir_file) {
     return new Promise(
         function(fullfil) {
 
-            console.log("uploadFiles");
+            /*console.log("uploadFiles");
             console.log(dir_file);
             //200417_00_BH1.sac
 
-            let readStream = fs.createReadStream("/home/debian/Sensor-IOT/SensorIoT/muestras/200417/200417_00_BH1.sac");
+            let form = new FormData();
+            form.append('type', 'FILE');
+            //form.append('my_buffer', new Buffer(1024));
+            form.append('file_0', fs.createReadStream("/home/frank/200417_00_BH1.sac"));
 
-            let jsonObj = {
-                "type": "FILE",
-                "file_0": readStream,
-            };
+            //console.log("jsonObj es : " + jsonObj.toString());
             let args = {
-                data: jsonObj,
+                data: form,
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "multipart/form-data",
                     "Authorization": token,
                 }
             };
-
+            //console.log("args es : " + args.toString());
             client.post(URL_UPLOAD, args, function (data, response) {
                 console.log("uploadFiles post");
                 let jsonObj = data;
-                console.log(jsonObj);
+                console.log("json es: " + jsonObj);
                 if (jsonObj.code === "001" || jsonObj.code === "003") {
-                    //fullfil({code: SUCCESS});
+                    fullfil({code: SUCCESS});
                 }
                 else {
-                    //fullfil({code: ERROR});
+                    fullfil({code: ERROR});
                 }
             });
+            //fullfil({code: SUCCESS});*/
             fullfil({code: SUCCESS});
+
         });
 }
 

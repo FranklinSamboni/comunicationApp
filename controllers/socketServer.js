@@ -161,11 +161,26 @@ function uploadFiles (dir_file) {
 function realTime(json){
      if (config.token !== ""){
          if (config.realTime) {
-             let sendJson = `{"token": "${config.token}", "x": "${json.x}", "y" : ${json.y}, "z" : ${json.z} }`;
+
+             let sendJson = `{}`;
+
+             if(config.allAxis){
+                 sendJson = `{"token": "${config.token}", "data": { "x":${json.x}, "y" : ${json.y}, "z" : ${json.z}} }`;
+             }
+             else if(config.axis === "BH0"){
+                 sendJson = `{"token": "${config.token}", "data": { "x":${json.y} }}`;
+             }
+             else if(config.axis === "BH1"){
+                 sendJson = `{"token": "${config.token}", "data": { "y":${json.y} }}`;
+             }
+             else if(config.axis === "BHZ"){
+                 sendJson = `{"token": "${config.token}", "data": { "z":${json.z} }}`;
+             }
+
              console.log("emit real time");
              console.log(sendJson);
 
-             socketClient.socket.emit('realTime', sendJson, function (resp, data) {
+             socketClient.socket.emit('responseRealTime', sendJson, function (resp, data) {
                  console.log('respuesta del servidor' + resp);
                  console.log(resp.code);
              });

@@ -1,7 +1,8 @@
 /**
  * Created by Frank on 14/04/2017.
  */
-
+let SUCCESS = 1;
+let ERROR = -1;
 
 const TYPE_TEST =  "TEST";
 const TEST_UART = "TEST_UART";
@@ -11,12 +12,16 @@ const TEST_RTC = "TEST_RTC";
 const TEST_SYNC = "TEST_SYNC";
 
 const TYPE_MAIN =  "MAIN";
+/*process*/
 const PUT_LOCATION = "PUT_LOCATION_GPS";
 const PUT_RTC_DATE = "PUT_RTC_DATEHOUR";
 const PUT_SPS = "PUT_SPS";
 const ALERTS = "ALERTS_ERROR";
+const UPLOAD_FILES = "UPLOAD_FILES";
 const REAL_TIME = "REAL_TIME";
 
+
+/*Tipo de componentes*/
 const GPS = "GPS";
 const PPS = "PPS";
 const RTC = "RTC";
@@ -30,6 +35,7 @@ const portSocket = 4001;
 
 let net = require('net');
 let socketClient = require('./socketIoManager');
+let components = require('./components');
 const config = require('../config');
 let socketServer = net.createServer( function (socket) {
 
@@ -53,15 +59,22 @@ let socketServer = net.createServer( function (socket) {
                     console.log(json.msg);
                     switch (json.process){
                         case PUT_LOCATION:
+                            putLocation();
                             break;
                         case PUT_RTC_DATE:
+                            putRTC();
                             break;
                         case PUT_SPS:
+                            putSPS();
+                            break;
+                        case UPLOAD_FILES:
+                            uploadFiles(json.msg);
                             break;
                         case ALERTS:
                             doEmitAlertError(json.msg,json.component);
                             break;
                         case REAL_TIME:
+                            realTime(json);
                             break;
                         default:
                             break;
@@ -87,8 +100,8 @@ socketServer.listen(portSocket, function () {
 
 function doEmitTestResponse(msg, last) {
     if (config.token !== ""){
-        let sendJson = `{"token": "${config.token}", "msg": "${msg}", "last" : ${last} }`;
-        console.log("Antes del emit");
+        let sendJson = `{"token": "${config.token}", "data": "${msg}", "last" : ${last} }`;
+        console.log("emit testResponse");
         socketClient.socket.emit('testResponse',sendJson, function(resp, data) {
             console.log('respuesta del servidor' + resp);
             console.log(resp.code);
@@ -99,10 +112,63 @@ function doEmitTestResponse(msg, last) {
 function doEmitAlertError(msg, component) {
     if (config.token !== ""){
         let sendJson = `{"token": "${config.token}", "data": "${msg}", "component" : ${component} }`;
-        console.log("Antes del emit");
+        console.log("emit request error");
         socketClient.socket.emit('requestError',sendJson, function(resp, data) {
             console.log('respuesta del servidor' + resp);
             console.log(resp.code);
         });
     }
+}
+
+function putLocation () {
+    components.putLocation().then(function (data) {
+        if (data.code === ERROR) {
+            console.log("error en putLocation");
+        }
+        console.log(data);
+    });
+}
+
+function putRTC () {
+    components.putRTC().then(function (data) {
+        if (data.code === ERROR) {
+            console.log("error en putRTC");
+        }
+        console.log(data);
+    });
+}
+
+function putSPS () {
+    components.putSPS().then(function (data) {
+        if (data.code === ERROR) {
+            console.log("error en putSPS");
+        }
+        console.log(data);
+    });
+}
+
+function uploadFiles (dir_file) {
+
+    components.uploadFiles(dir_file).then(function (data) {
+        if (data.code === ERROR) {
+            console.log("error en uploadFiles");
+        }
+        console.log(data);
+    });
+}
+
+
+function realTime(json){
+     if (config.token !== ""){
+         if (config.realTime) {
+             let sendJson = `{"token": "${config.token}", "x": "${json.x}", "y" : ${json.y}, "z" : ${json.z} }`;
+             console.log("emit real time");
+             console.log(sendJson);
+
+             socketClient.socket.emit('realTime', sendJson, function (resp, data) {
+                 console.log('respuesta del servidor' + resp);
+                 console.log(resp.code);
+             });
+         }
+     }
 }

@@ -7,7 +7,7 @@ let ERROR = -1;
 //let CORRECT_STATUS_COMPONENT = "Correcto";
 //let ERROR_STATUS_COMPONENT = "Error";
 
-let URL_BASE = "https://plataformamec.com/api/";
+let URL_BASE = "https://api.plataformamec.com/";
 let URL_ACCELEROMETER = URL_BASE + "accelerometer";
 let URL_ADC = URL_BASE + "adc";
 let URL_RTC = URL_BASE + "rtc";
@@ -15,6 +15,9 @@ let URL_WIFI = URL_BASE + "wifi";
 let URL_CPU = URL_BASE + "cpu";
 let URL_BATTERY = URL_BASE + "battery";
 let URL_GPS = URL_BASE + "gps";
+let URL_LOCATION = URL_BASE + "location";
+let URL_UPLOAD = URL_BASE + "upload/file";
+
 
 const DIR_COMPONENTS = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/";
 const DIR_ACCELETOMETER = DIR_COMPONENTS + "accelerometer.json";
@@ -24,6 +27,7 @@ const DIR_WIFI = DIR_COMPONENTS + "wifi.json";
 const DIR_CPU = DIR_COMPONENTS  + "cpu.json";
 const DIR_BATTERY = DIR_COMPONENTS  + "battery.json";
 const DIR_GPS = DIR_COMPONENTS + "gps.json";
+const DIR_LOCATION = DIR_COMPONENTS + "location.json";
 
 let Client = require('node-rest-client').Client;
 let client = new Client();
@@ -321,6 +325,283 @@ exports.wifiData = function (token) {
                 }
             });
 
+        });
+};
+
+exports.wifiData = function (token) {
+
+    return new Promise(
+        function(fullfil) {
+
+            console.log("wifiData");
+
+            fs.readFile(DIR_WIFI, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":token,}
+                    };
+
+                    //console.log(args);
+
+                    client.post(URL_WIFI, args, function (data, response) {
+                        console.log("wifiData");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+
+                }
+            });
+
+        });
+};
+
+exports.postLocation = function putLocation () {
+    return new Promise(
+        function(fullfil) {
+
+            console.log("postLocation");
+
+            fs.readFile(DIR_LOCATION, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":token,}
+                    };
+
+                    //console.log(args);
+                    client.post(URL_LOCATION, args, function (data, response) {
+                        console.log("postLocation");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+                }
+            });
+
+        });
+};
+
+////// Actualizar Informacion ///////////
+
+exports.putLocation = function putLocation () {
+    return new Promise(
+        function(fullfil) {
+
+            console.log("putLocation");
+
+            fs.readFile(DIR_LOCATION, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":token,}
+                    };
+
+                    //console.log(args);
+
+                    client.put(URL_LOCATION, args, function (data, response) {
+                        console.log("putLocation");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+
+                }
+            });
+
+        });
+};
+
+exports.putRTC = function putRTC() {
+    return new Promise(
+        function(fullfil) {
+
+            console.log("putRTC");
+
+            fs.readFile(DIR_RTC, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":token,}
+                    };
+
+                    //console.log(args);
+
+                    client.put(URL_RTC, args, function (data, response) {
+                        console.log("putRTC");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+                }
+            });
+
+        });
+};
+
+exports.putSPS = function putSPS() {
+    return new Promise(
+        function(fullfil) {
+
+            console.log("putSPS");
+
+            fs.readFile(DIR_ADC, 'utf-8', (err, json) => {
+                if (err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+                    let args = {
+                        data: jsonObj,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": token,
+                        }
+                    };
+
+                    //console.log(args);
+
+                    client.put(URL_ADC, args, function (data, response) {
+                        console.log("putSPS");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+                }
+            });
+        });
+
+};
+
+exports.uploadFiles = function uploadFiles (dir_file) {
+
+    return new Promise(
+        function(fullfil) {
+
+            console.log("putSPS");
+            //200417_00_BH1.sac
+
+            let readStream = fs.createReadStream(dir_file);
+            //is.pipe(os)
+            readStream.on('open', function () {
+                // This just pipes the read stream to the response object (which goes to the client)
+                //readStream.pipe(res);
+            });
+
+            // This catches any errors that happen while creating the readable stream (usually invalid names)
+            readStream.on('error', function(err) {
+                //res.end(err);
+            });
+            /*is.on('end', function() {
+                //eliminamos el archivo temporal
+                fs.unlinkSync(path)
+            })*/
+            //res.send('¡archivo subido!')
+            //DIR_FILES
+            //console.log(args);
+
+            let jsonObj = {
+                "type": "FILE",
+                "file_0": readStream,
+            };
+            let args = {
+                data: jsonObj,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token,
+                }
+            };
+
+            client.post(URL_UPLOAD, args, function (data, response) {
+                console.log("putSPS");
+                let jsonObj = data;
+                console.log(jsonObj);
+                if (jsonObj.code === "001" || jsonObj.code === "003") {
+                    fullfil({code: SUCCESS});
+                }
+                else {
+                    fullfil({code: ERROR});
+                }
+             });
+
+            /*fs.readFile(DIR_SAMPLES_FILES, 'utf-8', (err, json) => {
+                if (err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+                    let args = {
+                        data: jsonObj,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": token,
+                        }
+                    };
+
+
+                }
+            });*/
         });
 };
 

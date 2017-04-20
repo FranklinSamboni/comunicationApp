@@ -89,6 +89,10 @@ socket.on('requestTest', function (data) {
 
 });
 
+socket.on('requestRealTime', function (data) {
+    config.realTime = true;
+});
+
 function fileExecute(path) {
 
     return new Promise(function (fullfill) {

@@ -3,5 +3,6 @@
  */
 
 module.exports = {
-    token: ""
+    token: "",
+    realTime: false
 };

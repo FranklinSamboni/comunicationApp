@@ -165,28 +165,36 @@ function realTime(json){
          console.log("REAL_TIME TOKEN");
          if (config.realTime) {
              console.log("REAL_TIME realTime");
-             let sendJson;
+
+
 
              if(config.allAxis){
-                 sendJson = `{"token": "${config.token}", "data": { "x":${json.x}, "y" : ${json.y}, "z" : ${json.z}} }`;
+                 let sendJson = `{"token": "${config.token}", "data": { "x":${json.x}, "y" : ${json.y}, "z" : ${json.z}} }`;
+                 emitDataRealTime(sendJson);
              }
              else if(config.axis === "BH1"){
-                 sendJson = `{"token": "${config.token}", "data": { "x":${json.y} }}`;
+                 let sendJson = `{"token": "${config.token}", "data": { "x":${json.y} }}`;
+                 emitDataRealTime(sendJson);
              }
              else if(config.axis === "BH2"){
-                 sendJson = `{"token": "${config.token}", "data": { "y":${json.y} }}`;
+                 let sendJson = `{"token": "${config.token}", "data": { "y":${json.y} }}`;
+                 emitDataRealTime(sendJson);
              }
              else if(config.axis === "BHZ"){
-                 sendJson = `{"token": "${config.token}", "data": { "z":${json.z} }}`;
+                 let sendJson = `{"token": "${config.token}", "data": { "z":${json.z} }}`;
+                 emitDataRealTime(sendJson);
              }
 
-             console.log("emit real time");
-             console.log(sendJson);
-
-             socketClient.socket.emit('responseRealTime', sendJson, function (resp, data) {
-                 console.log('respuesta del servidor' + resp);
-                 console.log(resp.code);
-             });
          }
      }
+}
+
+function emitDataRealTime(json) {
+    console.log("emit real time");
+    console.log(json);
+
+    socketClient.socket.emit('responseRealTime', json, function (resp, data) {
+        console.log('respuesta del servidor' + resp);
+        console.log(resp.code);
+    });
 }

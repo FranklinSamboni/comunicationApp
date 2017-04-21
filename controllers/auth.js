@@ -2,13 +2,6 @@
  * Created by Frank on 13/04/2017.
  */
 
-const URL_AUTH = "https://api.plataformamec.com/api/auth";
-const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt";
-//const PATH_SERIAL = "/home/pru.c";
-///const PATH_SERIAL ="C://Users//Frank//Documents//sss.txt";
-const SUCCESS = 1;
-const ERROR = -1;
-
 const Client = require('node-rest-client').Client;
 const client = new Client();
 const config = require('../config');
@@ -16,13 +9,13 @@ let fs = require('fs');
 
 exports.doAuth = function doAuth () {
     return new Promise(function(fullfil) {
-        let code = ERROR;
+        let code = config.ERROR;
 
-        fs.readFile(PATH_SERIAL, 'utf-8', (err, serial) => {
+        fs.readFile(config.PATH_SERIAL, 'utf-8', (err, serial) => {
             if (err) {
 
                 console.log('error: ', err);
-                code = ERROR;
+                code = config.ERROR;
                 fullfil({code: code, token: null});
 
             } else {
@@ -31,13 +24,12 @@ exports.doAuth = function doAuth () {
 
                 let args = {
                     //data: {"serial": serial},
-                    data: {"serial": "Q2SW4ER5T6"},
+                    data: {"serial": "WDEFRGTTYJ"},
                     headers: {"Content-Type": "application/json"}
                 };
 
-                //console.log("Post");
 
-                client.post(URL_AUTH, args, function (data, response) {
+                client.post(config.URL_AUTH, args, function (data, response) {
                     //console.log("client.post");
 
                     let jsonObj = data;
@@ -45,14 +37,13 @@ exports.doAuth = function doAuth () {
                     if (jsonObj.code === "001") {
 
                         let token = jsonObj.data.token;
-                        config.restToken = token;
-                        fullfil({code: SUCCESS, token: token});
+                        config.REST_TOKEN = token;
+                        fullfil({code: config.SUCCESS, token: token});
 
                     }
                     else {
-
                         console.log(data);
-                        fullfil({code: ERROR, token: null});
+                        fullfil({code: config.ERROR, token: null});
                         //console.log("El codigo es: " + jsonObj.code);
                     }
                 });
@@ -60,19 +51,3 @@ exports.doAuth = function doAuth () {
         });
     });
 };
-
-
-
-// registering remote methods
-/*    client.registerMethod("postMethod", "https://plataformamec.com/api/auth", "POST");
-
- console.log("postMethod");
-
- client.methods.postMethod(args, function (data, response) {
- // parsed response body as js object
- console.log("client.methods.postMethod");
- console.log(data);
- // raw response
- //console.log(response);
- });
- */

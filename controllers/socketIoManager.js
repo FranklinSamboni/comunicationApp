@@ -2,31 +2,27 @@
  * Created by Frank on 14/04/2017.
  */
 
-let SUCCESS = 1;
-let ERROR = -1;
-
-const URL_SOCKET = "https://socket.plataformamec.com/";
-
 const io = require('socket.io-client');
 const config = require('../config');
 const exec = require('child_process').exec;
+const fs = require('fs');
 
-let socket = io.connect(URL_SOCKET);
+let socket = io.connect(config.URL_SOCKET);
 
 socket.on('connect', function () {
     console.log("socket connected");
 
-    socket.emit('register', '{ "serial": "Q2SW4ER5T6" }', function(resp, data) {
-        resp = JSON.parse(resp);
-        //console.log("data: " + data);
-        //console.log('respuesta del register: ' + resp);
-        console.log(resp.code);
-        config.token = resp.data.token;
+    fs.readFile(config.PATH_SERIAL, 'utf-8', (err, serial) => {
+        if (err) {
+            console.log('SocketIO: error haciendo autenticacion en el socket', err);
+        } else {
+            socket.emit('register', '{ "serial": "WDEFRGTTYJ" }', function (resp, data) {
+                resp = JSON.parse(resp);
+                console.log(resp.code);
+                config.SOCKET_TOKEN = resp.data.token;
+            });
+        }
     });
-
-    //fileExecuteMain();
-
-    //closeProgram();
 });
 
 socket.on('disconnect', function () {
@@ -38,52 +34,52 @@ socket.on('requestTest', function (data) {
     console.log("requestTest data" + data);
     //console.log("requestTest fn" + fn);
     switch (data.component){
-        case "GPS":
-            if(data.type === "GPS"){
-                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testGps U`).then(function (data) {
+        case config.GPS:
+            if(data.type === config.GPS){
+                fileExecute(config.DIR_TEST_GPS).then(function (data) {
                     console.log(data);
                 });
             }
-            else if(data.type === "PPS"){
-                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testGps P`).then(function (data) {
+            else if(data.type === config.PPS){
+                fileExecute(config.DIR_TEST_PPS).then(function (data) {
                     console.log(data);
                 });
             }
 
             break;
-        case "RTC":
-            if(data.type === "RTC"){
-                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testRtc I`).then(function (data) {
+        case config.RTC:
+            if(data.type === config.RTC){
+                fileExecute(config.DIR_TEST_RTC).then(function (data) {
                     console.log(data);
                 });
             }
-            else if(data.type === "SYNC"){
-                fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testRtc S`).then(function (data) {
+            else if(data.type === config.SYNC){
+                fileExecute(config.DIR_TEST_SYNC).then(function (data) {
                     console.log(data);
                 });
             }
             break;
-        case "ADC":
-            fileExecute(`/home/debian/Sensor-IOT/SensorIoT/Sensor/tests/testAdc`).then(function (data) {
+        case config.ADC:
+            fileExecute(config.DIR_TEST_ADC).then(function (data) {
                 console.log(data);
             });
             break;
-        case "ACC":
+        case config.ACC:
             break;
-        case "BAT":
+        case config.BAT:
             break;
-        case "WIFI":
-            if (config.token !== ""){
-                let last = true
-                let sendJson = `{"token": "${config.token}", "msg": "Wifi funciona conrrectamente", "last" : ${last} }`;
-                socketClient.socket.emit('testResponse',sendJson, function(resp, data) {
+        case config.WIFI:
+            if (config.SOCKET_TOKEN !== ""){
+                let last = true;
+                let sendJson = `{"token": "${config.SOCKET_TOKEN}", "msg": "Wifi funciona conrrectamente", "last" : ${last} }`;
+                socket.emit('testResponse',sendJson, function(resp, data) {
                     console.log('respuesta del servidor' + resp);
                     console.log(resp.code);
                 });
             }
             break;
         default:
-            console.log("Error");
+            console.log("Error en requestTest SocketIoManager");
             console.log(data);
             break;
     }
@@ -98,27 +94,27 @@ socket.on('requestRealTime', function (data) {
     console.log("EVENTO requestRealTime");
     console.log("data: " + data.axis);
     data = JSON.parse(data);
-    config.realTime = true;
+    config.ENABLE_REAL_TIME = true;
     if(data.axis === '0'){
-        config.Axis = '0';
-        console.log("Entro a all");
+        config.AXIS = config.ALL_AXIS;
+        console.log("Todos los ejes");
     }
     else if(data.axis === "BH1"){
-        config.Axis = "BH1";
+        config.AXIS = config.AXI_X;
     }
-    else if(data.axis === "BH2"){
-        config.Axis = "BH2";
+    else if(data.AXIS === "BH2"){
+        config.AXIS = config.AXI_Y;
     }
     else if(data.axis === "BHZ"){
-        config.Axis = "BHZ";
+        config.AXIS = config.AXI_Z;
     }
 });
 
 socket.on('stopRealTime', function (data) {
 
     console.log("EVENTO stopRealTime");
-    config.realTime = false;
-    config.Axis = '';
+    config.ENABLE_REAL_TIME = false;
+    config.AXIS = '';
 
 });
 
@@ -130,13 +126,19 @@ function fileExecute(path) {
             console.log("dentro stdout err: " + stdout);
             console.log("dentro stderr err: " + stderr);
 
-            if(err) return fullfill({code:ERROR, msg: err});
+            if(err) return fullfill({code:config.ERROR, msg: err});
 
         })
     });
 
 }
 
+module.exports = {
+    socket: socket
+};
+
+
+/*
 function fileExecuteMain() {
 
     return new Promise(function (fullfill) {
@@ -165,8 +167,4 @@ function closeProgram() {
         })
     });
     //kill processNumber
-}
-
-module.exports = {
-    socket: socket
-};
+}*/

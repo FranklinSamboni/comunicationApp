@@ -7,7 +7,7 @@ let ERROR = -1;
 //let CORRECT_STATUS_COMPONENT = "Correcto";
 //let ERROR_STATUS_COMPONENT = "Error";
 
-let URL_BASE = "https://api.plataformamec.com/";
+let URL_BASE = "https://api.plataformamec.com/api/";
 let URL_ACCELEROMETER = URL_BASE + "accelerometer";
 let URL_ADC = URL_BASE + "adc";
 let URL_RTC = URL_BASE + "rtc";

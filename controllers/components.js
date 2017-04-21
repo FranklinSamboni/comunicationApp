@@ -72,9 +72,6 @@ exports.acelerometerData = function acelerometerData (token) {
                         console.log("acelerometerData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        //console.log(response);
-                        console.log("status code " + response.statusCode);
-                        console.log("mesage " +response.tatusMessage);
                         if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
@@ -382,12 +379,21 @@ function doPost(url, args) {
         console.log("done Post");
         let jsonObj = data;
         console.log(jsonObj);
-        if (jsonObj.code === "001" || jsonObj.code === "003") {
-            fullfil({code: SUCCESS});
+
+        console.log("status code " + response.statusCode);
+        if(response.statusCode === 401 || response.statusCode === 403){
+            auth.doAuth().then(function (data) {
+
+                if(data.code === ERROR){
+                    res.status(201).send({code:"002"});
+                }else{
         }
-        else if(jsonObj.code === "007", response.hh) {
-            fullfil({code: ERROR});
+        else{
+            if (jsonObj.code === "001" || jsonObj.code === "003") {
+                fullfil({code: SUCCESS});
+            }
         }
+
     });*/
 
 }

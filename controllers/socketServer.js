@@ -59,16 +59,16 @@ let socketServer = net.createServer( function (socket) {
                     console.log(json.msg);
                     switch (json.process){
                         case PUT_LOCATION:
-                            putLocation();
+                            //putLocation();
                             break;
                         case PUT_RTC_DATE:
-                            putRTC();
+                            //putRTC();
                             break;
                         case PUT_SPS:
-                            putSPS();
+                            //putSPS();
                             break;
                         case UPLOAD_FILES:
-                            uploadFiles(json.msg);
+                            //uploadFiles(json.msg);
                             break;
                         case ALERTS:
                             doEmitAlertError(json.msg,json.component);

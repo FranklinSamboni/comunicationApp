@@ -13,7 +13,7 @@ const config = require('../config');
 const uploadFile = require('../controllers/uploadFiles');
 /* GET home page. */
 
-/*
+
 router.get('/', function(req, res, next) {
 
     auth.doAuth().then(function (data) {
@@ -77,7 +77,7 @@ router.get('/', function(req, res, next) {
     })
 });
 
-*/
+
 
 /*
 router.get('/', function(req, res, next) {

@@ -62,7 +62,7 @@ exports.acelerometerData = function acelerometerData (token) {
                         data: jsonObj,
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": config.apiToken,
+                            "Authorization": token,
                         }
                     };
 
@@ -72,6 +72,7 @@ exports.acelerometerData = function acelerometerData (token) {
                         console.log("acelerometerData");
                         let jsonObj = data;
                         console.log(jsonObj);
+                        console.log(response);
                         if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
@@ -373,6 +374,22 @@ exports.postLocation = function postLocation (token) {
 };
 
 
+function doPost(url, args) {
+
+    /*client.post(url,args, function (data, response) {
+        console.log("done Post");
+        let jsonObj = data;
+        console.log(jsonObj);
+        if (jsonObj.code === "001" || jsonObj.code === "003") {
+            fullfil({code: SUCCESS});
+        }
+        else if(jsonObj.code === "007", response.hh) {
+            fullfil({code: ERROR});
+        }
+    });*/
+
+}
+
 ////// Actualizar Informacion ///////////
 
 exports.putLocation = function putLocation (token) {
@@ -549,3 +566,5 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 
         });
 };
+
+{ code: '007', msg: 'Access denied', data: null }

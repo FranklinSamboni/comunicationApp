@@ -74,6 +74,7 @@ router.get('/', function(req, res, next) {
 
 */
 
+/*
 router.get('/', function(req, res, next) {
     auth.doAuth().then(function (data) {
 
@@ -91,6 +92,26 @@ router.get('/', function(req, res, next) {
             });
         }
     });
+});*/
+
+router.get('/', function(req, res, next) {
+    auth.doAuth().then(function (data) {
+
+        if (data.code === ERROR) {
+            res.status(201).send({code: "002"});
+        } else {
+            let authToken = data.token;
+            console.log(authToken);
+            components.postLocation(authToken).then(function (data) {
+                if (data.code === ERROR) {
+                    res.status(201).send({code: "002"});
+                } else {
+                    res.status(200).send({code: "001"});
+                }
+            });
+        }
+    });
 });
+
 
 module.exports = router;

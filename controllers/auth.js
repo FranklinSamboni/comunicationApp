@@ -5,7 +5,7 @@
 const URL_AUTH = "https://api.plataformamec.com/api/auth";
 //const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt";
 //const PATH_SERIAL = "/home/pru.c";
-const PATH_SERIAL ="/Users/farleyetc/Documents/FrankDocs/se.txt";
+const PATH_SERIAL ="C:/Users/Frank/Documents/sss.txt";
 const SUCCESS = 1;
 const ERROR = -1;
 

@@ -334,48 +334,6 @@ exports.wifiData = function (token) {
         });
 };
 
-exports.wifiData = function (token) {
-
-    return new Promise(
-        function(fullfil) {
-
-            console.log("wifiData");
-
-            fs.readFile(DIR_WIFI, 'utf-8', (err, json) => {
-                if(err) {
-                    console.log('error: ', err);
-                    fullfil({code: ERROR});
-                }
-                else {
-
-                    let jsonObj = JSON.parse(json);
-
-                    let args = {
-                        data: jsonObj,
-                        headers: {"Content-Type": "application/json",
-                            "Authorization":token,}
-                    };
-
-                    //console.log(args);
-
-                    client.post(URL_WIFI, args, function (data, response) {
-                        console.log("wifiData");
-                        let jsonObj = data;
-                        console.log(jsonObj);
-                        if (jsonObj.code === "001" || jsonObj.code === "003") {
-                            fullfil({code: SUCCESS});
-                        }
-                        else {
-                            fullfil({code: ERROR});
-                        }
-                    });
-
-                }
-            });
-
-        });
-};
-
 exports.postLocation = function postLocation (token) {
     return new Promise(
         function(fullfil) {
@@ -417,7 +375,7 @@ exports.postLocation = function postLocation (token) {
 
 ////// Actualizar Informacion ///////////
 
-exports.putLocation = function putLocation () {
+exports.putLocation = function putLocation (token) {
     return new Promise(
         function(fullfil) {
 
@@ -435,7 +393,7 @@ exports.putLocation = function putLocation () {
                     let args = {
                         data: jsonObj,
                         headers: {"Content-Type": "application/json",
-                            "Authorization":config.apiToken,}
+                            "Authorization":token,}
                     };
 
                     //console.log(args);
@@ -458,7 +416,7 @@ exports.putLocation = function putLocation () {
         });
 };
 
-exports.putRTC = function putRTC() {
+exports.putRTC = function putRTC(token) {
     return new Promise(
         function(fullfil) {
 
@@ -476,7 +434,7 @@ exports.putRTC = function putRTC() {
                     let args = {
                         data: jsonObj,
                         headers: {"Content-Type": "application/json",
-                            "Authorization":config.apiToken,}
+                            "Authorization":token,}
                     };
 
                     //console.log(args);
@@ -498,7 +456,7 @@ exports.putRTC = function putRTC() {
         });
 };
 
-exports.putSPS = function putSPS() {
+exports.putSPS = function putSPS(token) {
     return new Promise(
         function(fullfil) {
 
@@ -516,7 +474,7 @@ exports.putSPS = function putSPS() {
                         data: jsonObj,
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": config.apiToken,
+                            "Authorization": token,
                         }
                     };
 
@@ -560,7 +518,9 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
                 }
             };*/
 
-            let readableStream = fs.createReadStream('/Users/farleyetc/Documents/FrankDocs/210417_01_BH1.sac');
+            //'/Users/farleyetc/Documents/FrankDocs/210417_01_BH1.sac'
+
+            let readableStream = fs.createReadStream("C:/Users/Frank/Documents/MATLAB/PruebaArchivosSAC/130417_14_BH1.sac");
             let data = '';
 
             readableStream.on('data', function(chunk) {

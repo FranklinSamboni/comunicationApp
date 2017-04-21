@@ -112,9 +112,6 @@ socket.on('requestRealTime', function (data) {
     else if(data.axis === "BHZ"){
         config.Axis = "BHZ";
     }
-
-
-
 });
 
 socket.on('stopRealTime', function (data) {
@@ -124,8 +121,6 @@ socket.on('stopRealTime', function (data) {
     config.Axis = '';
 
 });
-
-
 
 function fileExecute(path) {
 
@@ -172,11 +167,6 @@ function closeProgram() {
     //kill processNumber
 }
 
-
-
 module.exports = {
     socket: socket
 };
-//module.exports = socket;
-
-//socket.emit('private message', { user: 'YOO', msg: 'MENSAJE 1' });

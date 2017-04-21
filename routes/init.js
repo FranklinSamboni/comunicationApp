@@ -13,7 +13,7 @@ const socketServer = require('../controllers/socketServer');
 
 /* GET home page. */
 
-/*
+
 router.get('/', function(req, res, next) {
 
     auth.doAuth().then(function (data) {
@@ -52,7 +52,13 @@ router.get('/', function(req, res, next) {
                                                                 if(data.code === ERROR){
                                                                     res.status(201).send({code:"002"});
                                                                 }else{
-                                                                    res.status(200).send({code:"001"});
+                                                                    components.postLocation(authToken).then(function (data) {
+                                                                        if(data.code === ERROR){
+                                                                            res.status(201).send({code:"002"});
+                                                                        }else{
+                                                                            res.status(200).send({code:"001"});
+                                                                        }
+                                                                    });
                                                                 }
                                                             })
                                                         }
@@ -67,12 +73,11 @@ router.get('/', function(req, res, next) {
                     });
                 }
             });
-
         }
     })
 });
 
-*/
+
 
 /*
 router.get('/', function(req, res, next) {
@@ -94,6 +99,7 @@ router.get('/', function(req, res, next) {
     });
 });*/
 
+/*
 router.get('/', function(req, res, next) {
     auth.doAuth().then(function (data) {
 
@@ -111,7 +117,7 @@ router.get('/', function(req, res, next) {
             });
         }
     });
-});
+});*/
 
 
 module.exports = router;

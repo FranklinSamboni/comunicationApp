@@ -567,4 +567,3 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
         });
 };
 
-{ code: '007', msg: 'Access denied', data: null }

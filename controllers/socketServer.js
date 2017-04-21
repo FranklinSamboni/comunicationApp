@@ -79,6 +79,9 @@ function doEmitTestResponse(msg, last) {
             console.log('respuesta del servidor' + resp);
             console.log(resp.code);
         });
+        if(last){
+            socketClient.runMainProgram();
+        }
     }
 }
 

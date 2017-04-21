@@ -13,7 +13,8 @@ const AXI_Y = "BH2";
 const AXI_Z = "BHZ";
 const ALL_AXIS = '0';
 
-const PATH_SERIAL = "C://Users//Frank//Documents//sss.txt";
+const PATH_MAIN_PROGRAM = "/home/debian/Sensor-IOT/SensorIoT/Sensor/SensorIoT";
+const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt";
 
 const SUCCESS = 1;
 const ERROR = -1;
@@ -34,7 +35,7 @@ const URL_AUTH = URL_BASE + "auth";
 
 const URL_UPLOAD = URL_BASE + "upload/file";
 
-const DIR_COMPONENTS = "C://Users//Frank//Documents//componentsFiles//";
+const DIR_COMPONENTS = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/";
 const DIR_ACCELETOMETER = DIR_COMPONENTS + "accelerometer.json";
 const DIR_ADC = DIR_COMPONENTS + "adc.json";
 const DIR_RTC = DIR_COMPONENTS + "rtc.json";
@@ -92,6 +93,7 @@ module.exports = {
     AXI_Z:AXI_Z,
     ALL_AXIS: ALL_AXIS,
 
+    PATH_MAIN_PROGRAM:PATH_MAIN_PROGRAM,
     URL_AUTH :URL_AUTH,
     PATH_SERIAL : PATH_SERIAL,
 

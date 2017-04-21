@@ -20,6 +20,7 @@ socket.on('connect', function () {
                 resp = JSON.parse(resp);
                 console.log(resp.code);
                 config.SOCKET_TOKEN = resp.data.token;
+                //runMainProgram();
             });
         }
     });
@@ -32,60 +33,59 @@ socket.on('disconnect', function () {
 socket.on('requestTest', function (data) {
     data = JSON.parse(data);
     console.log("requestTest data" + data);
-    //console.log("requestTest fn" + fn);
-    switch (data.component){
-        case config.GPS:
-            if(data.type === config.GPS){
-                fileExecute(config.DIR_TEST_GPS).then(function (data) {
-                    console.log(data);
-                });
-            }
-            else if(data.type === config.PPS){
-                fileExecute(config.DIR_TEST_PPS).then(function (data) {
-                    console.log(data);
-                });
-            }
 
-            break;
-        case config.RTC:
-            if(data.type === config.RTC){
-                fileExecute(config.DIR_TEST_RTC).then(function (data) {
+    closeMainProgram().then(function (data) {
+        switch (data.component){
+            case config.GPS:
+                if(data.type === config.GPS){
+                    runProgram(config.DIR_TEST_GPS).then(function (data) {
+                        console.log(data);
+                    });
+                }
+                else if(data.type === config.PPS){
+                    runProgram(config.DIR_TEST_PPS).then(function (data) {
+                        console.log(data);
+                    });
+                }
+
+                break;
+            case config.RTC:
+                if(data.type === config.RTC){
+                    runProgram(config.DIR_TEST_RTC).then(function (data) {
+                        console.log(data);
+                    });
+                }
+                else if(data.type === config.SYNC){
+                    runProgram(config.DIR_TEST_SYNC).then(function (data) {
+                        console.log(data);
+                    });
+                }
+                break;
+            case config.ADC:
+                runProgram(config.DIR_TEST_ADC).then(function (data) {
                     console.log(data);
                 });
-            }
-            else if(data.type === config.SYNC){
-                fileExecute(config.DIR_TEST_SYNC).then(function (data) {
-                    console.log(data);
-                });
-            }
-            break;
-        case config.ADC:
-            fileExecute(config.DIR_TEST_ADC).then(function (data) {
+                break;
+            case config.ACC:
+                break;
+            case config.BAT:
+                break;
+            case config.WIFI:
+                if (config.SOCKET_TOKEN !== ""){
+                    let last = true;
+                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "msg": "Wifi funciona conrrectamente", "last" : ${last} }`;
+                    socket.emit('testResponse',sendJson, function(resp, data) {
+                        console.log('respuesta del servidor' + resp);
+                        console.log(resp.code);
+                    });
+                }
+                break;
+            default:
+                console.log("Error en requestTest SocketIoManager");
                 console.log(data);
-            });
-            break;
-        case config.ACC:
-            break;
-        case config.BAT:
-            break;
-        case config.WIFI:
-            if (config.SOCKET_TOKEN !== ""){
-                let last = true;
-                let sendJson = `{"token": "${config.SOCKET_TOKEN}", "msg": "Wifi funciona conrrectamente", "last" : ${last} }`;
-                socket.emit('testResponse',sendJson, function(resp, data) {
-                    console.log('respuesta del servidor' + resp);
-                    console.log(resp.code);
-                });
-            }
-            break;
-        default:
-            console.log("Error en requestTest SocketIoManager");
-            console.log(data);
-            break;
-    }
-
-
-    //exec(`/home/debian/Sensor-IOT/SensorIoT/tests/testGps ${path_file}`,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+                break;
+        }
+    });
 
 });
 
@@ -118,53 +118,91 @@ socket.on('stopRealTime', function (data) {
 
 });
 
-function fileExecute(path) {
+function runMainProgram() {
+    runProgram(config.PATH_MAIN_PROGRAM).then(function (data) {
+       console.log(data);
+    });
+};
+
+function runProgram(path) {
 
     return new Promise(function (fullfill) {
         exec(path,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
-            console.log("dentro exec err: " + err);
-            console.log("dentro stdout err: " + stdout);
-            console.log("dentro stderr err: " + stderr);
+            console.log("runProgram err: " + err);
+            console.log("runProgram stdout: " + stdout);
+            console.log("runProgram stderr: " + stderr);
 
             if(err) return fullfill({code:config.ERROR, msg: err});
 
-        })
+        });
     });
+}
 
+function closeMainProgram() {
+
+    return new Promise(function (fulfill) {
+        getNumberProcessMainProgram().then(function (data) {
+            if(data.code === config.ERROR){
+                console.log("Error obteniedo el numero del proceso del programa principal");
+            }
+            else{
+                killProcess(data.process).then(function (data) {
+                    if(data.code == config.ERROR){
+                        console.log("Error cerrando el proceso");
+                    }
+                    else{
+                        console.log("Se ha cesarro correctamente");
+                    }
+                });
+            }
+            fulfill(data);
+        });
+    });
+    //kill processNumber
+}
+
+function getNumberProcessMainProgram() {
+    return new Promise(function (fulfill) {
+        exec("ps -xa | grep ./SensorIoT",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+            console.log("getNumberprocess exec err: " + err);
+            console.log("getNumberprocess stdout : " + stdout);
+            console.log("getNumberprocess stderr : " + stderr);
+
+            if(err) return fulfill({code:config.ERROR, msg: err});
+
+            let parameters = stdout.split("\n");
+            let name = parameters[0].split("./");
+            let process = parameters[0].split(" ");
+
+            console.log("Nombre del archivo es : -" + name[1] + "-");
+            console.log("El proceso es : -" + process[1]+ "-");
+
+            fulfill({code:config.SUCCESS,process:process[1], name: name[1]});
+
+        });
+    });
+}
+
+function killProcess(process) {
+    return new Promise(function (fulfill) {
+
+        let command = "kill " + process;
+
+        exec(command,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+            console.log("killProcess exec err: " + err);
+            console.log("killProcess stdout : " + stdout);
+            console.log("killProcess stderr : " + stderr);
+
+            if(err) return fulfill({code:config.ERROR, msg: err});
+
+            fulfill({code:config.SUCCESS});
+
+        });
+
+    });
 }
 
 module.exports = {
-    socket: socket
+    socket: socket,
+    runMainProgram: runMainProgram,
 };
-
-
-/*
-function fileExecuteMain() {
-
-    return new Promise(function (fullfill) {
-        exec("/home/debian/Sensor-IOT/SensorIoT/sensor",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
-            console.log("dentro exec err: " + err);
-            console.log("dentro stdout err: " + stdout);
-            console.log("dentro stderr err: " + stderr);
-
-            if(err) return fullfill({code:ERROR, msg: err});
-
-        })
-    });
-
-}
-
-function closeProgram() {
-
-    return new Promise(function (fullfill) {
-        exec("ps -xa | grep ./sensor",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
-            console.log("closeProgram exec err: " + err);
-            console.log("closeProgram stdout : " + stdout);
-            console.log("closeProgram stderr : " + stderr);
-
-            if(err) return fullfill({code:ERROR, msg: err});
-
-        })
-    });
-    //kill processNumber
-}*/

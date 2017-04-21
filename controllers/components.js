@@ -72,7 +72,7 @@ exports.acelerometerData = function acelerometerData (token) {
                         console.log("acelerometerData");
                         let jsonObj = data;
                         console.log(jsonObj);
-                        console.log(response);
+                        //console.log(response);
                         console.log("status code " + response.statusCode);
                         console.log("mesage " +response.tatusMessage);
                         if (jsonObj.code === "001" || jsonObj.code === "003") {

@@ -73,6 +73,8 @@ exports.acelerometerData = function acelerometerData (token) {
                         let jsonObj = data;
                         console.log(jsonObj);
                         console.log(response);
+                        console.log("status code " + response.statusCode);
+                        console.log("mesage " +response.tatusMessage);
                         if (jsonObj.code === "001" || jsonObj.code === "003") {
                             fullfil({code: SUCCESS});
                         }
@@ -567,3 +569,5 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
         });
 };
 
+//statusCode: 200,
+//statusMessage: 'OK',

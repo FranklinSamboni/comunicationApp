@@ -7,7 +7,7 @@ let ERROR = -1;
 //let CORRECT_STATUS_COMPONENT = "Correcto";
 //let ERROR_STATUS_COMPONENT = "Error";
 
-let URL_BASE = "https://plataformamec.com/api/";
+let URL_BASE = "https://api.plataformamec.com/";
 let URL_ACCELEROMETER = URL_BASE + "accelerometer";
 let URL_ADC = URL_BASE + "adc";
 let URL_RTC = URL_BASE + "rtc";
@@ -15,6 +15,9 @@ let URL_WIFI = URL_BASE + "wifi";
 let URL_CPU = URL_BASE + "cpu";
 let URL_BATTERY = URL_BASE + "battery";
 let URL_GPS = URL_BASE + "gps";
+let URL_LOCATION = URL_BASE + "location";
+let URL_UPLOAD = "/api/upload/file";
+
 
 const DIR_COMPONENTS = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/";
 const DIR_ACCELETOMETER = DIR_COMPONENTS + "accelerometer.json";
@@ -24,13 +27,20 @@ const DIR_WIFI = DIR_COMPONENTS + "wifi.json";
 const DIR_CPU = DIR_COMPONENTS  + "cpu.json";
 const DIR_BATTERY = DIR_COMPONENTS  + "battery.json";
 const DIR_GPS = DIR_COMPONENTS + "gps.json";
+const DIR_LOCATION = DIR_COMPONENTS + "location.json";
 
-let Client = require('node-rest-client').Client;
-let client = new Client();
+const Client = require('node-rest-client').Client;
+//const FormData = require('form-data');
+const fs = require('fs');
+const request = require('request');
+const auth = require("./auth");
+const client = new Client();
+const config = require('../config');
 
 //let auth = require('./auth.js');
 //let exit = require('./exit.js');
-let fs = require('fs');
+
+//home/debian/Sensor-IOT/SensorIoT/muestras/200417/200417_00_BH1.sac
 
 exports.acelerometerData = function acelerometerData (token) {
 
@@ -52,7 +62,7 @@ exports.acelerometerData = function acelerometerData (token) {
                         data: jsonObj,
                         headers: {
                             "Content-Type": "application/json",
-                            "Authorization": token,
+                            "Authorization": config.apiToken,
                         }
                     };
 
@@ -156,7 +166,6 @@ exports.rtcData = function rtcData(token) {
 
         });
 };
-
 
 exports.cpuData = function cpuData (token) {
 
@@ -325,6 +334,258 @@ exports.wifiData = function (token) {
         });
 };
 
+exports.wifiData = function (token) {
+
+    return new Promise(
+        function(fullfil) {
+
+            console.log("wifiData");
+
+            fs.readFile(DIR_WIFI, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":token,}
+                    };
+
+                    //console.log(args);
+
+                    client.post(URL_WIFI, args, function (data, response) {
+                        console.log("wifiData");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+
+                }
+            });
+
+        });
+};
+
+exports.postLocation = function postLocation (token) {
+    return new Promise(
+        function(fullfil) {
+
+            console.log("postLocation");
+
+            fs.readFile(DIR_LOCATION, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":token,}
+                    };
+
+                    //console.log(args);
+                    client.post(URL_LOCATION, args, function (data, response) {
+                        console.log("postLocation");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+                }
+            });
+
+        });
+};
 
 
+////// Actualizar Informacion ///////////
 
+exports.putLocation = function putLocation () {
+    return new Promise(
+        function(fullfil) {
+
+            console.log("putLocation");
+
+            fs.readFile(DIR_LOCATION, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":config.apiToken,}
+                    };
+
+                    //console.log(args);
+
+                    client.put(URL_LOCATION, args, function (data, response) {
+                        console.log("putLocation");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+
+                }
+            });
+
+        });
+};
+
+exports.putRTC = function putRTC() {
+    return new Promise(
+        function(fullfil) {
+
+            console.log("putRTC");
+
+            fs.readFile(DIR_RTC, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":config.apiToken,}
+                    };
+
+                    //console.log(args);
+
+                    client.put(URL_RTC, args, function (data, response) {
+                        console.log("putRTC");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+                }
+            });
+
+        });
+};
+
+exports.putSPS = function putSPS() {
+    return new Promise(
+        function(fullfil) {
+
+            console.log("putSPS");
+
+            fs.readFile(DIR_ADC, 'utf-8', (err, json) => {
+                if (err) {
+                    console.log('error: ', err);
+                    fullfil({code: ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+                    let args = {
+                        data: jsonObj,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": config.apiToken,
+                        }
+                    };
+
+                    //console.log(args);
+
+                    client.put(URL_ADC, args, function (data, response) {
+                        console.log("putSPS");
+                        let jsonObj = data;
+                        console.log(jsonObj);
+                        if (jsonObj.code === "001" || jsonObj.code === "003") {
+                            fullfil({code: SUCCESS});
+                        }
+                        else {
+                            fullfil({code: ERROR});
+                        }
+                    });
+                }
+            });
+        });
+
+};
+
+exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
+
+    return new Promise(
+        function(fullfil) {
+
+            console.log("uploadFiles");
+            console.log(dir_file);
+            //200417_00_BH1.sac
+            //let path = '/Users/farleyetc/Documents/FrankDocs/200417_00_BH1.sac';
+
+            /*let formData = {
+                type: 'FILE',
+                file_0: {
+                    value:  fs.createReadStream('/Users/farleyetc/Documents/FrankDocs/200417_00_BH1.sac'),
+                    options: {
+                        filename: '200417_00_BH1.sac',
+
+                    }
+                }
+            };*/
+
+            let readableStream = fs.createReadStream('/Users/farleyetc/Documents/FrankDocs/210417_01_BH1.sac');
+            let data = '';
+
+            readableStream.on('data', function(chunk) {
+                data+=chunk;
+                //console.log("chunk: " + chunk);
+
+            });
+
+            readableStream.on('end', function() {
+                //console.log("data: " );
+                //console.log(data);
+
+            });
+
+            let r = request.post({url:'https://api.plataformamec.com/api/upload/file', headers:{"Authorization": token}}, function(err, httpResponse, body) {
+                if (err) {
+                    return console.error('upload failed:', err);
+                }
+                console.log('Upload successful!  Server responded with:', body);
+            });
+            let form = r.form();
+            form.append('type', 'FILE');
+            //form.append('my_buffer', new Buffer([1, 2, 3]));
+            form.append('file', readableStream, {filename: '210417_01_BH1.sac', contentType: 'application/octet-stream'});
+
+
+        });
+};

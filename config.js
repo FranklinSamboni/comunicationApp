@@ -3,5 +3,8 @@
  */
 
 module.exports = {
-    token: ""
+    token: "",
+    realTime: false,
+    Axis: "",
+    apiToken: ""
 };

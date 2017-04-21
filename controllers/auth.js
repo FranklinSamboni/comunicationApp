@@ -2,7 +2,10 @@
  * Created by Frank on 13/04/2017.
  */
 
-const URL_AUTH = "https://plataformamec.com/api/auth";
+const URL_AUTH = "https://api.plataformamec.com/api/auth";
+//const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt";
+//const PATH_SERIAL = "/home/pru.c";
+const PATH_SERIAL ="/Users/farleyetc/Documents/FrankDocs/se.txt";
 const SUCCESS = 1;
 const ERROR = -1;
 
@@ -15,7 +18,7 @@ exports.doAuth = function doAuth () {
     return new Promise(function(fullfil) {
         let code = ERROR;
 
-        fs.readFile('/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt', 'utf-8', (err, serial) => {
+        fs.readFile(PATH_SERIAL, 'utf-8', (err, serial) => {
             if (err) {
 
                 console.log('error: ', err);
@@ -27,7 +30,8 @@ exports.doAuth = function doAuth () {
                 //console.log(serial);
 
                 let args = {
-                    data: {"serial": serial},
+                    //data: {"serial": serial},
+                    data: {"serial": "Q2SW4ER5T6"},
                     headers: {"Content-Type": "application/json"}
                 };
 

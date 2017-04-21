@@ -66,9 +66,15 @@ exports.acelerometerData = function acelerometerData (token) {
                         }
                     };
 
-                    //console.log(args);
+                    doPost(URL_ACCELEROMETER, args).then(function (data) {
+                        if(data.code === ERROR){
+                            fullfil({code: ERROR});
+                        }else{
+                            fullfil({code: SUCCESS});
+                        }
+                    });
 
-                    client.post(URL_ACCELEROMETER, args, function (data, response) {
+                    /*client.post(URL_ACCELEROMETER, args, function (data, response) {
                         console.log("acelerometerData");
                         let jsonObj = data;
                         console.log(jsonObj);
@@ -78,7 +84,9 @@ exports.acelerometerData = function acelerometerData (token) {
                         else {
                             fullfil({code: ERROR});
                         }
-                    });
+                    });*/
+
+
 
                 }
             });
@@ -354,7 +362,8 @@ exports.postLocation = function postLocation (token) {
                             "Authorization":token,}
                     };
 
-                    //console.log(args);
+                    //console.log(args)
+
                     client.post(URL_LOCATION, args, function (data, response) {
                         console.log("postLocation");
                         let jsonObj = data;
@@ -375,27 +384,53 @@ exports.postLocation = function postLocation (token) {
 
 function doPost(url, args) {
 
-    /*client.post(url,args, function (data, response) {
-        console.log("done Post");
-        let jsonObj = data;
-        console.log(jsonObj);
+    return new Promise(
+        function(fullfil) {
+            client.post(url,args, function (data, response) {
+                let jsonObj = data;
+                console.log(jsonObj);
+                console.log("done Post");
+                console.log("status code " + response.statusCode);
 
-        console.log("status code " + response.statusCode);
-        if(response.statusCode === 401 || response.statusCode === 403){
-            auth.doAuth().then(function (data) {
+                if(response.statusCode === 401 || response.statusCode === 403){
 
-                if(data.code === ERROR){
-                    res.status(201).send({code:"002"});
-                }else{
-        }
-        else{
-            if (jsonObj.code === "001" || jsonObj.code === "003") {
-                fullfil({code: SUCCESS});
-            }
-        }
+                    auth.doAuth().then(function (data) {
+                        if(data.code === ERROR){
+                            fullfil({code: ERROR});
+                        }else{
+                            let authToken = data.token;
+                            console.log("Re autenticacion con token: " + authToken);
 
-    });*/
+                            let newArgs = {
+                                data: args.data,
+                                headers: {"Content-Type": "application/json",
+                                    "Authorization":authToken,}
+                            };
 
+                            client.post(url,newArgs, function (data, response) {
+                                let jobj = data;
+                                console.log(jobj);
+                                if (jobj.code === "001" || jobj.code === "003") {
+                                    fullfil({code: SUCCESS});
+                                }
+                                else{
+                                    fullfil({code: ERROR});
+                                }
+                            });
+                        }
+                    });
+                }
+                else{
+                    if (jsonObj.code === "001" || jsonObj.code === "003") {
+                        fullfil({code: SUCCESS});
+                    }
+                    else{
+                        fullfil({code: ERROR});
+                    }
+                }
+
+            });
+        });
 }
 
 ////// Actualizar Informacion ///////////

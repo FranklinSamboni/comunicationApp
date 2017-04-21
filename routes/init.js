@@ -102,7 +102,7 @@ router.get('/', function(req, res, next) {
         } else {
             let authToken = data.token;
             console.log(authToken);
-            components.putRTC(authToken).then(function (data) {
+            components.putSPS(authToken).then(function (data) {
                 if (data.code === ERROR) {
                     res.status(201).send({code: "002"});
                 } else {

@@ -6,7 +6,7 @@ let SUCCESS = 1;
 let ERROR = -1;
 
 const URL_SOCKET = "https://socket.plataformamec.com/";
-   
+
 const io = require('socket.io-client');
 const config = require('../config');
 const exec = require('child_process').exec;

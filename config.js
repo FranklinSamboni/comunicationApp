@@ -3,7 +3,8 @@
  */
 
 module.exports = {
-    token: "",
+    socketToken: "",
+    restToken: "",
     realTime: false,
     Axis: "",
     apiToken: ""

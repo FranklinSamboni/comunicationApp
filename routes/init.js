@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
             let authToken = data.token;
             console.log(authToken);
 
-            components.acelerometerData("").then(function (data) {
+            components.acelerometerData(authToken).then(function (data) {
                 if(data.code === ERROR){
                     res.status(201).send({code:"002"});
                 }else{
@@ -108,7 +108,7 @@ router.get('/', function(req, res, next) {
         } else {
             let authToken = data.token;
             console.log(authToken);
-            components.postLocation(authToken).then(function (data) {
+            components.acelerometerData("").then(function (data) {
                 if (data.code === ERROR) {
                     res.status(201).send({code: "002"});
                 } else {

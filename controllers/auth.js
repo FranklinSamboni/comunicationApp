@@ -11,7 +11,7 @@ const ERROR = -1;
 
 const Client = require('node-rest-client').Client;
 const client = new Client();
-
+const config = require('../config');
 let fs = require('fs');
 
 exports.doAuth = function doAuth () {
@@ -45,8 +45,7 @@ exports.doAuth = function doAuth () {
                     if (jsonObj.code === "001") {
 
                         let token = jsonObj.data.token;
-                        //console.log("El token es :" + token);
-
+                        config.restToken = token;
                         fullfil({code: SUCCESS, token: token});
 
                     }

@@ -8,7 +8,7 @@ let net = require('net');
 let socketClient = require('./socketIoManager');
 let components = require('./components');
 const config = require('../config');
-const uploadFile = require('uploadFiles');
+const uploadFile = require('./uploadFiles');
 let socketServer = net.createServer( function (socket) {
 
     console.log("cliente conectado");

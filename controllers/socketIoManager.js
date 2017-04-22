@@ -122,7 +122,7 @@ function runMainProgram() {
     runProgram(config.PATH_MAIN_PROGRAM).then(function (data) {
        console.log(data);
     });
-};
+}
 
 function runProgram(path) {
 

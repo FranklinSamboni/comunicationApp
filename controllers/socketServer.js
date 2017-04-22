@@ -30,7 +30,7 @@ let socketServer = net.createServer( function (socket) {
                         doEmitTestResponse(json.msg, json.last);
                         break;
                     case config.TYPE_MAIN:
-                        console.log(json.msg);
+                        //console.log("mensaje desde C " + json.msg);
                         switch (json.process){
                             case config.PUT_LOCATION:
                                 putLocation();

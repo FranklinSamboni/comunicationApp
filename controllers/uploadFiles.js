@@ -78,6 +78,7 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
                 }
                 else{
                     fullfil(data);
+
                 }
             });
 

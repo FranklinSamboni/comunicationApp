@@ -143,13 +143,13 @@ function runProgram(path) {
 function closeMainProgram() {
 
     return new Promise(function (fulfill) {
-        getNumberProcessMainProgram().then(function (data) {
+        /*getNumberProcessMainProgram().then(function (data) {
             if(data.code === config.ERROR){
                 console.log("Error obteniedo el numero del proceso del programa principal");
             }
             else{
-
-                killProcess(data.process).then(function (data) {
+                */
+                killProcess("SensorIoT").then(function (data) {
                     if(data.code == config.ERROR){
                         console.log("Error cerrando el proceso");
                     }
@@ -157,16 +157,16 @@ function closeMainProgram() {
                         console.log("Se ha cerrado correctamente");
                     }
                 });
-            }
+           /* }
             fulfill(data);
-        });
+        });*/
     });
     //kill processNumber
 }
 
 function getNumberProcessMainProgram() {
     return new Promise(function (fulfill) {
-        exec("ps -xa | grep ./SensorIoT",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+        exec("pgrep SensorIoT",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
             console.log("getNumberprocess exec err: " + err);
             console.log("getNumberprocess stdout : " + stdout);
             console.log("getNumberprocess stderr : " + stderr);
@@ -199,7 +199,7 @@ function getNumberProcessMainProgram() {
 function killProcess(process) {
     return new Promise(function (fulfill) {
 
-        let command = "kill " + process;
+        let command = "killall " + process;
 
         exec(command,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
             console.log("killProcess exec err: " + err);

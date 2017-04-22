@@ -15,16 +15,19 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
             console.log("uploadFiles");
             console.log(dir_file);
 
-            //'/Users/farleyetc/Documents/FrankDocs/210417_01_BH1.sac'
+            let readableStream = fs.createReadStream(dir_file);
 
-            let readableStream = fs.createReadStream("C:/Users/Frank/Documents/MATLAB/PruebaArchivosSAC/130417_14_BH1.sac");
+            let arrName = dir_file.split("/");
+            let name = arrName[arrName.length - 1];
+
+            console.log("El nombre del archivo es " + name)  ;
 
             let formData = {
                 type: 'FILE',
                 file_0: {
                     value: readableStream,
                     options: {
-                        filename: '210417_01_BH1.sac', contentType: 'application/octet-stream'
+                        filename: name, contentType: 'application/octet-stream'
                     }
                 }
             };
@@ -43,18 +46,25 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
                             let authToken = data.token;
                             console.log("PUT Re autenticacion con token: " + authToken);
 
-                            let read = fs.createReadStream("C:/Users/Frank/Documents/MATLAB/PruebaArchivosSAC/130417_14_BH1.sac");
-                            let formData = {
+                            let readS = fs.createReadStream(dir_file);
+
+                            let arrName2 = dir_file.split("/");
+                            let name2 = arrName2[arrName2.length - 1];
+
+                            console.log("El nombre del archivo es " + name2)  ;
+
+                            let formData2 = {
                                 type: 'FILE',
                                 file_0: {
-                                    value: read,
+                                    value: readS,
                                     options: {
-                                        filename: '210417_01_BH1.sac', contentType: 'application/octet-stream'
+                                        filename: name2, contentType: 'application/octet-stream'
                                     }
                                 }
                             };
 
-                            upLoadFile(authToken, formData).then(function (data) {
+
+                            upLoadFile(authToken, formData2).then(function (data) {
                                 if(data.code === 401 || data.code === 403){
                                     fullfil({code: config.ERROR});
                                 }

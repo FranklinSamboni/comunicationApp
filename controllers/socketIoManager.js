@@ -16,7 +16,8 @@ socket.on('connect', function () {
         if (err) {
             console.log('SocketIO: error haciendo autenticacion en el socket', err);
         } else {
-            socket.emit('register', '{ "serial": "WDEFRGTTYJ" }', function (resp, data) {
+            //socket.emit('register', '{ "serial": "WDEFRGTTYJ" }', function (resp, data) {
+            socket.emit('register', `{ "serial": "${serial}" }`, function (resp, data) {
                 resp = JSON.parse(resp);
                 console.log(resp.code);
                 config.SOCKET_TOKEN = resp.data.token;

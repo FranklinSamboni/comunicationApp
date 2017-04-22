@@ -23,8 +23,9 @@ exports.doAuth = function doAuth () {
                 //console.log(serial);
 
                 let args = {
-                    //data: {"serial": serial},
-                    data: {"serial": "WDEFRGTTYJ"},
+                    //data: {"serial": "WDEFRGTTYJ"},
+
+                    data: {"serial": serial},
                     headers: {"Content-Type": "application/json"}
                 };
 

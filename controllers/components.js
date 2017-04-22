@@ -317,7 +317,7 @@ exports.putLocation = function putLocation (token) {
                 else {
 
                     let jsonObj = JSON.parse(json);
-                    console.log(json);
+
                     let args = {
                         data: jsonObj,
                         headers: {"Content-Type": "application/json",
@@ -483,6 +483,10 @@ function doPut(url, args) {
                         }else{
                             let authToken = data.token;
                             console.log("PUT Re autenticacion con token: " + authToken);
+
+                            console.log("put lo que sea" + args.data);
+                            console.log("put lo que sea longitude" + args.data.longitude);
+                            console.log("put lo que sea latitude" + args.data.latitude);
 
                             let newArgs = {
                                 data: args.data,

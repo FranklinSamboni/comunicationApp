@@ -36,8 +36,7 @@ let socketServer = net.createServer( function (socket) {
                                 putLocation();
                                 break;
                             case config.PUT_RTC_DATE:
-                                socketClient.closeMainProgram();
-                                //putRTC();
+                                putRTC();
                                 break;
                             case config.PUT_SPS:
                                 putSPS();
@@ -85,7 +84,7 @@ function doEmitTestResponse(msg, last) {
             console.log(resp.code);
         });
         if(last){
-            //socketClient.runMainProgram();
+            socketClient.runMainProgram();
         }
     }
 }

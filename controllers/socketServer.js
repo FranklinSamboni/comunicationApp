@@ -21,7 +21,7 @@ let socketServer = net.createServer( function (socket) {
         data = data.toString();
 
         try {
-            console.log("el data recibido en socekt server es: " + data);
+            //console.log("el data recibido en socekt server es: " + data);
             if(data !== "\r\n"){
                 let json = JSON.parse(data);
                 //console.log(json);

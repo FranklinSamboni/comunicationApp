@@ -69,7 +69,7 @@ let socketServer = net.createServer( function (socket) {
 
 socketServer.listen(portSocket, function () {
     console.log('Servidor de net-socket escuchando');
-    //socketClient.runMainProgram();
+    socketClient.runMainProgram();
 });
 
 function doEmitTestResponse(msg, last) {

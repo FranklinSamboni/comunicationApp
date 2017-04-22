@@ -20,7 +20,6 @@ socket.on('connect', function () {
                 resp = JSON.parse(resp);
                 console.log(resp.code);
                 config.SOCKET_TOKEN = resp.data.token;
-                //runMainProgram();
             });
         }
     });

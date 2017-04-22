@@ -317,7 +317,7 @@ exports.putLocation = function putLocation (token) {
                 else {
 
                     let jsonObj = JSON.parse(json);
-
+                    console.log(json);
                     let args = {
                         data: jsonObj,
                         headers: {"Content-Type": "application/json",

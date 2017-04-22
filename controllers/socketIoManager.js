@@ -178,7 +178,7 @@ function getNumberProcessMainProgram() {
             let process = "";
 
             for(let i = 0; i < parameters.length ;i++){
-                let index = parameters[i].indexOf('R+');
+                let index = parameters[i].indexOf(config.PATH_MAIN_PROGRAM);
                 if(index !== -1){
                     process = parameters[i].split(" ");
                 }

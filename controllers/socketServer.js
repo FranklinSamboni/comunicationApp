@@ -21,42 +21,46 @@ let socketServer = net.createServer( function (socket) {
         data = data.toString();
 
         try {
-            let json = JSON.parse(data);
-            //console.log(json);
-            switch (json.type) {
-                case config.TYPE_TEST:
-                    doEmitTestResponse(json.msg, json.last);
-                    break;
-                case config.TYPE_MAIN:
-                    console.log(json.msg);
-                    switch (json.process){
-                        case config.PUT_LOCATION:
-                            putLocation();
-                            break;
-                        case config.PUT_RTC_DATE:
-                            putRTC();
-                            break;
-                        case config.PUT_SPS:
-                            putSPS();
-                            break;
-                        case config.UPLOAD_FILES:
-                            uploadFiles(json.msg);
-                            break;
-                        case config.ALERTS:
-                            doEmitAlertError(json.msg,json.component);
-                            break;
-                        case config.REAL_TIME:
-                            console.log("CASE REAL_TIME");
-                            realTime(json);
-                            break;
-                        default:
-                            break;
-                    }
+            console.log("el data recibido en socekt server es: " + data);
+            if(data !== "\r\n"){
+                let json = JSON.parse(data);
+                //console.log(json);
+                switch (json.type) {
+                    case config.TYPE_TEST:
+                        doEmitTestResponse(json.msg, json.last);
+                        break;
+                    case config.TYPE_MAIN:
+                        console.log(json.msg);
+                        switch (json.process){
+                            case config.PUT_LOCATION:
+                                socketClient.closeMainProgram();
+                                //putLocation();
+                                break;
+                            case config.PUT_RTC_DATE:
+                                putRTC();
+                                break;
+                            case config.PUT_SPS:
+                                putSPS();
+                                break;
+                            case config.UPLOAD_FILES:
+                                uploadFiles(json.msg);
+                                break;
+                            case config.ALERTS:
+                                doEmitAlertError(json.msg,json.component);
+                                break;
+                            case config.REAL_TIME:
+                                console.log("CASE REAL_TIME");
+                                realTime(json);
+                                break;
+                            default:
+                                break;
+                        }
 
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
 
+                }
             }
         }
         catch (err){

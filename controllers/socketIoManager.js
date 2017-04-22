@@ -7,6 +7,8 @@ const config = require('../config');
 const exec = require('child_process').exec;
 const fs = require('fs');
 
+const Array = require('node-array');
+
 let socket = io.connect(config.URL_SOCKET);
 
 socket.on('connect', function () {
@@ -146,6 +148,7 @@ function closeMainProgram() {
                 console.log("Error obteniedo el numero del proceso del programa principal");
             }
             else{
+
                 killProcess(data.process).then(function (data) {
                     if(data.code == config.ERROR){
                         console.log("Error cerrando el proceso");
@@ -171,13 +174,25 @@ function getNumberProcessMainProgram() {
             if(err) return fulfill({code:config.ERROR, msg: err});
 
             let parameters = stdout.split("\n");
-            let name = parameters[0].split("./");
+
+            let process = "";
+
+            for(let i = 0; i < parameters.length ;i++){
+                let index = parameters[i].indexOf('R+');
+                if(index !== -1){
+                    process = parameters[i].split(" ");
+                }
+            }
+
+
+
+            /*let name = parameters[0].split("./");
             let process = parameters[0].split(" ");
 
             console.log("Nombre del archivo es : -" + name[1] + "-");
-            console.log("El proceso es : -" + process[1]+ "-");
+            console.log("El proceso es : -" + process[1]+ "-");*/
 
-            fulfill({code:config.SUCCESS,process:process[1], name: name[1]});
+            fulfill({code:config.SUCCESS,process:process[1]});
 
         });
     });
@@ -205,4 +220,5 @@ function killProcess(process) {
 module.exports = {
     socket: socket,
     runMainProgram: runMainProgram,
+    closeMainProgram: closeMainProgram
 };

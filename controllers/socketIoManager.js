@@ -7,7 +7,7 @@ const config = require('../config');
 const exec = require('child_process').exec;
 const fs = require('fs');
 
-const Array = require('node-array');
+//const Array = require('node-array');
 
 let socket = io.connect(config.URL_SOCKET);
 

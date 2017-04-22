@@ -92,7 +92,7 @@ function doEmitTestResponse(msg, last) {
 function doEmitAlertError(msg, component) {
     if (config.token !== ""){
         let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": "${msg}", "component" : ${component} }`;
-        console.log("emit request error");
+        console.log("emit request error  " + msg + "   " + component);
         socketClient.socket.emit('requestError',sendJson, function(resp, data) {
             console.log('respuesta del servidor' + resp);
             console.log(resp.code);

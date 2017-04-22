@@ -199,7 +199,7 @@ function getNumberProcessMainProgram() {
 function killProcess(process) {
     return new Promise(function (fulfill) {
 
-        let command = "killall " + process;
+        let command = "pkill " + process;
 
         exec(command,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
             console.log("killProcess exec err: " + err);

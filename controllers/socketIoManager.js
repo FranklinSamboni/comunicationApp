@@ -150,7 +150,7 @@ function closeMainProgram() {
             else{
                 */
                 killProcess("SensorIoT").then(function (data) {
-                    if(data.code == config.ERROR){
+                    if(data.code === config.ERROR){
                         console.log("Error cerrando el proceso");
                     }
                     else{

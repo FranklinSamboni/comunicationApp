@@ -48,7 +48,7 @@ let socketServer = net.createServer( function (socket) {
                                 doEmitAlertError(json.msg,json.component);
                                 break;
                             case config.REAL_TIME:
-                                console.log("CASE REAL_TIME");
+                                //console.log("CASE REAL_TIME");
                                 realTime(json);
                                 break;
                             default:
@@ -141,7 +141,7 @@ function uploadFiles (dir_file) {
 function realTime(json){
 
      if (config.SOCKET_TOKEN !== ""){
-         console.log("REAL_TIME TOKEN");
+         //console.log("REAL_TIME TOKEN");
          if (config.ENABLE_REAL_TIME) {
              console.log("real Time active");
 

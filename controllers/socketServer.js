@@ -72,7 +72,7 @@ let socketServer = net.createServer( function (socket) {
 
 socketServer.listen(portSocket, function () {
     console.log('Servidor de net-socket escuchando');
-    socketClient.runMainProgram();
+   // socketClient.runMainProgram();
 });
 
 function doEmitTestResponse(msg, last) {
@@ -84,7 +84,7 @@ function doEmitTestResponse(msg, last) {
             console.log(resp.code);
         });
         if(last){
-            socketClient.runMainProgram();
+            //socketClient.runMainProgram();
         }
     }
 }

@@ -63,7 +63,6 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
                                 }
                             };
 
-
                             upLoadFile(authToken, formData2).then(function (data) {
                                 if(data.code === 401 || data.code === 403){
                                     fullfil({code: config.ERROR});
@@ -89,6 +88,9 @@ function upLoadFile(token, formData) {
 
     return new Promise(function (fullfil) {
         request.post({url:config.URL_UPLOAD, headers:{"Authorization": token}, formData: formData}, function(err, httpResponse, body) {
+
+            console.log("upload error: " + err);
+            if (err) return fullfil({code: config.ERROR});
 
             if(httpResponse.statusCode === 401 || httpResponse.statusCode === 403){
 

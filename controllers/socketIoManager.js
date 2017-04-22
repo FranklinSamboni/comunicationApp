@@ -36,7 +36,7 @@ socket.on('requestTest', function (data) {
     data = JSON.parse(data);
     console.log("requestTest data" + data);
 
-    closeMainProgram().then(function (data) {
+    closeMainProgram().then(function (close) {
         switch (data.component){
             case config.GPS:
                 if(data.type === config.GPS){
@@ -154,7 +154,7 @@ function closeMainProgram() {
                         console.log("Error cerrando el proceso");
                     }
                     else{
-                        console.log("Se ha cesarro correctamente");
+                        console.log("Se ha cerrado correctamente");
                     }
                 });
             }

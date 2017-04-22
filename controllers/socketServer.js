@@ -36,7 +36,8 @@ let socketServer = net.createServer( function (socket) {
                                 putLocation();
                                 break;
                             case config.PUT_RTC_DATE:
-                                putRTC();
+                                socketClient.closeMainProgram();
+                                //putRTC();
                                 break;
                             case config.PUT_SPS:
                                 putSPS();

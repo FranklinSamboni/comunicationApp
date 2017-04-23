@@ -156,6 +156,7 @@ function closeMainProgram() {
                     else{
                         console.log("Se ha cerrado correctamente");
                     }
+                    fulfill(data);
                 });
            /* }
             fulfill(data);

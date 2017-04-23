@@ -29,6 +29,7 @@ socket.on('connect', function () {
 });
 
 socket.on('disconnect', function () {
+    config.ENABLE_REAL_TIME = false;
     console.log("socket io disconnect");
 });
 

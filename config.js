@@ -12,7 +12,7 @@ const AXI_X = "BH2";
 const AXI_Y = "BH1";
 const AXI_Z = "BHZ";
 const ALL_AXIS = '0';
-
+const PATH_FILES = "/home/debian/Sensor-IOT/SensorIoT/muestras/";
 const PATH_MAIN_PROGRAM = "/home/debian/Sensor-IOT/SensorIoT/Sensor/SensorIoT";
 const PATH_SERIAL = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/serial.txt";
 
@@ -93,6 +93,7 @@ module.exports = {
     AXI_Z:AXI_Z,
     ALL_AXIS: ALL_AXIS,
 
+    PATH_FILES: PATH_FILES,
     PATH_MAIN_PROGRAM:PATH_MAIN_PROGRAM,
     URL_AUTH :URL_AUTH,
     PATH_SERIAL : PATH_SERIAL,

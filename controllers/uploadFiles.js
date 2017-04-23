@@ -15,22 +15,37 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
             console.log("uploadFiles");
             console.log(dir_file);
 
-            let readableStream = fs.createReadStream(dir_file);
 
             let arrName = dir_file.split("/");
             let name = arrName[arrName.length - 1];
 
-            console.log("El nombre del archivo es " + name)  ;
+            let arrComp = name.split("_");
+            let date = arrComp[0];
+            let time = arrComp[1];
+
+            let nameX = date + "_" + time + "_" + config.AXI_X + ".sac";
+            let nameY = date + "_" + time + "_" + config.AXI_Y + ".sac";
+            let nameZ = date + "_" + time + "_" + config.AXI_Z + ".sac";
+
+            let dirX = config.PATH_FILES + date + "/" + nameX;
+            let dirY = config.PATH_FILES + date + "/" + nameY;
+            let dirZ = config.PATH_FILES + date + "/" + nameZ;
+
+            console.log("direcciones : " + dirX );
+            console.log("direcciones : " + dirY );
+            console.log("direcciones : " + dirZ );
+
+            let streamX = fs.createReadStream(dirX);
+            let streamY = fs.createReadStream(dirY);
+            let streamZ = fs.createReadStream(dirZ);
 
             let formData = {
                 type: 'FILE',
-                file_0: {
-                    value: readableStream,
-                    options: {
-                        filename: name, contentType: 'application/octet-stream'
-                    }
-                }
+                file_0: { value: streamX, options: {  filename: nameX, contentType: 'application/octet-stream' } },
+                file_1: { value: streamY, options:  {  filename: nameY, contentType: 'application/octet-stream' } },
+                file_2: { value: streamZ, options:  {  filename: nameZ, contentType: 'application/octet-stream' } }
             };
+
 
             upLoadFile(token, formData).then(function (data) {
 
@@ -46,22 +61,18 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
                             let authToken = data.token;
                             console.log("PUT Re autenticacion con token: " + authToken);
 
-                            let readS = fs.createReadStream(dir_file);
-
-                            let arrName2 = dir_file.split("/");
-                            let name2 = arrName2[arrName2.length - 1];
-
-                            console.log("El nombre del archivo es " + name2)  ;
+                            let streamX2 = fs.createReadStream(dirX);
+                            let streamY2 = fs.createReadStream(dirY);
+                            let streamZ2 = fs.createReadStream(dirZ);
 
                             let formData2 = {
                                 type: 'FILE',
-                                file_0: {
-                                    value: readS,
-                                    options: {
-                                        filename: name2, contentType: 'application/octet-stream'
-                                    }
-                                }
+                                file_0: { value: streamX2, options: {  filename: nameX, contentType: 'application/octet-stream' } },
+                                file_1: { value: streamY2, options:  {  filename: nameY, contentType: 'application/octet-stream' } },
+                                file_2: { value: streamZ2, options:  {  filename: nameZ, contentType: 'application/octet-stream' } }
                             };
+
+                            console.log("El nombre del archivo es " + name2)  ;
 
                             upLoadFile(authToken, formData2).then(function (data) {
                                 if(data.code === 401 || data.code === 403){

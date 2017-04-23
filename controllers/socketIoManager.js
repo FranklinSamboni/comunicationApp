@@ -103,13 +103,13 @@ socket.on('requestRealTime', function (data) {
             config.AXIS = config.ALL_AXIS;
             console.log("Todos los ejes");
         }
-        else if(data.axis === "BH1"){
+        else if(data.axis === config.AXI_X){
             config.AXIS = config.AXI_X;
         }
-        else if(data.AXIS === "BH2"){
+        else if(data.AXIS === config.AXI_Y){
             config.AXIS = config.AXI_Y;
         }
-        else if(data.axis === "BHZ"){
+        else if(data.axis === config.AXI_Z){
             config.AXIS = config.AXI_Z;
         }
     }

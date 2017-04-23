@@ -6,6 +6,7 @@ let SOCKET_TOKEN = "";
 let REST_TOKEN = "";
 
 let ENABLE_REAL_TIME = false;
+let AVALIBLE_FOR_REAL_TIME = false;
 
 let AXIS = "";
 const AXI_X = "BH2";
@@ -85,7 +86,7 @@ module.exports = {
     REST_TOKEN: REST_TOKEN,
 
     ENABLE_REAL_TIME: ENABLE_REAL_TIME,
-
+    AVALIBLE_FOR_REAL_TIME: AVALIBLE_FOR_REAL_TIME,
     AXIS: AXIS,
 
     AXI_X: AXI_X,

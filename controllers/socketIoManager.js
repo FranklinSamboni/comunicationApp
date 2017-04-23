@@ -93,23 +93,31 @@ socket.on('requestTest', function (data) {
 
 socket.on('requestRealTime', function (data) {
 
-    console.log("EVENTO requestRealTime");
-    console.log("data: " + data.axis);
-    data = JSON.parse(data);
-    config.ENABLE_REAL_TIME = true;
-    if(data.axis === '0'){
-        config.AXIS = config.ALL_AXIS;
-        console.log("Todos los ejes");
+    if(config.AVALIBLE_FOR_REAL_TIME){
+        console.log("EVENTO requestRealTime");
+        console.log("data: " + data.axis);
+        data = JSON.parse(data);
+        config.ENABLE_REAL_TIME = true;
+        if(data.axis === '0'){
+            config.AXIS = config.ALL_AXIS;
+            console.log("Todos los ejes");
+        }
+        else if(data.axis === "BH1"){
+            config.AXIS = config.AXI_X;
+        }
+        else if(data.AXIS === "BH2"){
+            config.AXIS = config.AXI_Y;
+        }
+        else if(data.axis === "BHZ"){
+            config.AXIS = config.AXI_Z;
+        }
     }
-    else if(data.axis === "BH1"){
-        config.AXIS = config.AXI_X;
+    else{
+        let sendJson = `{"token": "${config.SOCKET_TOKEN}", "available": ${false} , "data": { }}`;
+        socket.emit('responseRealTime',sendJson);
     }
-    else if(data.AXIS === "BH2"){
-        config.AXIS = config.AXI_Y;
-    }
-    else if(data.axis === "BHZ"){
-        config.AXIS = config.AXI_Z;
-    }
+
+
 });
 
 socket.on('stopRealTime', function (data) {
@@ -150,6 +158,7 @@ function closeMainProgram() {
             else{
                 */
                 killProcess("SensorIoT").then(function (data) {
+                    config.AVALIBLE_FOR_REAL_TIME = false;
                     if(data.code === config.ERROR){
                         console.log("Error cerrando el proceso");
                     }

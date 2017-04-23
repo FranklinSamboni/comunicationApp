@@ -14,6 +14,7 @@ let socketServer = net.createServer( function (socket) {
     console.log("cliente conectado");
 
     socket.on('close', function (){
+        config.AVALIBLE_FOR_REAL_TIME = false;
         console.log('cliente desconectado');
     });
 
@@ -143,26 +144,27 @@ function realTime(json){
 
      if (config.SOCKET_TOKEN !== ""){
          //console.log("REAL_TIME TOKEN");
+         config.AVALIBLE_FOR_REAL_TIME = true;
          if (config.ENABLE_REAL_TIME) {
              console.log("real Time active");
 
              if(config.AXIS === config.ALL_AXIS){
-                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": { "x":[${json.x}], "y" : [${json.y}], "z" : [${json.z}] }}`;
+                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "available": ${true} , "data": { "x":[${json.x}], "y" : [${json.y}], "z" : [${json.z}] }}`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.AXIS === config.AXI_X){
-                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": { "x":[${json.x}] }}`;
+                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "available": ${true} , "data": { "x":[${json.x}] }}`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.AXIS === config.AXI_Y){
-                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": { "y":[${json.y}] }}`;
+                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "available": ${true} , "data": { "y":[${json.y}] }}`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
              else if(config.AXIS === config.AXI_Z){
-                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": { "z":[${json.z}] }}`;
+                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "available": ${true} , "data": { "z":[${json.z}] }}`;
                  console.log(sendJson);
                  emitDataRealTime(sendJson);
              }
@@ -174,8 +176,5 @@ function realTime(json){
 function emitDataRealTime(json) {
     console.log("emit real time");
 
-    socketClient.socket.emit('responseRealTime', json, function (resp, data) {
-        console.log('respuesta del servidor' + resp);
-        console.log(resp.code);
-    });
+    socketClient.socket.emit('responseRealTime', json);
 }

@@ -8,8 +8,8 @@ let REST_TOKEN = "";
 let ENABLE_REAL_TIME = false;
 
 let AXIS = "";
-const AXI_X = "BH1";
-const AXI_Y = "BH2";
+const AXI_X = "BH2";
+const AXI_Y = "BH1";
 const AXI_Z = "BHZ";
 const ALL_AXIS = '0';
 

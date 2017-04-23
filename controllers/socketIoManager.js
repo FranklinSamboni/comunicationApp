@@ -96,8 +96,8 @@ socket.on('requestRealTime', function (data) {
 
     if(config.AVALIBLE_FOR_REAL_TIME){
         console.log("EVENTO requestRealTime");
-        console.log("data: " + data.axis);
         data = JSON.parse(data);
+        console.log("data: " + data.axis);
         config.ENABLE_REAL_TIME = true;
         if(data.axis === '0'){
             config.AXIS = config.ALL_AXIS;

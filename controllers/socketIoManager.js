@@ -181,7 +181,7 @@ function runMainProgram() {
             }
             else {
                 try {
-
+                    console.log("json " + json);
                     json = JSON.parse(json);
                     let newjson = `\{"status": "${json.status}","descript": "${json.descript}", "samples": "50", "error": "${json.error}" } `;
                     console.log("json nuevo es adasdad " + newjson);

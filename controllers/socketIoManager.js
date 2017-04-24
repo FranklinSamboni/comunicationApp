@@ -34,61 +34,66 @@ socket.on('disconnect', function () {
 });
 
 socket.on('requestTest', function (data) {
-    data = JSON.parse(data);
-    console.log("requestTest data" + data);
+    let json = JSON.parse(data);
+    console.log("requestTest data" + json);
 
-    closeMainProgram().then(function (close) {
-        switch (data.component){
-            case config.GPS:
-                if(data.type === config.GPS){
-                    runProgram(config.DIR_TEST_GPS).then(function (data) {
-                        console.log(data);
-                    });
-                }
-                else if(data.type === config.PPS){
-                    runProgram(config.DIR_TEST_PPS).then(function (data) {
-                        console.log(data);
-                    });
-                }
-
-                break;
-            case config.RTC:
-                if(data.type === config.RTC){
-                    runProgram(config.DIR_TEST_RTC).then(function (data) {
-                        console.log(data);
-                    });
-                }
-                else if(data.type === config.SYNC){
-                    runProgram(config.DIR_TEST_SYNC).then(function (data) {
-                        console.log(data);
-                    });
-                }
-                break;
-            case config.ADC:
-                runProgram(config.DIR_TEST_ADC).then(function (data) {
-                    console.log(data);
-                });
-                break;
-            case config.ACC:
-                break;
-            case config.BAT:
-                break;
-            case config.WIFI:
-                if (config.SOCKET_TOKEN !== ""){
-                    let last = true;
-                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": "Wifi funciona conrrectamente", "last" : ${last} }`;
-                    socket.emit('testResponse',sendJson, function(resp, data) {
-                        console.log('respuesta del servidor' + resp);
-                        console.log(resp.code);
-                    });
-                }
-                break;
-            default:
-                console.log("Error en requestTest SocketIoManager");
-                console.log(data);
-                break;
+    if (json.component === config.WIFI){
+        if (config.SOCKET_TOKEN !== ""){
+            let last = true;
+            let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": "Wifi funciona conrrectamente", "last" : ${last} }`;
+            socket.emit('testResponse',sendJson, function(resp, data) {
+                console.log('respuesta del servidor' + resp);
+                console.log(resp.code);
+            });
         }
-    });
+    }
+    else if (json.component === config.GPS  || json.component === config.RTC  || json.component === config.ADC ){
+        closeMainProgram().then(function (close) {
+            switch (json.component){
+                case config.GPS:
+                    if(json.type === config.GPS){
+                        runProgram(config.DIR_TEST_GPS).then(function (data) {
+                            console.log(data);
+                        });
+                    }
+                    else if(json.type === config.PPS){
+                        runProgram(config.DIR_TEST_PPS).then(function (data) {
+                            console.log(data);
+                        });
+                    }
+
+                    break;
+                case config.RTC:
+                    if(json.type === config.RTC){
+                        runProgram(config.DIR_TEST_RTC).then(function (data) {
+                            console.log(data);
+                        });
+                    }
+                    else if(json.type === config.SYNC){
+                        runProgram(config.DIR_TEST_SYNC).then(function (data) {
+                            console.log(data);
+                        });
+                    }
+                    break;
+                case config.ADC:
+                    runProgram(config.DIR_TEST_ADC).then(function (data) {
+                        console.log(data);
+                    });
+                    break;
+                /*case config.ACC:
+                 break;
+                 case config.BAT:
+                 break;*/
+                default:
+                    console.log("Error en requestTest SocketIoManager");
+                    console.log(json);
+                    break;
+            }
+        });
+    }
+    else{
+        console.log("opcion incorrecta en requestTest " + data);
+    }
 
 });
 

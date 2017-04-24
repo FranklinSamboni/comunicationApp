@@ -143,10 +143,10 @@ socket.on('setSPS', function (data) {
             }
             else{
 
-                json.replace(json.samples, data.data.sps);
-                console.log("json nuevo es " + json);
-
-                fs.writeFile(config.DIR_ADC, json, 'utf8', function (err) {
+                console.log("json " + json);
+                json = JSON.parse(json);
+                let newjson = `\{"status": "${json.status}","descript": "${json.descript}", "samples": "50", "error": "${json.error}" } `;
+                fs.writeFile(config.DIR_ADC, newjson, 'utf8', function (err) {
                     if (err){
                         emitSaveSPS(false);
                         return console.log(err);
@@ -181,23 +181,7 @@ function runMainProgram() {
             }
             else {
                 try {
-                    console.log("json " + json);
-                    json = JSON.parse(json);
-                    let newjson = `\{"status": "${json.status}","descript": "${json.descript}", "samples": "50", "error": "${json.error}" } `;
-                    console.log("json nuevo es adasdad " + newjson);
-                    fs.writeFile(config.DIR_ADC, newjson, 'utf8', function (err) {
-                        console.log("update adc file " + err);
-                        /*if (err){
-                            emitSaveSPS(false);
-                            return console.log(err);
-                        }
-                        else {
-                            //emitSaveSPS(true);
-                            //config.CHANGE_SPS_IN_MAIN = true;
-                        }*/
-                    });
 
-                    /*
                     json = JSON.parse(json);
                     let samples = json.samples;
                     console.log("adc file " + json + "  a  " + json.samples );
@@ -214,7 +198,7 @@ function runMainProgram() {
                     else {
                         console.log("El archivo de muestras del ADC esta mal configurado, revisa el parametro -samples-.");
                         fullfil({code: config.ERROR});
-                    }*/
+                    }
 
                 }
                 catch (err) {

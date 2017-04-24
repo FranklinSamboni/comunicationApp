@@ -181,11 +181,12 @@ function runMainProgram() {
             }
             else {
                 try {
-                    json = json.toString();
-                    json.replace("samples", "50");
-                    console.log("json nuevo es " + json);
 
-                    fs.writeFile(config.DIR_ADC, json, 'utf8', function (err) {
+                    json = JSON.parse(json);
+                    let newjson = {status: json.status, descript: json.descript, samples: "50", error: json.error };
+
+                    console.log("json nuevo es " + newjson.toString());
+                    fs.writeFile(config.DIR_ADC, newjson.toString(), 'utf8', function (err) {
                         console.log("update adc file " + err);
                         /*if (err){
                             emitSaveSPS(false);

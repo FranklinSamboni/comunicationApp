@@ -181,8 +181,7 @@ function runMainProgram() {
             }
             else {
                 try {
-
-
+                    json = json.toString();
                     json.replace("samples", "50");
                     console.log("json nuevo es " + json);
 

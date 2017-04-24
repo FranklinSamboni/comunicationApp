@@ -183,7 +183,7 @@ function runMainProgram() {
                 try {
 
 
-                    json.replace(json.samples, "50");
+                    json.replace("samples", "50");
                     console.log("json nuevo es " + json);
 
                     fs.writeFile(config.DIR_ADC, json, 'utf8', function (err) {

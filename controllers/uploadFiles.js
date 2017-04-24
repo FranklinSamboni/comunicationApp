@@ -132,7 +132,7 @@ function checkForChangeSPS() {
     if(config.CHANGE_SPS_IN_MAIN){
         socketClient.closeMainProgram().then(function (result) {
             if(result.code === config.ERROR){
-                console.log(result);
+                console.log("result closeMainProgram" + result);
             }
             else{
                 socketClient.runMainProgram().then(function (runData) {
@@ -142,7 +142,7 @@ function checkForChangeSPS() {
                     else{
                         config.CHANGE_SPS_IN_MAIN = false;
                     }
-                    console.log(runData)
+                    console.log("rundata runMainProgram" +runData);
                 })
             }
         });

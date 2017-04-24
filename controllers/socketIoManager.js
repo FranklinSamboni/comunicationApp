@@ -181,7 +181,7 @@ function runMainProgram() {
             else {
                 try {
                     let samples = json.samples;
-                    console.log("adc file " + json + "  a  " + samples );
+                    console.log("adc file " + json + "  a  " + json.samples );
                     if (samples === "40" || samples === "50" || samples === "100" || samples === "200") {
                         let command = config.PATH_MAIN_PROGRAM + samples;
                         runProgram(command).then(function (data) {

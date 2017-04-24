@@ -142,6 +142,7 @@ socket.on('setSPS', function (data) {
                 emitSaveSPS(false);
             }
             else{
+
                 json.replace(json.samples, data.data.sps);
                 console.log("json nuevo es " + json);
 
@@ -180,6 +181,7 @@ function runMainProgram() {
             }
             else {
                 try {
+                    json = JSON.parse(json);
                     let samples = json.samples;
                     console.log("adc file " + json + "  a  " + json.samples );
                     if (samples === "40" || samples === "50" || samples === "100" || samples === "200") {

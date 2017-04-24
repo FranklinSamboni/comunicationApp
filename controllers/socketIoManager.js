@@ -132,9 +132,9 @@ socket.on('stopRealTime', function (data) {
 socket.on('setSPS', function (data) {
 
     console.log("EVENTO setSPS");
-    data = JSON.parse(data);
     console.log("sps : " + data);
-    if(data.data.sps === "40" || data.data.sps === "50" || data.data.sps === "100" || data.data.sps === "200"){
+    data = JSON.parse(data);
+    if(data.sps === "40" || data.sps === "50" || data.sps === "100" || data.sps === "200"){
 
         fs.readFile(config.DIR_ADC, 'utf-8', (err, json) => {
             if (err) {
@@ -145,7 +145,7 @@ socket.on('setSPS', function (data) {
 
                 console.log("json " + json);
                 json = JSON.parse(json);
-                let newjson = `\{"status": "${json.status}","descript": "${json.descript}", "samples": "50", "error": "${json.error}" } `;
+                let newjson = `\{"status": "${json.status}","descript": "${json.descript}", "samples": "${data.sps}", "error": "${json.error}" } `;
                 fs.writeFile(config.DIR_ADC, newjson, 'utf8', function (err) {
                     if (err){
                         emitSaveSPS(false);
@@ -184,7 +184,7 @@ function runMainProgram() {
 
                     json = JSON.parse(json);
                     let samples = json.samples;
-                    console.log("adc file " + json + "  a  " + json.samples );
+                    console.log("adc file a " + json.samples );
                     if (samples === "40" || samples === "50" || samples === "100" || samples === "200") {
                         let command = config.PATH_MAIN_PROGRAM + " " +  samples;
                         runProgram(command).then(function (data) {

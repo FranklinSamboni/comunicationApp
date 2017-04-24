@@ -185,7 +185,7 @@ function runMainProgram() {
                     json = JSON.parse(json);
                     let newjson = {status: json.status, descript: json.descript, samples: "50", error: json.error };
 
-                    console.log("json nuevo es " + newjson.toString());
+                    console.log("json nuevo es adasdad " + newjson.toString());
                     fs.writeFile(config.DIR_ADC, newjson.toString(), 'utf8', function (err) {
                         console.log("update adc file " + err);
                         /*if (err){

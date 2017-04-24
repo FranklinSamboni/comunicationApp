@@ -181,11 +181,29 @@ function runMainProgram() {
             }
             else {
                 try {
+
+
+                    json.replace(json.samples, "50");
+                    console.log("json nuevo es " + json);
+
+                    fs.writeFile(config.DIR_ADC, json, 'utf8', function (err) {
+                        console.log("update adc file " + err);
+                        /*if (err){
+                            emitSaveSPS(false);
+                            return console.log(err);
+                        }
+                        else {
+                            //emitSaveSPS(true);
+                            //config.CHANGE_SPS_IN_MAIN = true;
+                        }*/
+                    });
+
+                    /*
                     json = JSON.parse(json);
                     let samples = json.samples;
                     console.log("adc file " + json + "  a  " + json.samples );
                     if (samples === "40" || samples === "50" || samples === "100" || samples === "200") {
-                        let command = config.PATH_MAIN_PROGRAM + samples;
+                        let command = config.PATH_MAIN_PROGRAM + " " +  samples;
                         runProgram(command).then(function (data) {
                             console.log(data);
                             if(data.code !== config.ERROR){
@@ -197,7 +215,7 @@ function runMainProgram() {
                     else {
                         console.log("El archivo de muestras del ADC esta mal configurado, revisa el parametro -samples-.");
                         fullfil({code: config.ERROR});
-                    }
+                    }*/
 
                 }
                 catch (err) {

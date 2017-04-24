@@ -129,21 +129,15 @@ function upLoadFile(token, formData) {
 }
 
 function checkForChangeSPS() {
+
     if(config.CHANGE_SPS_IN_MAIN){
+
         socketClient.closeMainProgram().then(function (result) {
             if(result.code === config.ERROR){
-                console.log("result closeMainProgram" + result);
+                console.log("uploadFile: checkForChangeSPS: error en closeMainProgram " +result);
             }
             else{
-                socketClient.runMainProgram().then(function (runData) {
-                    if(runData.code === config.ERROR){
-
-                    }
-                    else{
-                        config.CHANGE_SPS_IN_MAIN = false;
-                    }
-                    console.log("rundata runMainProgram" +runData);
-                })
+                socketClient.runMainProgram();
             }
         });
     }

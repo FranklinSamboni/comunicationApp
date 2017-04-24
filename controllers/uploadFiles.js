@@ -7,6 +7,8 @@ const request = require('request');
 const auth = require("./auth");
 const config = require('../config');
 
+let socketClient = require('./socketIoManager');
+
 exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 
     return new Promise(
@@ -55,6 +57,7 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 
                         if(data.code === config.ERROR){
                             fullfil({code: config.ERROR});
+                            checkForChangeSPS();
 
                         }else{
 
@@ -74,20 +77,23 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 
                             console.log("El nombre del archivo es " + name2)  ;
 
-                            upLoadFile(authToken, formData2).then(function (data) {
-                                if(data.code === 401 || data.code === 403){
+                            upLoadFile(authToken, formData2).then(function (info) {
+                                if(info.code === 401 || info.code === 403){
                                     fullfil({code: config.ERROR});
                                 }
                                 else{
-                                    fullfil(data);
-                                }
 
+                                    fullfil(info);
+                                }
+                                checkForChangeSPS();
                             });
 
                         }
                     });
                 }
                 else{
+
+                    checkForChangeSPS();
                     fullfil(data);
 
                 }
@@ -120,5 +126,25 @@ function upLoadFile(token, formData) {
             }
         });
     });
+}
 
+function checkForChangeSPS() {
+    if(config.CHANGE_SPS_IN_MAIN){
+        socketClient.closeMainProgram().then(function (result) {
+            if(result.code === config.ERROR){
+                console.log(result);
+            }
+            else{
+                socketClient.runMainProgram().then(function (runData) {
+                    if(runData.code === config.ERROR){
+
+                    }
+                    else{
+                        config.CHANGE_SPS_IN_MAIN = false;
+                    }
+                    console.log(runData)
+                })
+            }
+        });
+    }
 }

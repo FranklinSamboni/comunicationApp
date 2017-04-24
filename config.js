@@ -8,6 +8,8 @@ let REST_TOKEN = "";
 let ENABLE_REAL_TIME = false;
 let AVALIBLE_FOR_REAL_TIME = false;
 
+let CHANGE_SPS_IN_MAIN = false;
+
 let AXIS = "";
 const AXI_X = "BH2";
 const AXI_Y = "BH1";
@@ -87,6 +89,9 @@ module.exports = {
 
     ENABLE_REAL_TIME: ENABLE_REAL_TIME,
     AVALIBLE_FOR_REAL_TIME: AVALIBLE_FOR_REAL_TIME,
+
+    CHANGE_SPS_IN_MAIN: CHANGE_SPS_IN_MAIN,
+
     AXIS: AXIS,
 
     AXI_X: AXI_X,

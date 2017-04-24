@@ -76,7 +76,7 @@ socket.on('requestTest', function (data) {
             case config.WIFI:
                 if (config.SOCKET_TOKEN !== ""){
                     let last = true;
-                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "msg": "Wifi funciona conrrectamente", "last" : ${last} }`;
+                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": "Wifi funciona conrrectamente", "last" : ${last} }`;
                     socket.emit('testResponse',sendJson, function(resp, data) {
                         console.log('respuesta del servidor' + resp);
                         console.log(resp.code);
@@ -129,10 +129,85 @@ socket.on('stopRealTime', function (data) {
 
 });
 
+socket.on('setSPS', function (data) {
+
+    console.log("EVENTO setSPS");
+    data = JSON.parse(data);
+    console.log("sps : " + data);
+    if(data.data.sps === "40" || data.data.sps === "50" || data.data.sps === "100" || data.data.sps === "200"){
+
+        fs.readFile(config.DIR_ADC, 'utf-8', (err, json) => {
+            if (err) {
+                console.log('error: ', err);
+                emitSaveSPS(false);
+            }
+            else{
+                json.replace(json.samples, data.data.sps);
+                console.log("json nuevo es " + json);
+
+                fs.writeFile(config.DIR_ADC, json, 'utf8', function (err) {
+                    if (err){
+                        emitSaveSPS(false);
+                        return console.log(err);
+                    }
+                    else {
+                        emitSaveSPS(true);
+                        config.CHANGE_SPS_IN_MAIN = true;
+                    }
+                });
+            }
+        });
+    }
+    else{
+        emitSaveSPS(false);
+    }
+
+});
+
+function emitSaveSPS(success) {
+    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "data": ${success} }`;
+    socket.emit("saveSPS",sendJson);
+}
+
 function runMainProgram() {
-    runProgram(config.PATH_MAIN_PROGRAM).then(function (data) {
-       console.log(data);
+
+    return new Promise(function (fullfil) {
+
+        fs.readFile(config.DIR_ADC, 'utf-8', (err, json) => {
+            if (err) {
+                console.log('error: ', err);
+                fullfil({code: config.ERROR});
+            }
+            else {
+                try {
+                    let samples = json.samples;
+
+                    if (samples === "40" || samples === "50" || samples === "100" || samples === "200") {
+                        let command = config.PATH_MAIN_PROGRAM + samples;
+                        runProgram(command).then(function (data) {
+                            console.log(data);
+                            if(data.code !== config.ERROR){
+                                config.CHANGE_SPS_IN_MAIN = false;
+                            }
+                            fullfil(data);
+                        });
+                    }
+                    else {
+                        console.log("El archivo de muestras del ADC esta mal configurado, revisa el parametro -samples-.");
+                        fullfil({code: config.ERROR});
+                    }
+
+                }
+                catch (err) {
+                    console.log(err);
+                    fullfil({code: config.ERROR});
+                }
+
+            }
+        });
+
     });
+
 }
 
 function runProgram(path) {
@@ -175,38 +250,6 @@ function closeMainProgram() {
     //kill processNumber
 }
 
-function getNumberProcessMainProgram() {
-    return new Promise(function (fulfill) {
-        exec("pgrep SensorIoT",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
-            console.log("getNumberprocess exec err: " + err);
-            console.log("getNumberprocess stdout : " + stdout);
-            console.log("getNumberprocess stderr : " + stderr);
-
-            if(err) return fulfill({code:config.ERROR, msg: err});
-
-            let parameters = stdout.split("\n");
-
-            let process = "";
-
-            for(let i = 0; i < parameters.length ;i++){
-                let index = parameters[i].indexOf(config.PATH_MAIN_PROGRAM);
-                if(index !== -1){
-                    process = parameters[i].split(" ");
-                }
-            }
-
-            /*let name = parameters[0].split("./");
-            let process = parameters[0].split(" ");
-
-            console.log("Nombre del archivo es : -" + name[1] + "-");
-            console.log("El proceso es : -" + process[1]+ "-");*/
-
-            fulfill({code:config.SUCCESS,process:process[1]});
-
-        });
-    });
-}
-
 function killProcess(process) {
     return new Promise(function (fulfill) {
 
@@ -231,3 +274,36 @@ module.exports = {
     runMainProgram: runMainProgram,
     closeMainProgram: closeMainProgram
 };
+
+/*
+function getNumberProcessMainProgram() {
+    return new Promise(function (fulfill) {
+        exec("pgrep SensorIoT",{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+            console.log("getNumberprocess exec err: " + err);
+            console.log("getNumberprocess stdout : " + stdout);
+            console.log("getNumberprocess stderr : " + stderr);
+
+            if(err) return fulfill({code:config.ERROR, msg: err});
+
+            let parameters = stdout.split("\n");
+
+            let process = "";
+
+            for(let i = 0; i < parameters.length ;i++){
+                let index = parameters[i].indexOf(config.PATH_MAIN_PROGRAM);
+                if(index !== -1){
+                    process = parameters[i].split(" ");
+                }
+            }
+
+            //let name = parameters[0].split("./");
+             ///let process = parameters[0].split(" ");
+
+             //console.log("Nombre del archivo es : -" + name[1] + "-");
+            // console.log("El proceso es : -" + process[1]+ "-");
+
+            //fulfill({code:config.SUCCESS,process:process[1]});
+
+        });
+    });
+}*/

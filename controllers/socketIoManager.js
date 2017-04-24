@@ -35,7 +35,7 @@ socket.on('disconnect', function () {
 
 socket.on('requestTest', function (data) {
     let json = JSON.parse(data);
-    console.log("requestTest data" + json);
+    console.log("requestTest data" + data);
 
     if (json.component === config.WIFI){
         if (config.SOCKET_TOKEN !== ""){

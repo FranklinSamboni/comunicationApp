@@ -44,7 +44,7 @@ let socketServer = net.createServer( function (socket) {
                                 putSPS();
                                 break;
                             case config.UPLOAD_FILES:
-                                uploadFiles(json.msg);
+                                uploadFiles(json.msg, json.component);
                                 break;
                             case config.ALERTS:
                                 doEmitAlertError(json.msg,json.component);
@@ -129,14 +129,24 @@ function putSPS () {
     });
 }
 
-function uploadFiles (dir_file) {
+function uploadFiles (dir_file, component) {
 
-    uploadFile.uploadFilesToServer(config.REST_TOKEN,dir_file).then(function (data) {
-        if (data.code === config.ERROR) {
-            console.log("error en uploadFiles");
-        }
-        console.log(data);
-    });
+    if(component === config.FILE_EVENT){
+        uploadFile.uploadEventFiles(config.REST_TOKEN,dir_file).then(function (data) {
+            if (data.code === config.ERROR) {
+                console.log("error en UPLOAD EVENT FILES");
+            }
+            console.log(data);
+        })
+    }
+    else{
+        uploadFile.uploadFilesToServer(config.REST_TOKEN,dir_file).then(function (data) {
+            if (data.code === config.ERROR) {
+                console.log("error en uploadFiles");
+            }
+            console.log(data);
+        });
+    }
 }
 
 

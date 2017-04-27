@@ -72,6 +72,7 @@ const ALERTS = "ALERTS_ERROR";
 const UPLOAD_FILES = "UPLOAD_FILES";
 const REAL_TIME = "REAL_TIME";
 
+const FILE_EVENT = "EVENT";
 
     /*Tipo de componentes*/
 const GPS = "GPS";
@@ -154,6 +155,7 @@ module.exports = {
     UPLOAD_FILES : UPLOAD_FILES,
     REAL_TIME : REAL_TIME,
 
+    FILE_EVENT: FILE_EVENT,
 
     /*Tipo de componentes*/
     GPS : GPS,

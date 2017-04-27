@@ -102,6 +102,53 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
         });
 };
 
+exports.uploadEventFiles = function uploadEventFiles(token,dir_file) {
+    return new Promise(function (fullfil) {
+
+        let stream = fs.createReadStream(dir_file);
+        let arrName = dir_file.split("/");
+        let name  = arrName[arrName.length - 1];
+        let formData = {
+            type: 'EVENT',
+            file_0: { value: stream, options: {  filename: name, contentType: 'application/octet-stream' } }
+        };
+
+        upLoadFile(token, formData).then(function () {
+            if(data.code === 401 || data.code === 403) {
+
+                auth.doAuth().then(function (data) {
+
+                    if (data.code === config.ERROR) {
+                        fullfil({code: config.ERROR});
+
+                    } else {
+                        let authToken = data.token;
+                        let stream2 = fs.createReadStream(dir_file);
+                        let formData2 = {
+                            type: 'EVENT',
+                            file_0: { value: stream2, options: {  filename: name, contentType: 'application/octet-stream' } }
+                        };
+
+                        upLoadFile(authToken, formData2).then(function (info) {
+                            if(info.code === 401 || info.code === 403){
+                                fullfil({code: config.ERROR});
+                            }
+                            else{
+                                fullfil(info);
+                            }
+                        });
+
+
+                    }
+                });
+            }
+            else{
+                fullfil(data);
+            }
+        });
+    });
+};
+
 function upLoadFile(token, formData) {
 
     return new Promise(function (fullfil) {

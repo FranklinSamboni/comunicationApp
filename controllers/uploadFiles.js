@@ -105,6 +105,9 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 exports.uploadEventFiles = function uploadEventFiles(token,dir_file) {
     return new Promise(function (fullfil) {
 
+        console.log("uploadEventFiles");
+        console.log(dir_file);
+
         let stream = fs.createReadStream(dir_file);
         let arrName = dir_file.split("/");
         let name  = arrName[arrName.length - 1];

@@ -280,23 +280,14 @@ function runMainProgram() {
                                 jEvents = JSON.parse(events);
                                 //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
 
-                                if(jEvents.isActive){
-                                    let add = " -v " + "-s " + jEvents.sta + " -l " + jEvents.lta + " -o " + jEvents.thOn + " -p " + jEvents.thOff + " -m " + jEvents.min_seconds;
-                                    let command = config.PATH_MAIN_PROGRAM + " -f " + samples + add;
-                                    config.CHANGE_SPS_IN_MAIN = false;
-                                    runProgram(command).then(function (data) {
-                                        console.log("data en run main " + data.msg);
-                                        fullfil(data);
-                                    });
-                                }
-                                else{
-                                    let command = config.PATH_MAIN_PROGRAM + " -f " + samples;
-                                    config.CHANGE_SPS_IN_MAIN = false;
-                                    runProgram(command).then(function (data) {
-                                        console.log("data en run main " + data.msg);
-                                        fullfil(data);
-                                    });
-                                }
+                                let add = " -v " + "-s " + jEvents.sta + " -l " + jEvents.lta + " -o " + jEvents.thOn + " -p " + jEvents.thOff + " -m " + jEvents.min_seconds;
+                                let command = config.PATH_MAIN_PROGRAM + " -f " + samples + add;
+                                config.CHANGE_SPS_IN_MAIN = false;
+                                runProgram(command).then(function (data) {
+                                    console.log("data en run main " + data.msg);
+                                    fullfil(data);
+                                });
+
                             }
                         });
 

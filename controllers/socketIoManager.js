@@ -194,7 +194,7 @@ socket.on('requestStatus', function (data) {
         else if(json.status === "Inactive"){
             closeMainProgram().then(function (data) {
                 if(data.code === config.ERROR){
-                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${false} , "msg": "Error cerrando el programa"}`;
+                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${false} , "msg": "Ya esta cerrando el programa"}`;
                     socket.emit('responseStatus',sendJson );
                 }
                 else{

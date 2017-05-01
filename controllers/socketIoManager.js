@@ -184,11 +184,10 @@ socket.on('requestStatus', function (data) {
         if(json.status === "Active"){
 
             closeMainProgram().then(function (close) {
-                runMainProgram();
-
                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": ""}`;
                 socket.emit('statusResponse',sendJson );
-
+                runMainProgram();
+                
             });
 
         }

@@ -187,7 +187,7 @@ socket.on('requestStatus', function (data) {
                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": ""}`;
                 socket.emit('statusResponse',sendJson );
                 runMainProgram();
-                
+                console.log("despues del run");
             });
 
         }

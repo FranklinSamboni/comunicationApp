@@ -184,8 +184,7 @@ socket.on('requestStatus', function (data) {
         if(json.status === "Active"){
 
             closeMainProgram().then(function (close) {
-                let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": " "}`;
-                socket.emit('responseStatus',sendJson );
+                emitResponseStatus(true,"");
                 runMainProgram();
                 console.log("despues del run");
             });
@@ -194,30 +193,66 @@ socket.on('requestStatus', function (data) {
         else if(json.status === "Inactive"){
             closeMainProgram().then(function (data) {
                 if(data.code === config.ERROR){
-                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${false} , "msg": "Ya esta cerrando el programa"}`;
-                    socket.emit('responseStatus',sendJson );
+                    emitResponseStatus(false,"Ya esta cerrando el programa");
                 }
                 else{
-                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": ""}`;
-                    socket.emit('responseStatus',sendJson );
+                    emitResponseStatus(true,"");
                 }
             });
         }
     }
 
-    /*
     else if(json.option === "EVENT"){
+        fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, jevent) => {
+            if (err) {
+                console.log('error DIR_EVENT_FILE: ', err);
+                emitResponseStatus(false,err);
+            }
+            else{
 
+                console.log("json " + jevent);
+                let jEvents = JSON.parse(jevent);
+                //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
+                let newjson = "";
+
+                if(json.status === "Active"){
+                    newjson = `\{"isActive": ${true},"sta": "${jEvents.sta}", "lta": "${data.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}" } `;
+                }
+                else if(json.status === "Inactive"){
+                    newjson = `\{"isActive": ${false},"sta": "${jEvents.sta}", "lta": "${data.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}" } `;
+                }
+
+                if(newjson !== ""){
+                    fs.writeFile(config.DIR_EVENT_FILE, newjson, 'utf8', function (err) {
+                        if (err){
+                            emitResponseStatus(false,err);
+                            return console.log(err);
+                        }
+                        else {
+                            emitResponseStatus(true,"");
+                        }
+                    });
+                }
+                else{
+                    emitResponseStatus(false,"Error actualizando el archivo de configuración, parametros incorrectos");
+                }
+
+            }
+        });
     }
     else{
-
-    }*/
+        console.log("Parametro incorrecto en requestStatus");
+    }
 
 });
 
+function emitResponseStatus(confirm,msg) {
+    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${confirm} , "msg": "${msg}"}`;
+    socket.emit('responseStatus',sendJson );
+}
 //statusResponse
 
-function runMainProgram(event) {
+function runMainProgram() {
 
     return new Promise(function (fullfil) {
 
@@ -235,32 +270,34 @@ function runMainProgram(event) {
 
                     if (samples === "40" || samples === "50" || samples === "100" || samples === "200") {
 
-                        if(event){
-                            fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, events) => {
-                                if (err) {
-                                    console.log('error: ', err);
-                                    fullfil({code: config.ERROR});
-                                }
-                                else {
-                                    jEvents= JSON.parse(events);
-                                    //{ "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
+                        fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, events) => {
+                            if (err) {
+                                console.log('error: ', err);
+                                fullfil({code: config.ERROR});
+                            }
+                            else {
+                                jEvents = JSON.parse(events);
+                                //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
+
+                                if(jEvents.isActive){
                                     let add = " -v " + "-s " + jEvents.sta + " -l " + jEvents.lta + " -o " + jEvents.thOn + " -p " + jEvents.thOff + " -m " + jEvents.min_seconds;
-                                    let command = config.PATH_MAIN_PROGRAM + " -f " +  samples + add;
+                                    let command = config.PATH_MAIN_PROGRAM + " -f " + samples + add;
                                     config.CHANGE_SPS_IN_MAIN = false;
                                     runProgram(command).then(function (data) {
                                         console.log("data en run main " + data.msg);
                                         fullfil(data);
                                     });
                                 }
-                            });
-                        }else{
-                            let command = config.PATH_MAIN_PROGRAM + " -f " +  samples;
-                            config.CHANGE_SPS_IN_MAIN = false;
-                            runProgram(command).then(function (data) {
-                                console.log("data en run main " + data.msg);
-                                fullfil(data);
-                            });
-                        }
+                                else{
+                                    let command = config.PATH_MAIN_PROGRAM + " -f " + samples;
+                                    config.CHANGE_SPS_IN_MAIN = false;
+                                    runProgram(command).then(function (data) {
+                                        console.log("data en run main " + data.msg);
+                                        fullfil(data);
+                                    });
+                                }
+                            }
+                        });
 
                     }
                     else {

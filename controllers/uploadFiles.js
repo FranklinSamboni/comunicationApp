@@ -105,50 +105,70 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 exports.uploadEventFiles = function uploadEventFiles(token,dir_file) {
     return new Promise(function (fullfil) {
 
-        console.log("uploadEventFiles");
-        console.log(dir_file);
-
-        let stream = fs.createReadStream(dir_file);
-        let arrName = dir_file.split("/");
-        let name  = arrName[arrName.length - 1];
-        let formData = {
-            type: 'EVENT',
-            file_0: { value: stream, options: {  filename: name, contentType: 'application/octet-stream' } }
-        };
-
-        upLoadFile(token, formData).then(function (data) {
-            if(data.code === 401 || data.code === 403) {
-
-                auth.doAuth().then(function (result) {
-
-                    if (result.code === config.ERROR) {
-                        fullfil({code: config.ERROR});
-
-                    } else {
-                        let authToken = result.token;
-                        let stream2 = fs.createReadStream(dir_file);
-                        let formData2 = {
-                            type: 'EVENT',
-                            file_0: { value: stream2, options: {  filename: name, contentType: 'application/octet-stream' } }
-                        };
-
-                        upLoadFile(authToken, formData2).then(function (info) {
-                            if(info.code === 401 || info.code === 403){
-                                fullfil({code: config.ERROR});
-                            }
-                            else{
-                                fullfil(info);
-                            }
-                        });
-
-
-                    }
-                });
+        fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, jevent) => {
+            if (err) {
+                console.log('uploadEventFiles error DIR_EVENT_FILE: ', err);
+                fullfil({code: config.ERROR});
             }
-            else{
-                fullfil(data);
+            else {
+                console.log("json " + jevent);
+                let jEvents = JSON.parse(jevent);
+                //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
+                if(jEvents.isActive){
+
+                    console.log("uploadEventFiles");
+                    console.log(dir_file);
+
+                    let stream = fs.createReadStream(dir_file);
+                    let arrName = dir_file.split("/");
+                    let name  = arrName[arrName.length - 1];
+                    let formData = {
+                        type: 'EVENT',
+                        file_0: { value: stream, options: {  filename: name, contentType: 'application/octet-stream' } }
+                    };
+
+                    upLoadFile(token, formData).then(function (data) {
+                        if(data.code === 401 || data.code === 403) {
+
+                            auth.doAuth().then(function (result) {
+
+                                if (result.code === config.ERROR) {
+                                    fullfil({code: config.ERROR});
+
+                                } else {
+                                    let authToken = result.token;
+                                    let stream2 = fs.createReadStream(dir_file);
+                                    let formData2 = {
+                                        type: 'EVENT',
+                                        file_0: { value: stream2, options: {  filename: name, contentType: 'application/octet-stream' } }
+                                    };
+
+                                    upLoadFile(authToken, formData2).then(function (info) {
+                                        if(info.code === 401 || info.code === 403){
+                                            fullfil({code: config.ERROR});
+                                        }
+                                        else{
+                                            fullfil(info);
+                                        }
+                                    });
+
+
+                                }
+                            });
+                        }
+                        else{
+                            fullfil(data);
+                        }
+                    });
+
+                }
+                else{
+                    console.log("El envio  de eventos esta desactivado");
+                    fullfil({code: config.ERROR});
+                }
             }
         });
+
     });
 };
 

@@ -234,7 +234,7 @@ function runMainProgram() {
                     let samples = json.samples;
                     console.log("adc file a " + json.samples );
                     if (samples === "40" || samples === "50" || samples === "100" || samples === "200") {
-                        let command = config.PATH_MAIN_PROGRAM + " " +  samples;
+                        let command = config.PATH_MAIN_PROGRAM + " -f " +  samples;
                         config.CHANGE_SPS_IN_MAIN = false;
                         runProgram(command).then(function (data) {
                             console.log("data en run main " + data.msg);

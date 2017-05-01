@@ -39,6 +39,7 @@ const URL_AUTH = URL_BASE + "auth";
 const URL_UPLOAD = URL_BASE + "upload/file";
 
 const DIR_COMPONENTS = "/home/debian/Sensor-IOT/SensorIoT/componentsFiles/";
+const DIR_EVENT_FILE= DIR_COMPONENTS + "events.json";
 const DIR_ACCELETOMETER = DIR_COMPONENTS + "accelerometer.json";
 const DIR_ADC = DIR_COMPONENTS + "adc.json";
 const DIR_RTC = DIR_COMPONENTS + "rtc.json";
@@ -121,6 +122,7 @@ module.exports = {
     URL_LOCATION :URL_LOCATION,
     URL_UPLOAD :URL_UPLOAD,
 
+    DIR_EVENT_FILE: DIR_EVENT_FILE,
     DIR_COMPONENTS :DIR_COMPONENTS,
     DIR_ACCELETOMETER : DIR_ACCELETOMETER,
     DIR_ADC : DIR_ADC,

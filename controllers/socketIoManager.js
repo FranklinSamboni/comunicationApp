@@ -184,7 +184,7 @@ socket.on('requestStatus', function (data) {
         if(json.status === "Active"){
 
             closeMainProgram().then(function (close) {
-                let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": ""}`;
+                let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": " "}`;
                 socket.emit('responseStatus',sendJson );
                 runMainProgram();
                 console.log("despues del run");
@@ -217,7 +217,7 @@ socket.on('requestStatus', function (data) {
 
 //statusResponse
 
-function runMainProgram() {
+function runMainProgram(event) {
 
     return new Promise(function (fullfil) {
 
@@ -232,13 +232,36 @@ function runMainProgram() {
                     json = JSON.parse(json);
                     let samples = json.samples;
                     console.log("adc file a " + json.samples );
+
                     if (samples === "40" || samples === "50" || samples === "100" || samples === "200") {
-                        let command = config.PATH_MAIN_PROGRAM + " -f " +  samples;
-                        config.CHANGE_SPS_IN_MAIN = false;
-                        runProgram(command).then(function (data) {
-                            console.log("data en run main " + data.msg);
-                            fullfil(data);
-                        });
+
+                        if(event){
+                            fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, events) => {
+                                if (err) {
+                                    console.log('error: ', err);
+                                    fullfil({code: config.ERROR});
+                                }
+                                else {
+                                    jEvents= JSON.parse(events);
+                                    //{ "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
+                                    let add = " -v " + "-s " + jEvents.sta + " -l " + jEvents.lta + " -o " + jEvents.thOn + " -p " + jEvents.thOff + " -m " + jEvents.min_seconds;
+                                    let command = config.PATH_MAIN_PROGRAM + " -f " +  samples + add;
+                                    config.CHANGE_SPS_IN_MAIN = false;
+                                    runProgram(command).then(function (data) {
+                                        console.log("data en run main " + data.msg);
+                                        fullfil(data);
+                                    });
+                                }
+                            });
+                        }else{
+                            let command = config.PATH_MAIN_PROGRAM + " -f " +  samples;
+                            config.CHANGE_SPS_IN_MAIN = false;
+                            runProgram(command).then(function (data) {
+                                console.log("data en run main " + data.msg);
+                                fullfil(data);
+                            });
+                        }
+
                     }
                     else {
                         console.log("El archivo de muestras del ADC esta mal configurado, revisa el parametro -samples-.");

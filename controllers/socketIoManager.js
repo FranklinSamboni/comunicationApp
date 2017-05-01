@@ -276,6 +276,7 @@ function runMainProgram() {
                                 fullfil({code: config.ERROR});
                             }
                             else {
+                                console.log(events);
                                 jEvents = JSON.parse(events);
                                 //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
 

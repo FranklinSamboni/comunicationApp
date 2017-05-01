@@ -216,10 +216,10 @@ socket.on('requestStatus', function (data) {
                 let newjson = "";
 
                 if(json.status === "Active"){
-                    newjson = `\{"isActive": ${true},"sta": "${jEvents.sta}", "lta": "${data.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}" } `;
+                    newjson = `\{"isActive": ${true},"sta": "${jEvents.sta}", "lta": "${jEvents.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}" } `;
                 }
                 else if(json.status === "Inactive"){
-                    newjson = `\{"isActive": ${false},"sta": "${jEvents.sta}", "lta": "${data.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}" } `;
+                    newjson = `\{"isActive": ${false},"sta": "${jEvents.sta}", "lta": "${jEvents.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}" } `;
                 }
 
                 if(newjson !== ""){

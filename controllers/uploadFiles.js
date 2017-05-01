@@ -116,16 +116,16 @@ exports.uploadEventFiles = function uploadEventFiles(token,dir_file) {
             file_0: { value: stream, options: {  filename: name, contentType: 'application/octet-stream' } }
         };
 
-        upLoadFile(token, formData).then(function () {
+        upLoadFile(token, formData).then(function (data) {
             if(data.code === 401 || data.code === 403) {
 
-                auth.doAuth().then(function (data) {
+                auth.doAuth().then(function (result) {
 
-                    if (data.code === config.ERROR) {
+                    if (result.code === config.ERROR) {
                         fullfil({code: config.ERROR});
 
                     } else {
-                        let authToken = data.token;
+                        let authToken = result.token;
                         let stream2 = fs.createReadStream(dir_file);
                         let formData2 = {
                             type: 'EVENT',

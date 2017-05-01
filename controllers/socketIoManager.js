@@ -185,7 +185,7 @@ socket.on('requestStatus', function (data) {
 
             closeMainProgram().then(function (close) {
                 let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": ""}`;
-                socket.emit('statusResponse',sendJson );
+                socket.emit('responseStatus',sendJson );
                 runMainProgram();
                 console.log("despues del run");
             });
@@ -195,11 +195,11 @@ socket.on('requestStatus', function (data) {
             closeMainProgram().then(function (data) {
                 if(data.code === config.ERROR){
                     let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${false} , "msg": "Error cerrando el programa"}`;
-                    socket.emit('statusResponse',sendJson );
+                    socket.emit('responseStatus',sendJson );
                 }
                 else{
                     let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": ""}`;
-                    socket.emit('statusResponse',sendJson );
+                    socket.emit('responseStatus',sendJson );
                 }
             });
         }

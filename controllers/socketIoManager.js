@@ -237,7 +237,7 @@ function runMainProgram() {
                         let command = config.PATH_MAIN_PROGRAM + " " +  samples;
                         config.CHANGE_SPS_IN_MAIN = false;
                         runProgram(command).then(function (data) {
-                            console.log("data en run main " + data);
+                            console.log("data en run main " + data.msg);
                             fullfil(data);
                         });
                     }
@@ -263,8 +263,8 @@ function runProgram(path) {
 
     return new Promise(function (fullfill) {
         exec(path,{maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
-            //console.log("runProgram err: " + err);
-            //console.log("runProgram stdout: " + stdout);
+            console.log("runProgram err: " + err);
+            console.log("runProgram stdout: " + stdout);
             //console.log("runProgram stderr: " + stderr);
 
             if(err) return fullfill({code:config.ERROR, msg: err});

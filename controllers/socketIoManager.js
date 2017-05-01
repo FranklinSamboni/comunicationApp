@@ -175,6 +175,49 @@ function emitSaveSPS(success) {
     socket.emit("saveSPS",sendJson);
 }
 
+socket.on('requestStatus', function (data) {
+
+    console.log(data);
+    let json = JSON.parse(data);
+
+    if(json.option === "READ"){
+        if(json.status === "Active"){
+
+            closeMainProgram().then(function (close) {
+                runMainProgram();
+
+                let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": ""}`;
+                socket.emit('statusResponse', );
+
+            });
+
+        }
+        else if(json.status === "Inactive"){
+            closeMainProgram().then(function (data) {
+                if(data.code === config.ERROR){
+                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${false} , "msg": "Error cerrando el programa"}`;
+                    socket.emit('statusResponse', );
+                }
+                else{
+                    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${true} , "msg": ""}`;
+                    socket.emit('statusResponse', );
+                }
+            });
+        }
+    }
+
+    /*
+    else if(json.option === "EVENT"){
+
+    }
+    else{
+
+    }*/
+
+});
+
+//statusResponse
+
 function runMainProgram() {
 
     return new Promise(function (fullfil) {

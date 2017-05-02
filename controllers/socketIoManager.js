@@ -284,7 +284,8 @@ socket.on('requestEvents', function (data) {
 });
 
 function emitResponseEvents(confirm,data, socketWeb) {
-    let sendJson = `{"token": "${config.SOCKET_TOKEN}","confirm": ${confirm}, "data": ${data} , "socketWeb": "${socketWeb}"}`;
+
+    let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${confirm}, "data": ${JSON.stringify(data)} , "socketWeb": "${socketWeb}"}`;
     socket.emit('responseEvents',sendJson );
 }
 

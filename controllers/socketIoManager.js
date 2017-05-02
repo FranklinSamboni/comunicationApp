@@ -203,30 +203,30 @@ socket.on('requestStatus', function (data) {
     }
 
     else if(json.option === "EVENT"){
-        fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, jevent) => {
+        fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, jeventos) => {
             if (err) {
                 console.log('error DIR_EVENT_FILE: ', err);
                 emitResponseStatus(false,err);
             }
             else{
 
-                console.log("json " + jevent);
-                let jEvents = JSON.parse(jevent);
+                console.log("json " + jeventos);
+                let jEvents = JSON.parse(jeventos);
                 //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
                 let newjson = "";
 
                 if(json.status === "Active"){
-                    newjson = `\{"isActive": ${true},"sta": "${jEvents.sta}", "lta": "${jEvents.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}" } `;
+                    newjson = `\{"isActive": ${true},"sta": "${jEvents.sta}", "lta": "${jEvents.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}",  "pre_event": "${jEvents.pre_event}" ,"post_event": "${jEvents.post_event}"  } `;
                 }
                 else if(json.status === "Inactive"){
-                    newjson = `\{"isActive": ${false},"sta": "${jEvents.sta}", "lta": "${jEvents.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}" } `;
+                    newjson = `\{"isActive": ${false},"sta": "${jEvents.sta}", "lta": "${jEvents.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}", "pre_event": "${jEvents.pre_event}" ,"post_event": "${jEvents.post_event}"  } `;
                 }
 
                 if(newjson !== ""){
                     fs.writeFile(config.DIR_EVENT_FILE, newjson, 'utf8', function (err) {
                         if (err){
                             emitResponseStatus(false,err);
-                            return console.log(err);
+                            console.log(err);
                         }
                         else {
                             emitResponseStatus(true,"");
@@ -250,7 +250,43 @@ function emitResponseStatus(confirm,msg) {
     let sendJson = `{"token": "${config.SOCKET_TOKEN}", "confirm": ${confirm} , "msg": "${msg}"}`;
     socket.emit('responseStatus',sendJson );
 }
-//statusResponse
+
+socket.on('requestEvents', function (data) {
+
+    console.log(data);
+    let json = JSON.parse(data);
+
+    fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, jevent) => {
+        if (err) {
+            console.log('error DIR_EVENT_FILE: ', err);
+            emitResponseEvents(false,json.data,json.socketWeb);
+        }
+        else {
+
+            console.log("json " + jevent);
+            let jEvents = JSON.parse(jevent);
+            //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
+            let newjson = `\{"isActive": ${jEvents.isActive},"sta": "${json.data.d_w_sta}", "lta": "${json.data.d_w_lta}", "thOn": "${json.data.th_on}" , "thOff": "${json.data.th_off}" , "min_seconds": "${json.data.d_min}", "pre_event": "${json.data.d_pre}" ,"post_event": "${json.data.d_pos}" } `;
+
+            fs.writeFile(config.DIR_EVENT_FILE, newjson, 'utf8', function (err) {
+                if (err) {
+                    emitResponseEvents(false, json.data, json.socketWeb);
+                    console.log(err);
+                }
+                else {
+                    emitResponseStatus(true,json.data,json.socketWeb);
+                }
+            });
+
+        }
+    });
+
+});
+
+function emitResponseEvents(confirm,data, socketWeb) {
+    let sendJson = `{"token": "${config.SOCKET_TOKEN}","confirm": ${confirm}, "data": ${data} , "socketWeb": "${socketWeb}"}`;
+    socket.emit('responseEvents',sendJson );
+}
 
 function runMainProgram() {
 
@@ -280,7 +316,7 @@ function runMainProgram() {
                                 jEvents = JSON.parse(events);
                                 //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
 
-                                let add = " -v " + "-s " + jEvents.sta + " -l " + jEvents.lta + " -o " + jEvents.thOn + " -p " + jEvents.thOff + " -m " + jEvents.min_seconds;
+                                let add = " -v " + "-s " + jEvents.sta + " -l " + jEvents.lta + " -o " + jEvents.thOn + " -p " + jEvents.thOff + " -m " + jEvents.min_seconds + " -b " + jEvents.pre_event + " -a " + jEvents.post_event;
                                 let command = config.PATH_MAIN_PROGRAM + " -f " + samples + add;
                                 config.CHANGE_SPS_IN_MAIN = false;
                                 runProgram(command).then(function (data) {

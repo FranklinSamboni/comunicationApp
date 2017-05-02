@@ -56,6 +56,7 @@ router.get('/', function(req, res, next) {
                                                                         if(data.code === config.ERROR){
                                                                             res.status(201).send({code:"002"});
                                                                         }else{
+                                                                            //components.postEventsParams(authToken)
                                                                             res.status(200).send({code:"001"});
                                                                         }
                                                                     });

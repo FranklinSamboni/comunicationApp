@@ -275,6 +275,7 @@ socket.on('requestEvents', function (data) {
                 }
                 else {
                     emitResponseEvents(true,json.data,json.socketWeb);
+                    config.CHANGE_EVENT_PARAMS_IN_MAIN = true;
                 }
             });
 
@@ -320,6 +321,7 @@ function runMainProgram() {
                                 let add = " -v " + "-s " + jEvents.sta + " -l " + jEvents.lta + " -o " + jEvents.thOn + " -p " + jEvents.thOff + " -m " + jEvents.min_seconds + " -b " + jEvents.pre_event + " -a " + jEvents.post_event;
                                 let command = config.PATH_MAIN_PROGRAM + " -f " + samples + add;
                                 config.CHANGE_SPS_IN_MAIN = false;
+                                config.CHANGE_EVENT_PARAMS_IN_MAIN = false;
                                 runProgram(command).then(function (data) {
                                     console.log("data en run main " + data.msg);
                                     fullfil(data);

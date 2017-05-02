@@ -57,7 +57,7 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 
                         if(data.code === config.ERROR){
                             fullfil({code: config.ERROR});
-                            checkForChangeSPS();
+                            checkForChangeSPSandEventParams();
 
                         }else{
 
@@ -85,7 +85,7 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
 
                                     fullfil(info);
                                 }
-                                checkForChangeSPS();
+                                checkForChangeSPSandEventParams();
                             });
 
                         }
@@ -198,13 +198,13 @@ function upLoadFile(token, formData) {
     });
 }
 
-function checkForChangeSPS() {
+function checkForChangeSPSandEventParams() {
 
-    if(config.CHANGE_SPS_IN_MAIN){
+    if(config.CHANGE_SPS_IN_MAIN || config.CHANGE_EVENT_PARAMS_IN_MAIN){
 
         socketClient.closeMainProgram().then(function (result) {
             if(result.code === config.ERROR){
-                console.log("uploadFile: checkForChangeSPS: error en closeMainProgram " +result);
+                console.log("uploadFile: checkForChangeSPSandEventParams: error en closeMainProgram " +result);
             }
             else{
                 socketClient.runMainProgram();

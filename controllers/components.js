@@ -301,6 +301,44 @@ exports.postLocation = function postLocation (token) {
         });
 };
 
+exports.postEventsParams = function postEventsParams(token) {
+
+    return new Promise(
+        function(fullfil) {
+
+            console.log("postEventsParams");
+
+            /*fs.readFile(config.DIR_LOCATION, 'utf-8', (err, json) => {
+                if(err) {
+                    console.log('error: ', err);
+                    fullfil({code: config.ERROR});
+                }
+                else {
+
+                    let jsonObj = JSON.parse(json);
+                    let args = {
+                        data: jsonObj,
+                        headers: {"Content-Type": "application/json",
+                            "Authorization":token,}
+                    };
+
+                    //console.log(args)
+                    doPost(config.URL_LOCATION, args).then(function (data) {
+                        if(data.code === config.ERROR){
+                            fullfil({code: config.ERROR});
+                        }else{
+                            fullfil({code: config.SUCCESS});
+                        }
+                    });
+
+                }
+            });*/
+
+        });
+
+};
+
+
 ////// Actualizar Informacion ///////////
 
 exports.putLocation = function putLocation (token) {

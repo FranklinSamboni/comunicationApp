@@ -266,7 +266,7 @@ socket.on('requestEvents', function (data) {
             console.log("json " + jevent);
             let jEvents = JSON.parse(jevent);
             //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
-            let newjson = `\{"isActive": ${jEvents.isActive},"sta": "${json.data.d_w_sta}", "lta": "${json.data.d_w_lta}", "thOn": "${json.data.th_on}" , "thOff": "${json.data.th_off}" , "min_seconds": "${json.data.d_min}", "pre_event": "${json.data.d_pre}" ,"post_event": "${json.data.d_pos}" } `;
+            let newjson = `\{"isActive": ${jEvents.isActive},"sta": "${json.data.d_w_sta}", "lta": "${json.data.d_w_lta}", "thOn": "${json.data.t_on}" , "thOff": "${json.data.t_off}" , "min_seconds": "${json.data.d_min}", "pre_event": "${json.data.d_pre}" ,"post_event": "${json.data.d_pos}" } `;
 
             fs.writeFile(config.DIR_EVENT_FILE, newjson, 'utf8', function (err) {
                 if (err) {
@@ -274,7 +274,7 @@ socket.on('requestEvents', function (data) {
                     console.log(err);
                 }
                 else {
-                    emitResponseStatus(true,json.data,json.socketWeb);
+                    emitResponseEvents(true,json.data,json.socketWeb);
                 }
             });
 

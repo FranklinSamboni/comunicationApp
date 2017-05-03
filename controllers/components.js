@@ -308,13 +308,13 @@ exports.postEventsParams = function postEventsParams(token) {
 
             console.log("postEventsParams");
 
-            /*fs.readFile(config.DIR_LOCATION, 'utf-8', (err, json) => {
+            fs.readFile(config.DIR_EVENT_FILE, 'utf-8', (err, json) => {
                 if(err) {
                     console.log('error: ', err);
                     fullfil({code: config.ERROR});
                 }
                 else {
-
+                    console.log("json events " + json);
                     let jsonObj = JSON.parse(json);
                     let args = {
                         data: jsonObj,
@@ -323,7 +323,7 @@ exports.postEventsParams = function postEventsParams(token) {
                     };
 
                     //console.log(args)
-                    doPost(config.URL_LOCATION, args).then(function (data) {
+                    doPost(config.DIR_EVENT_FILE, args).then(function (data) {
                         if(data.code === config.ERROR){
                             fullfil({code: config.ERROR});
                         }else{
@@ -332,7 +332,7 @@ exports.postEventsParams = function postEventsParams(token) {
                     });
 
                 }
-            });*/
+            });
 
         });
 

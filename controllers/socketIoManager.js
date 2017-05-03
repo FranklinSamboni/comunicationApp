@@ -212,14 +212,14 @@ socket.on('requestStatus', function (data) {
 
                 console.log("json " + jeventos);
                 let jEvents = JSON.parse(jeventos);
-                //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
+                //{"isActive": true,"d_w_sta": "0.5", "d_w_lta": "12", "t_on": "12" , "t_off": "10" , "d_min": "3", "d_pre": "3" ,"d_pos": "3" } s:l:o:p:m:b:a
                 let newjson = "";
 
                 if(json.status === "Active"){
-                    newjson = `\{"isActive": ${true},"sta": "${jEvents.sta}", "lta": "${jEvents.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}",  "pre_event": "${jEvents.pre_event}" ,"post_event": "${jEvents.post_event}"  } `;
+                    newjson = `\{"isActive": ${true},"d_w_sta": "${jEvents.d_w_sta}", "d_w_lta": "${jEvents.d_w_lta}", "t_on": "${jEvents.t_on}" , "t_off": "${jEvents.t_off}" , "d_min": "${jEvents.d_min}",  "d_pre": "${jEvents.d_pre}" ,"d_pos": "${jEvents.d_pos}"  } `;
                 }
                 else if(json.status === "Inactive"){
-                    newjson = `\{"isActive": ${false},"sta": "${jEvents.sta}", "lta": "${jEvents.lta}", "thOn": "${jEvents.thOn}" , "thOff": "${jEvents.thOff}" , "min_seconds": "${jEvents.min_seconds}", "pre_event": "${jEvents.pre_event}" ,"post_event": "${jEvents.post_event}"  } `;
+                    newjson = `\{"isActive": ${false},"d_w_sta": "${jEvents.d_w_sta}", "d_w_lta": "${jEvents.d_w_lta}", "t_on": "${jEvents.t_on}" , "t_off": "${jEvents.t_off}" , "d_min": "${jEvents.d_min}", "d_pre": "${jEvents.d_pre}" ,"d_pos": "${jEvents.d_pos}"  } `;
                 }
 
                 if(newjson !== ""){
@@ -265,8 +265,8 @@ socket.on('requestEvents', function (data) {
 
             console.log("json " + jevent);
             let jEvents = JSON.parse(jevent);
-            //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
-            let newjson = `\{"isActive": ${jEvents.isActive},"sta": "${json.data.d_w_sta}", "lta": "${json.data.d_w_lta}", "thOn": "${json.data.t_on}" , "thOff": "${json.data.t_off}" , "min_seconds": "${json.data.d_min}", "pre_event": "${json.data.d_pre}" ,"post_event": "${json.data.d_pos}" } `;
+            //{"isActive": true,"d_w_sta": "0.5", "d_w_lta": "12", "t_on": "12" , "t_off": "10" , "d_min": "3", "d_pre": "3" ,"d_pos": "3" } s:l:o:p:m:b:a
+            let newjson = `\{"isActive": ${jEvents.isActive},"d_w_sta": "${json.data.d_w_sta}", "d_w_lta": "${json.data.d_w_lta}", "t_on": "${json.data.t_on}" , "t_off": "${json.data.t_off}" , "d_min": "${json.data.d_min}", "d_pre": "${json.data.d_pre}" ,"d_pos": "${json.data.d_pos}" } `;
 
             fs.writeFile(config.DIR_EVENT_FILE, newjson, 'utf8', function (err) {
                 if (err) {
@@ -316,9 +316,9 @@ function runMainProgram() {
                             else {
                                 console.log(events);
                                 jEvents = JSON.parse(events);
-                                //{ "isActive": true, "sta": "1.0", "lta": "8.0", "thOn":"12.0" , "thOff": "10.0", "min_seconds":"3.0"} s:l:o:p:m:
+                                //{"isActive": true,"d_w_sta": "0.5", "d_w_lta": "12", "t_on": "12" , "t_off": "10" , "d_min": "3", "d_pre": "3" ,"d_pos": "3" }
 
-                                let add = " -v " + "-s " + jEvents.sta + " -l " + jEvents.lta + " -o " + jEvents.thOn + " -p " + jEvents.thOff + " -m " + jEvents.min_seconds + " -b " + jEvents.pre_event + " -a " + jEvents.post_event;
+                                let add = " -v " + "-s " + jEvents.d_w_sta + " -l " + jEvents.d_w_lta + " -o " + jEvents.t_on + " -p " + jEvents.t_off + " -m " + jEvents.d_min + " -b " + jEvents.d_pre + " -a " + jEvents.d_pos;
                                 let command = config.PATH_MAIN_PROGRAM + " -f " + samples + add;
                                 config.CHANGE_SPS_IN_MAIN = false;
                                 config.CHANGE_EVENT_PARAMS_IN_MAIN = false;

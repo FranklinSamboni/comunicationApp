@@ -93,7 +93,7 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
                 }
                 else{
 
-                    checkForChangeSPS();
+                    checkForChangeSPSandEventParams();
                     fullfil(data);
 
                 }

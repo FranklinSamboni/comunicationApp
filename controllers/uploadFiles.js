@@ -92,10 +92,8 @@ exports.uploadFilesToServer = function uploadFilesToServer (token, dir_file) {
                     });
                 }
                 else{
-
                     checkForChangeSPSandEventParams();
                     fullfil(data);
-
                 }
             });
 

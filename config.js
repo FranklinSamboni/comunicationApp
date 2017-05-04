@@ -56,6 +56,7 @@ const DIR_TEST_PPS = DIR_TESTS + "testGps P";
 const DIR_TEST_RTC = DIR_TESTS + "testRtc I";
 const DIR_TEST_SYNC = DIR_TESTS + "testRtc S";
 const DIR_TEST_ADC = DIR_TESTS + "testAdc";
+const DIR_TEST_ACELEROMETRO = DIR_TESTS + "testAcelerometro";
 
 const TYPE_TEST =  "TEST";
 const TEST_UART = "TEST_UART";
@@ -141,6 +142,7 @@ module.exports = {
     DIR_TEST_RTC : DIR_TEST_RTC,
     DIR_TEST_SYNC : DIR_TEST_SYNC,
     DIR_TEST_ADC :DIR_TEST_ADC,
+    DIR_TEST_ACELEROMETRO: DIR_TEST_ACELEROMETRO,
 
     TYPE_TEST : TYPE_TEST,
     TEST_UART :TEST_UART,

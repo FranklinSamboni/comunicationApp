@@ -80,10 +80,13 @@ socket.on('requestTest', function (data) {
                         console.log(data);
                     });
                     break;
-                /*case config.ACC:
-                 break;
-                 case config.BAT:
-                 break;*/
+                case config.ACC:
+                    runProgram(config.DIR_TEST_ACELEROMETRO).then(function (data) {
+                        console.log(data);
+                    });
+                    break;
+                /* case config.BAT:
+                    break;*/
                 default:
                     console.log("Error en requestTest SocketIoManager");
                     console.log(json);

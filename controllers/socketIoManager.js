@@ -47,7 +47,7 @@ socket.on('requestTest', function (data) {
             });
         }
     }
-    else if (json.component === config.GPS  || json.component === config.RTC  || json.component === config.ADC ){
+    else if (json.component === config.GPS  || json.component === config.RTC  || json.component === config.ADC || json.component === config.ACC){
         closeMainProgram().then(function (close) {
             switch (json.component){
                 case config.GPS:

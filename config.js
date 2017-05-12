@@ -34,6 +34,7 @@ const URL_CPU = URL_BASE + "cpu";
 const URL_BATTERY = URL_BASE + "battery";
 const URL_GPS = URL_BASE + "gps";
 const URL_LOCATION = URL_BASE + "location";
+const URL_EVENTS = URL_BASE + "events";
 
 const URL_AUTH = URL_BASE + "auth";
 
@@ -124,6 +125,7 @@ module.exports = {
     URL_GPS : URL_GPS,
     URL_LOCATION :URL_LOCATION,
     URL_UPLOAD :URL_UPLOAD,
+    URL_EVENTS :URL_EVENTS,
 
     DIR_EVENT_FILE: DIR_EVENT_FILE,
     DIR_COMPONENTS :DIR_COMPONENTS,

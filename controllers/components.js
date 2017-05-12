@@ -323,7 +323,7 @@ exports.postEventsParams = function postEventsParams(token) {
                     };
 
                     //console.log(args)
-                    doPost(config.DIR_EVENT_FILE, args).then(function (data) {
+                    doPost(config.URL_EVENTS, args).then(function (data) {
                         if(data.code === config.ERROR){
                             fullfil({code: config.ERROR});
                         }else{

@@ -61,6 +61,9 @@ router.get('/', function(req, res, next) {
                                                                                     res.status(201).send({code:"002"});
                                                                                 }else{
                                                                                     res.status(200).send({code:"001"});
+                                                                                    socket.closeMainProgram().then(function () {
+                                                                                        socket.runMainProgram();
+                                                                                    });
                                                                                 }
                                                                             });
                                                                         }

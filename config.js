@@ -34,7 +34,7 @@ const URL_CPU = URL_BASE + "cpu";
 const URL_BATTERY = URL_BASE + "battery";
 const URL_GPS = URL_BASE + "gps";
 const URL_LOCATION = URL_BASE + "location";
-const URL_EVENTS = URL_BASE + "events";
+const URL_EVENTS = URL_BASE + "event";
 
 const URL_AUTH = URL_BASE + "auth";
 
